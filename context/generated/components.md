@@ -1,0 +1,73 @@
+# frontend components
+
+| Accordion | client | - | components/ui/accordion.tsx |
+| Alert | server | - | components/ui/alert.tsx |
+| AlertDialog | client | - | components/ui/alert-dialog.tsx |
+| Avatar | client | - | components/ui/avatar.tsx |
+| Badge | server | - | components/ui/badge.tsx |
+| Breadcrumb | server | - | components/ui/breadcrumb.tsx |
+| Button | server | - | components/ui/button.tsx |
+| ButtonGroup | server | - | components/ui/button-group.tsx |
+| Calendar | client | - | components/ui/calendar.tsx |
+| Card | server | - | components/ui/card.tsx |
+| CardHeader | server | - | components/ui/card.tsx |
+| CardFooter | server | - | components/ui/card.tsx |
+| CardTitle | server | - | components/ui/card.tsx |
+| CardAction | server | - | components/ui/card.tsx |
+| CardDescription | server | - | components/ui/card.tsx |
+| CardContent | server | - | components/ui/card.tsx |
+| ChartContainer | client | - | components/ui/chart.tsx |
+| Checkbox | client | - | components/ui/checkbox.tsx |
+| Collapsible | client | - | components/ui/collapsible.tsx |
+| Command | client | - | components/ui/command.tsx |
+| ContextMenu | client | - | components/ui/context-menu.tsx |
+| Dialog | client | - | components/ui/dialog.tsx |
+| Drawer | client | - | components/ui/drawer.tsx |
+| DropdownMenu | client | - | components/ui/dropdown-menu.tsx |
+| Empty | server | - | components/ui/empty.tsx |
+| Field | client | - | components/ui/field.tsx |
+| Form | client | - | components/ui/form.tsx |
+| HoverCard | client | - | components/ui/hover-card.tsx |
+| Icon | server | - | icons/index.tsx |
+| Input | server | - | components/ui/input.tsx |
+| InputGroup | client | - | components/ui/input-group.tsx |
+| InputOTP | client | - | components/ui/input-otp.tsx |
+| Item | server | - | components/ui/item.tsx |
+| Kbd | server | - | components/ui/kbd.tsx |
+| Label | client | - | components/ui/label.tsx |
+| Menubar | client | - | components/ui/menubar.tsx |
+| NavigationMenu | server | - | components/ui/navigation-menu.tsx |
+| Pagination | server | - | components/ui/pagination.tsx |
+| Popover | client | - | components/ui/popover.tsx |
+| Progress | client | - | components/ui/progress.tsx |
+| RadioGroup | client | - | components/ui/radio-group.tsx |
+| ResizablePanelGroup | client | - | components/ui/resizable.tsx |
+| ScrollArea | client | - | components/ui/scroll-area.tsx |
+| Select | client | - | components/ui/select.tsx |
+| Separator | server | - | components/ui/separator.tsx |
+| Sheet | client | - | components/ui/sheet.tsx |
+| SidebarProvider | client | - | components/ui/sidebar.tsx |
+| Skeleton | server | - | components/ui/skeleton.tsx |
+| Slider | client | - | components/ui/slider.tsx |
+| Toaster | client | - | components/ui/sonner.tsx |
+| Spinner | server | - | components/ui/spinner.tsx |
+| Switch | client | - | components/ui/switch.tsx |
+| Table | server | - | components/ui/table.tsx |
+| Tabs | client | - | components/ui/tabs.tsx |
+| Textarea | server | - | components/ui/textarea.tsx |
+| Toggle | client | - | components/ui/toggle.tsx |
+| ToggleGroup | client | - | components/ui/toggle-group.tsx |
+| TooltipProvider | client | - | components/ui/tooltip.tsx |
+| AppLogo | server | - | components/shared/AppLogo.tsx |
+| ConfirmationDialog | client | - | components/shared/ConfirmationDialog.tsx |
+| EmptyState | server | - | components/shared/EmptyState.tsx |
+| ErrorState | server | - | components/shared/ErrorState.tsx |
+| Header | server | - | components/shared/Header.tsx |
+| LoadingState | server | - | components/shared/LoadingState.tsx |
+| MobileNavigation | client | - | components/shared/MobileNavigation.tsx |
+| PageHeader | server | - | components/shared/PageHeader.tsx |
+| Sidebar | client | - | components/shared/Sidebar.tsx |
+
+## Icons
+
+Use 'components/icons/index.tsx' for all icons needed. Don't use other icon library or packages.
