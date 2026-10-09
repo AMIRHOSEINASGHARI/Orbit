@@ -2,6 +2,8 @@
 
 ## Completed
 
+- **T-92 - Build the Tasks search and filter toolbar** (2026-10-09): Added the Figma toolbar with live search, combined status/priority/group/due-date filters, last-updated sorting, status presets, and a clear control. Extended the authenticated task query with strict validation and owner-scoped filtering. Verified with TypeScript.
+
 - **T-91 - Build the Tasks page header and view switcher** (2026-10-09): Added the Figma-aligned page header options with a keyboard-operable, accessible selected state for Table View and Drag & Drop View. Verified with TypeScript.
 
 - **T-90 — Create the Tasks page structure** (2026-10-09): Added the authenticated `/tasks` route backed by `getTasks`, shared page header, route loading skeleton, accessible empty/error states, and a Figma-guided table for available task fields. Verified with TypeScript.

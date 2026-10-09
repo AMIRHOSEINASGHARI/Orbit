@@ -5,6 +5,10 @@ export const TASK_PRIORITIES = ["low", "medium", "high"] as const;
 
 export type TaskStatus = (typeof TASK_STATUSES)[number];
 export type TaskPriority = (typeof TASK_PRIORITIES)[number];
+export const TASK_DUE_DATE_FILTERS = ["overdue", "today", "upcoming", "no-date"] as const;
+export type TaskDueDateFilter = (typeof TASK_DUE_DATE_FILTERS)[number];
+export const TASK_SORT_OPTIONS = ["updated-desc", "updated-asc", "created-desc"] as const;
+export type TaskSortOption = (typeof TASK_SORT_OPTIONS)[number];
 
 export type Task = {
   id: string;
@@ -30,8 +34,12 @@ export type TaskRecord = Omit<Task, "id" | "userId" | "groupId"> & {
 };
 
 export type TaskListFilters = {
+  search?: string;
   status?: TaskStatus;
   priority?: TaskPriority;
+  groupId?: string | "personal";
+  dueDate?: TaskDueDateFilter;
+  sort?: TaskSortOption;
   includeDeleted?: boolean;
   includeArchived?: boolean;
 };

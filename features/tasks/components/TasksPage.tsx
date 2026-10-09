@@ -1,4 +1,7 @@
-import Link from "next/link";
+"use client";
+
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { PageHeader } from "@/components/shared/PageHeader";
@@ -16,6 +19,13 @@ import {
 import type { ActionResult } from "@/types";
 import type { TaskListItem } from "@/features/tasks/types/task.types";
 import { TasksViewSwitcher } from "@/features/tasks/components/TasksViewSwitcher";
+import { TasksToolbar } from "@/features/tasks/components/TasksToolbar";
+import { getTasks } from "@/features/tasks/actions/get-tasks.action";
+import { taskKeys } from "@/features/tasks/queries/task-keys";
+import type {
+  TaskGroupOption,
+  TaskListFilters,
+} from "@/features/tasks/types/task.types";
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "short",
@@ -55,9 +65,11 @@ function TaskTable({ tasks }: { tasks: TaskListItem[] }) {
       </TableHeader>
       <TableBody>
         {tasks.map((task) => (
-          <TableRow key={task.id} className="h-16">
+          <TableRow key={task.id} className="h-14">
             <TableCell className="max-w-0 px-4">
-              <p className="truncate font-semibold text-foreground">{task.title}</p>
+              <p className="truncate font-semibold text-foreground">
+                {task.title}
+              </p>
               {task.description && (
                 <p className="mt-0.5 truncate text-ui-caption text-muted-foreground">
                   {task.description}
@@ -68,13 +80,17 @@ function TaskTable({ tasks }: { tasks: TaskListItem[] }) {
               {dateFormatter.format(task.createdAt)}
             </TableCell>
             <TableCell>
-              <Badge variant={priorityVariants[task.priority]}>{task.priority}</Badge>
+              <Badge variant={priorityVariants[task.priority]}>
+                {task.priority}
+              </Badge>
             </TableCell>
             <TableCell className="text-muted-foreground">
               {task.dueDate ? dateFormatter.format(task.dueDate) : "—"}
             </TableCell>
             <TableCell>
-              <Badge variant={statusVariants[task.status]}>{statusLabels[task.status]}</Badge>
+              <Badge variant={statusVariants[task.status]}>
+                {statusLabels[task.status]}
+              </Badge>
             </TableCell>
           </TableRow>
         ))}
@@ -83,27 +99,56 @@ function TaskTable({ tasks }: { tasks: TaskListItem[] }) {
   );
 }
 
-export function TasksPage({ result }: { result: ActionResult<TaskListItem[]> }) {
-  const content = !result.success ? (
-    <ErrorState
-      title="Tasks are unavailable"
-      description={result.error}
-      action={
-        <Button variant="outline" render={<Link href="/tasks" />}>
-          Try again
-        </Button>
-      }
-    />
-  ) : result.data.length ? (
-    <Card role="region" aria-label="Task list" className="gap-0 p-0">
-      <TaskTable tasks={result.data} />
-    </Card>
-  ) : (
-    <EmptyState
-      title="No tasks yet"
-      description="Create a task and it will appear here."
-    />
-  );
+export function TasksPage({
+  result,
+  userId,
+  groups,
+}: {
+  result: ActionResult<TaskListItem[]>;
+  userId: string;
+  groups: TaskGroupOption[];
+}) {
+  const [filters, setFilters] = useState<TaskListFilters>({});
+  const tasksQuery = useQuery({
+    queryKey: taskKeys.list(userId, filters),
+    queryFn: () => getTasks(filters),
+    initialData: result,
+    placeholderData: (previousData) => previousData ?? result,
+  });
+  const taskResult = tasksQuery.data;
+  const hasFilters = Object.values(filters).some(Boolean);
+
+  const content =
+    tasksQuery.isError || !taskResult.success ? (
+      <ErrorState
+        title="Tasks are unavailable"
+        description={
+          tasksQuery.error instanceof Error
+            ? tasksQuery.error.message
+            : taskResult.success
+              ? "Please try again."
+              : taskResult.error
+        }
+        action={
+          <Button variant="outline" onClick={() => void tasksQuery.refetch()}>
+            Try again
+          </Button>
+        }
+      />
+    ) : taskResult.data.length ? (
+      <Card role="region" aria-label="Task list" className="gap-0 p-0">
+        <TaskTable tasks={taskResult.data} />
+      </Card>
+    ) : (
+      <EmptyState
+        title={hasFilters ? "No matching tasks" : "No tasks yet"}
+        description={
+          hasFilters
+            ? "Try changing or clearing your filters."
+            : "Create a task and it will appear here."
+        }
+      />
+    );
 
   return (
     <main className="space-y-6 p-5 sm:p-7">
@@ -113,6 +158,8 @@ export function TasksPage({ result }: { result: ActionResult<TaskListItem[]> }) 
         breadcrumbs="WORKSPACE / TASKS"
         actions={<TasksViewSwitcher />}
       />
+
+      <TasksToolbar filters={filters} groups={groups} onChange={setFilters} />
 
       {content}
     </main>

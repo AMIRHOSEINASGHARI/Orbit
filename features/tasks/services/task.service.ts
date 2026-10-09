@@ -20,8 +20,32 @@ export async function listTasks(
   if (!filters.includeArchived) query.archivedAt = null;
   if (filters.status) query.status = filters.status;
   if (filters.priority) query.priority = filters.priority;
+  if (filters.groupId) query.groupId = filters.groupId === "personal" ? null : requireObjectId(filters.groupId, "group ID");
+  if (filters.search) {
+    const escaped = filters.search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    query.$or = [
+      { title: { $regex: escaped, $options: "i" } },
+      { description: { $regex: escaped, $options: "i" } },
+    ];
+  }
+  if (filters.dueDate) {
+    const start = new Date();
+    start.setUTCHours(0, 0, 0, 0);
+    const tomorrow = new Date(start);
+    tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
+    const nextWeek = new Date(start);
+    nextWeek.setUTCDate(nextWeek.getUTCDate() + 7);
+    query.dueDate = filters.dueDate === "no-date" ? null : filters.dueDate === "overdue"
+      ? { $ne: null, $lt: start }
+      : filters.dueDate === "today"
+        ? { $gte: start, $lt: tomorrow }
+        : { $gte: tomorrow, $lt: nextWeek };
+  }
 
-  return TaskModel.find(query).sort({ updatedAt: -1 }).lean<TaskRecord[]>().exec();
+  const sort: Record<string, mongoose.SortOrder> = filters.sort === "updated-asc"
+    ? { updatedAt: 1 }
+    : filters.sort === "created-desc" ? { createdAt: -1 } : { updatedAt: -1 };
+  return TaskModel.find(query).sort(sort).lean<TaskRecord[]>().exec();
 }
 
 export async function getTaskById(
