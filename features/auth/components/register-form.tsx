@@ -36,7 +36,7 @@ function PasswordField({ id, label, placeholder, hint, registration, error }: {
       <div className="relative">
         <Input {...registration} id={id} type={visible ? "text" : "password"} placeholder={placeholder} aria-invalid={Boolean(error)} aria-describedby={[hintId, errorId].filter(Boolean).join(" ") || undefined} className="h-12 rounded-lg px-3.5 pr-12 text-ui-body" />
         <button type="button" aria-label={`${visible ? "Hide" : "Show"} ${label.toLowerCase()}`} onClick={() => setVisible((value) => !value)} className="absolute inset-y-0 right-2 flex w-8 items-center justify-center text-muted-foreground hover:text-foreground">
-          <PasswordVisibilityIcon className="size-[18px]" />
+          <PasswordVisibilityIcon className="size-4.5" />
         </button>
       </div>
       {hint && <FieldDescription id={hintId} className="text-ui-small text-muted-foreground">{hint}</FieldDescription>}
@@ -78,7 +78,7 @@ export function RegisterForm({ onSubmit, pending = false, state = null }: Regist
       </header>
 
       <Form onSubmit={form.handleSubmit(submit)} className="space-y-6">
-        <FieldGroup className="gap-[18px]">
+        <FieldGroup className="gap-4.5">
           <Field data-invalid={Boolean(usernameError)} className="gap-2">
             <FieldLabel htmlFor="username" className="text-[13px] font-semibold text-foreground">Username</FieldLabel>
             <Input {...form.register("username")} id="username" autoComplete="username" placeholder="Choose a username" aria-invalid={Boolean(usernameError)} aria-describedby={usernameError ? "username-error" : undefined} className="h-12 rounded-lg px-3.5 text-ui-body" />
