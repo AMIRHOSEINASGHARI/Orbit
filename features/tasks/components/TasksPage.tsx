@@ -4,6 +4,7 @@ import { ErrorState } from "@/components/shared/ErrorState";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -14,6 +15,7 @@ import {
 } from "@/components/ui/table";
 import type { ActionResult } from "@/types";
 import type { TaskListItem } from "@/features/tasks/types/task.types";
+import { TasksViewSwitcher } from "@/features/tasks/components/TasksViewSwitcher";
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "short",
@@ -93,9 +95,9 @@ export function TasksPage({ result }: { result: ActionResult<TaskListItem[]> }) 
       }
     />
   ) : result.data.length ? (
-    <section aria-label="Task list" className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+    <Card role="region" aria-label="Task list" className="gap-0 p-0">
       <TaskTable tasks={result.data} />
-    </section>
+    </Card>
   ) : (
     <EmptyState
       title="No tasks yet"
@@ -109,6 +111,7 @@ export function TasksPage({ result }: { result: ActionResult<TaskListItem[]> }) 
         title="Tasks"
         description="Plan, prioritize, and move work forward with your team."
         breadcrumbs="WORKSPACE / TASKS"
+        actions={<TasksViewSwitcher />}
       />
 
       {content}

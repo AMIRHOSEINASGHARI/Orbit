@@ -2,6 +2,8 @@
 
 ## Completed
 
+- **T-91 - Build the Tasks page header and view switcher** (2026-10-09): Added the Figma-aligned page header options with a keyboard-operable, accessible selected state for Table View and Drag & Drop View. Verified with TypeScript.
+
 - **T-90 — Create the Tasks page structure** (2026-10-09): Added the authenticated `/tasks` route backed by `getTasks`, shared page header, route loading skeleton, accessible empty/error states, and a Figma-guided table for available task fields. Verified with TypeScript.
 
 - **T-89 — Create the `getTasks` Server Action** (2026-10-09): Added authenticated, strictly validated task filters and used the owner-scoped task service; returns typed records with string IDs and omits the owner ID from client data. Verified with TypeScript.
