@@ -7,7 +7,7 @@ const taskModelSchema = new Schema<TaskRecord>(
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true, index: true },
     groupId: { type: Schema.Types.ObjectId, ref: "TaskGroup", default: null, index: true },
     title: { type: String, required: true, trim: true, minlength: 1, maxlength: 200 },
-    description: { type: String, trim: true, maxlength: 10_000, default: "" },
+    description: { type: String, trim: true, maxlength: 5_000, default: "" },
     status: { type: String, enum: ["todo", "in-progress", "done"], default: "todo", index: true },
     priority: { type: String, enum: ["low", "medium", "high"], default: "medium", index: true },
     dueDate: { type: Date, default: null, index: true },

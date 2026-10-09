@@ -2,6 +2,20 @@
 
 ## Completed
 
+- **T-88 — Add task creation error feedback** (2026-10-09): Added safe form-level and field-level validation/action errors with accessible announcements.
+- **T-87 — Add task creation success feedback** (2026-10-09): Added a success toast after the task is saved and mounted the shared Toaster at the application root.
+- **T-86 — Add task creation loading state** (2026-10-09): Disabled submit while groups load or the create action is pending and announced progress with a spinner label.
+- **T-85 — Connect the Task form to the `createTask` Server Action** (2026-10-09): Submitted validated form values through the authenticated action; it verifies group ownership, creates through the Task service, and revalidates task routes.
+- **T-84 — Connect Zod validation to the Task form** (2026-10-09): Applied the shared create-task schema to client form input and server action payloads.
+- **T-83 — Connect React Hook Form to the Task form** (2026-10-09): Added controlled status, priority, group, and date values, field state, submit handling, and the create shortcut.
+- **T-82 — Add task group selector** (2026-10-09): Added an owner-scoped group picker with a Personal choice for users who do not assign a group.
+- **T-81 — Add task due date selector** (2026-10-09): Added the shared Gregorian calendar picker and optional due-date display.
+- **T-80 — Add task priority selector** (2026-10-09): Added the Figma priority options with the shared semantic badge colors.
+- **T-79 — Add task status selector** (2026-10-09): Added Todo, In Progress, and Done options with their shared status badge colors.
+- **T-78 — Add task description field** (2026-10-09): Added the optional description area and character count, aligned to the Task schema limit.
+- **T-77 — Add task title field** (2026-10-09): Added the required title field, character limit, and field-level feedback.
+- **T-76 — Create the Task form component** (2026-10-09): Built the responsive, scrollable task dialog from Figma node `12:674`, using the shared dialog, form, and token-based controls; connected the header trigger.
+- **T-75 — Create the `createTask` Server Action** (2026-10-09): Added authenticated, schema-validated task creation with owner-scoped group checks, safe errors, persistence through the Task service, and path revalidation.
 - **T-74 — Create the Task service foundation** (2026-10-09): Added user-scoped task list and detail queries, with soft-deleted tasks excluded by default.
 - **T-73 — Create Task query keys** (2026-10-09): Added user-scoped React Query keys for task lists, filters, and detail records.
 - **T-72 — Create Task Zod schemas** (2026-10-09): Added Task persistence and creation schemas with validated IDs, status, priority, due date, and lifecycle fields.

@@ -7,7 +7,7 @@ export const taskSchema = z.object({
   userId: objectIdSchema,
   groupId: objectIdSchema.nullable().default(null),
   title: z.string().trim().min(1).max(200),
-  description: z.string().trim().max(10_000).default(""),
+  description: z.string().trim().max(5_000).default(""),
   status: z.enum(TASK_STATUSES).default("todo"),
   priority: z.enum(TASK_PRIORITIES).default("medium"),
   dueDate: z.coerce.date().nullable().default(null),
@@ -23,7 +23,9 @@ export const createTaskSchema = taskSchema.pick({
   description: true,
   status: true,
   priority: true,
-  dueDate: true,
+}).extend({
+  groupId: z.union([objectIdSchema, z.literal(""), z.literal("personal")]).default("personal").transform((value) => value === "personal" || value === "" ? null : value),
+  dueDate: z.union([z.iso.date(), z.literal("")]).default("").transform((value) => value ? new Date(`${value}T00:00:00.000Z`) : null),
 });
 
 export type TaskInput = z.infer<typeof createTaskSchema>;

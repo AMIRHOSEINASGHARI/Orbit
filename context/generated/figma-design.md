@@ -161,7 +161,7 @@ Persian font substitution.
 | ----------------------------- | ------------------------------------------------------------ |
 | Repeated spacing              | `3`, `4`, `5`, `6`, `7`, `8`, `10`, `12`, `14`, `18`, `20px` |
 | Additional container padding  | `9`, `16`, `28`, `30px`                                      |
-| Radii                         | `5`, `8`, `10`, `14`, `18`, `999px`                          |
+| Radii                         | `5`, `8`, `10`, `14`, `16` (task dialog), `18`, `999px`       |
 | Primary/compact button height | `32px`                                                       |
 | Standard input/button height  | `38px`                                                       |
 | Icon button box               | `34 × 34px`                                                  |
@@ -171,6 +171,7 @@ Persian font substitution.
 | Default border                | `1px solid`                                                  |
 | Card shadow                   | `0 8px 24px rgba(24, 26, 36, 0.13)`                          |
 | Dialog shadow                 | `0 18px 48px rgba(9, 10, 15, 0.25)`                          |
+| Task dialog shadow            | `0 22px 54px rgba(9, 10, 15, 0.22)`                          |
 
 These sets are not permission to use any value in any place. The selected token
 must still match the inspected node and component role.
@@ -280,10 +281,12 @@ application components consume the mapped semantic tokens.
   --radius-card: 10px;
   --radius-section: 14px;
   --radius-shell: 18px;
+  --radius-task-dialog: 16px;
   --radius-pill: 999px;
 
   --shadow-card: 0 8px 24px rgb(24 26 36 / 13%);
   --shadow-dialog: 0 18px 48px rgb(9 10 15 / 25%);
+  --shadow-task-dialog: 0 22px 54px rgb(9 10 15 / 22%);
 }
 
 .dark {

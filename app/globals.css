@@ -67,9 +67,11 @@
   --radius-card: 10px;
   --radius-xl: 14px;
   --radius-2xl: 18px;
+  --radius-task-dialog: 16px;
   --radius-full: 999px;
   --shadow-card: 0 8px 24px rgb(24 26 36 / 13%);
   --shadow-dialog: 0 18px 48px rgb(9 10 15 / 25%);
+  --shadow-task-dialog: 0 22px 54px rgb(9 10 15 / 22%);
 }
 
 :root {

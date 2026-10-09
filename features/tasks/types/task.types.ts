@@ -33,3 +33,5 @@ export type TaskListFilters = {
   includeDeleted?: boolean;
   includeArchived?: boolean;
 };
+
+export type TaskGroupOption = { id: string; name: string; color: string | null };

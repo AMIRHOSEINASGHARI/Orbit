@@ -5,6 +5,7 @@ import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ReactQueryProvider } from "@/components/providers/ReactQueryProvider";
 import { AppThemeProvider } from "@/components/providers/AppThemeProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
 
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <ReactQueryProvider>
             <TooltipProvider>
               {children}
+              <Toaster />
             </TooltipProvider>
           </ReactQueryProvider>
         </AppThemeProvider>
