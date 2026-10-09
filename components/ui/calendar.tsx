@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { cn } from "cn"
+import { enUS } from "date-fns/locale"
 import {
   DayPicker,
   getDefaultClassNames,
@@ -12,19 +13,23 @@ import {
 import { Button, buttonVariants } from "@/components/ui/button"
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon } from "@/components/icons"
 
+type CalendarProps = React.ComponentProps<typeof DayPicker> & {
+  dateLib?: undefined
+  buttonVariant?: React.ComponentProps<typeof Button>["variant"]
+}
+
 function Calendar({
   className,
   classNames,
   showOutsideDays = true,
   captionLayout = "label",
   buttonVariant = "ghost",
-  locale,
+  locale = enUS,
+  dateLib: _dateLib,
   formatters,
   components,
   ...props
-}: React.ComponentProps<typeof DayPicker> & {
-  buttonVariant?: React.ComponentProps<typeof Button>["variant"]
-}) {
+}: CalendarProps) {
   const defaultClassNames = getDefaultClassNames()
 
   return (
