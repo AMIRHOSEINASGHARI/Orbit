@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **T-10 — Create the MongoDB connection utility** (2026-10-09): Added a server-only Mongoose connector that caches both the in-flight connection and resolved instance, clearing failed attempts for retry. Verified connection reuse with a unit test.
 - **T-09 — Configure automated test framework and shared test utilities** (2026-10-09): Configured Vitest with jsdom, React Testing Library cleanup and matchers, shared test exports, and test scripts. Verified with the shared UI smoke test.
 - **T-08 — Validate environment variables with Zod** (2026-10-09): Added `lib/env.ts` as a server-only Zod boundary, validating `MONGODB_URI` and exporting typed configuration with safe field-level diagnostics. Verified with `tsc --noEmit` and `npm run build`.
 - **T-07 — Configure environment variables** (2026-10-09): Added a non-secret `.env.example` for server-only `MONGODB_URI` and documented copying it to ignored `.env.local`. Verified the ignore rules keep local secrets out of Git.
