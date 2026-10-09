@@ -1,5 +1,12 @@
 import type { ReactNode } from "react";
+import { useId } from "react";
 import { InfoIcon } from "@/components/icons";
+import {
+  Empty,
+  EmptyContent,
+  EmptyHeader,
+  EmptyMedia,
+} from "@/components/ui/empty";
 
 export function EmptyState({ title, description, action, icon }: {
   title: string;
@@ -7,12 +14,27 @@ export function EmptyState({ title, description, action, icon }: {
   action?: ReactNode;
   icon?: ReactNode;
 }) {
+  const id = useId();
+
   return (
-    <section className="flex flex-col items-center gap-3 rounded-lg border border-dashed border-border bg-card px-6 py-12 text-center">
-      <div className="rounded-full bg-muted p-3 text-muted-foreground">{icon ?? <InfoIcon className="size-6" />}</div>
-      <h2 className="text-lg font-semibold text-foreground">{title}</h2>
-      <p className="max-w-md text-sm text-muted-foreground">{description}</p>
-      {action && <div className="mt-2">{action}</div>}
-    </section>
+    <Empty
+      className="flex-none rounded-lg border border-dashed border-border bg-card px-6 py-12"
+      role="region"
+      aria-labelledby={`${id}-title`}
+      aria-describedby={`${id}-description`}
+    >
+      <EmptyHeader>
+        <EmptyMedia variant="icon" aria-hidden="true">
+          {icon ?? <InfoIcon className="size-4" />}
+        </EmptyMedia>
+        <h2 id={`${id}-title`} className="text-lg font-semibold text-foreground">
+          {title}
+        </h2>
+        <p id={`${id}-description`} className="max-w-md text-sm text-muted-foreground">
+          {description}
+        </p>
+      </EmptyHeader>
+      {action && <EmptyContent className="mt-2">{action}</EmptyContent>}
+    </Empty>
   );
 }
