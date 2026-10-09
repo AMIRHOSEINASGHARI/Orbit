@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **T-32 — Create a shared Error State component** (2026-10-09): Composed the existing destructive Alert primitive, associated its title and description for assistive technology, hid the decorative icon, and retained an optional recovery action. No dedicated error-state frame exists in Figma; styling reuses existing tokens and remains provisional. Verified with TypeScript and production build.
 - **T-31 — Create a shared Loading State component** (2026-10-09): Kept the existing shared spinner and skeleton layout, marked the region busy, and hid the decorative spinner from assistive technology to avoid duplicate status announcements. No dedicated loading-state frame exists in Figma; styling reuses existing UI primitives and tokens. Verified with TypeScript and production build.
 - **T-30 — Create a shared Empty State component** (2026-10-09): Composed the existing shadcn Empty primitives, retained the optional action/icon API, and added region labeling so assistive technology can associate each empty state with its heading and explanation. The approved Figma file has no Empty State frame; styling uses existing tokens and remains provisional. Verified with TypeScript and production build.
 - **T-29 — Create a shared Page Header component** (2026-10-09): Aligned the existing shared heading to the inspected Figma page-heading frame: breadcrumb overline, exact 32px title style, supporting text, and a right-aligned actions slot. Preserved the existing component API. Verified with TypeScript and production build.
