@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **Figma design tokens and UI primitives** (2026-10-09): Mapped the design-system typography and component samples to shared buttons, badges, cards, form controls, tables, and dialogs; reused the existing light/dark color tokens. Verified with TypeScript and production build.
 - **Reusable UI and icon rule** (2026-10-09): Documented that project screens should reuse components and icons from `components/` for consistency.
 - **Collapsed navigation labels** (2026-10-09): Hide sidebar link labels in icon-collapse mode while keeping the accessible link name and tooltip.
 - **Collapsed sidebar Figma state** (2026-10-09): Refactored the shadcn sidebar to match the new 72px collapsed design, including icon navigation, notification badge, workspace initial, expand control, and storage meter. Preserved expanded and mobile navigation. Verified with `tsc --noEmit` and `npm run build`.
