@@ -5,7 +5,11 @@ import { useTheme } from "next-themes";
 import { MoonIcon, SunIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 
-export function ThemeToggle() {
+type ThemeToggleTypes = {
+  text?: boolean;
+};
+
+export function ThemeToggle({ text = true }: ThemeToggleTypes) {
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();
   const isDark = mounted && resolvedTheme === "dark";
@@ -21,8 +25,12 @@ export function ThemeToggle() {
       onClick={() => setTheme(isDark ? "light" : "dark")}
       className="h-8.5 gap-1.5 rounded-full border-border bg-table-header px-2 text-ui-label text-muted-foreground hover:bg-muted"
     >
-      {isDark ? <MoonIcon className="size-3.5" /> : <SunIcon className="size-3.5" />}
-      <span className="hidden sm:inline">{label}</span>
+      {isDark ? (
+        <MoonIcon className="size-3.5" />
+      ) : (
+        <SunIcon className="size-3.5" />
+      )}
+      {text && <span className="hidden sm:inline">{label}</span>}
     </Button>
   );
 }
