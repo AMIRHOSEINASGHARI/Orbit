@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **T-53 — Create the total tasks statistics card** (2026-10-09): Added a token-based summary card for the total task count, using the Figma card size, icon placement, and workload caption. It displays a neutral placeholder until the statistics action is connected in T-58. Verified with TypeScript.
 - **T-52 — Create the Dashboard page structure** (2026-10-09): Added the protected `/dashboard` route and responsive semantic regions matching the approved Dashboard frame; the root route now forwards to the dashboard. Verified with TypeScript.
 
 - **T-51 — Handle expired and invalid sessions** (2026-10-09): Distinguished expired JWTs from other invalid tokens, rejected both at the protected-route boundary, and displayed a generic sign-in-again notice without exposing token details. Successful login replaces the stale cookie. Verified with TypeScript.

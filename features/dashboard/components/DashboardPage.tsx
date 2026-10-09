@@ -1,6 +1,8 @@
 import { PageHeader } from "@/components/shared/PageHeader";
+import { LayersIcon } from "@/components/icons";
+import { TaskMetricCard } from "@/features/dashboard/components/TaskMetricCard";
 
-export function DashboardPage() {
+export function DashboardPage({ totalTasks = null }: { totalTasks?: number | null }) {
   return (
     <main className="space-y-6 p-7">
       <PageHeader
@@ -8,7 +10,9 @@ export function DashboardPage() {
         description="A clear view of your work, progress, and priorities."
         breadcrumbs="WORKSPACE / DASHBOARD"
       />
-      <section aria-label="Task statistics" className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4" />
+      <section aria-label="Task statistics" className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        <TaskMetricCard title="Total tasks" value={totalTasks} description="Current workload" icon={<LayersIcon className="size-4" />} />
+      </section>
       <div className="grid gap-5 xl:grid-cols-[2fr_1fr]">
         <section aria-label="Task overview" />
         <section aria-label="Task priorities" />
