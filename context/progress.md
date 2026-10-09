@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **T-38 — Create JWT verification utilities** (2026-10-09): Added strict HS256 JWT verification with expiry enforcement, subject validation, malformed-token handling, and an input size limit. Reused it from the existing session check. Verified with TypeScript.
 - **T-37 — Create JWT generation utilities with a 180-day token lifetime** (2026-10-09): Added a server-only HS256 token generator with a subject claim and a shared 180-day expiration constant. Added jsonwebtoken and its TypeScript declarations. Verified with TypeScript.
 - **T-36 — Create password hashing utilities using bcryptjs** (2026-10-09): Added server-only asynchronous hash and verification helpers using 12 bcrypt rounds. Rejects empty or over-72-byte inputs before hashing/comparison and rejects malformed hash prefixes. Verified with TypeScript.
 - **T-35 — Create authentication Zod schemas** (2026-10-09): Added registration and login validation with normalized username/email, an eight-character registration password minimum, and field-associated password confirmation errors. Exported inferred input types. Verified with TypeScript.

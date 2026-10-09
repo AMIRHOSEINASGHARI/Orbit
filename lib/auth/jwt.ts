@@ -14,3 +14,15 @@ export function generateAuthToken(userId: string): string {
     expiresIn: AUTH_TOKEN_LIFETIME_SECONDS,
   });
 }
+
+export function verifyAuthToken(token: string): string | null {
+  if (!env.JWT_SECRET || !token || token.length > 8192) return null;
+
+  try {
+    const claims = jwt.verify(token, env.JWT_SECRET, { algorithms: ["HS256"] });
+    if (typeof claims !== "object" || typeof claims.sub !== "string" || !claims.sub) return null;
+    return claims.sub;
+  } catch {
+    return null;
+  }
+}
