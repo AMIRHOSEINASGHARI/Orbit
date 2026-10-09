@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **T-54 — Create the Todo tasks statistics card** (2026-10-09): Added the Todo summary card to the responsive dashboard metrics row with the shared status icon and neutral unavailable value until T-58 connects live counts. Verified with TypeScript.
 - **T-53 — Create the total tasks statistics card** (2026-10-09): Added a token-based summary card for the total task count, using the Figma card size, icon placement, and workload caption. It displays a neutral placeholder until the statistics action is connected in T-58. Verified with TypeScript.
 - **T-52 — Create the Dashboard page structure** (2026-10-09): Added the protected `/dashboard` route and responsive semantic regions matching the approved Dashboard frame; the root route now forwards to the dashboard. Verified with TypeScript.
 
