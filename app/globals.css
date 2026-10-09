@@ -49,7 +49,7 @@
     --color-subtle-foreground: var(--subtle-foreground);
     --color-table-header: var(--table-header);
     --color-primary-tint: var(--primary-tint);
-    --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
     --text-ui-caption: 0.625rem;
     --text-ui-label: 0.6875rem;
     --text-ui-small: 0.75rem;

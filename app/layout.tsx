@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import type { CSSProperties, ReactNode } from "react";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -6,6 +7,8 @@ import { Sidebar } from "@/components/shared/Sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { ReactQueryProvider } from "@/components/providers/ReactQueryProvider";
 import { AppThemeProvider } from "@/components/providers/AppThemeProvider";
+
+const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
 
 export const metadata: Metadata = {
   title: {
@@ -21,7 +24,7 @@ type RootLayoutProps = Readonly<{
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" dir="ltr" suppressHydrationWarning>
+    <html lang="en" dir="ltr" className={inter.variable} suppressHydrationWarning>
       <body>
         <AppThemeProvider>
           <ReactQueryProvider>
