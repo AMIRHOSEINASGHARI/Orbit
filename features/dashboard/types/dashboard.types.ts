@@ -19,3 +19,5 @@ export type OverdueTasks = {
   items: RecentTask[];
   total: number;
 };
+
+export type GroupStatistics = { total: number };

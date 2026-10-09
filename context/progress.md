@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **T-62 — Create the Group statistics Server Action and Dashboard card** (2026-10-09): Added an authenticated count scoped to the current user and excluded deleted groups; displayed the result in a shared-token Dashboard card with error feedback. The Group model is scheduled later, so this reads the documented group collection directly for now. Verified with TypeScript.
 - **T-61 — Create the overdue tasks section** (2026-10-09): Added a user-scoped overdue task query with a count and three-item limit, plus a token-based attention panel with task links and empty/error feedback. Integrated it with Dashboard. Verified with TypeScript.
 - **T-60 — Create the upcoming tasks section** (2026-10-09): Added a user-scoped query for the next three non-completed tasks due from today onward and a responsive section with due-date labels and empty/error states. Connected it to the Dashboard. Verified with TypeScript.
 - **T-59 — Create the recent tasks section** (2026-10-09): Added an authenticated recent-task query and a responsive, accessible task table with status/priority badges, empty feedback, and safe errors; connected it to the dashboard route. The query follows the documented Task fields pending the later model task. Verified with TypeScript.
