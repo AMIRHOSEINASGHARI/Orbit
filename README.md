@@ -7,6 +7,8 @@ The interface uses English (`en-US`) and left-to-right layout.
 
 Use Node.js 20.9 or newer and npm.
 
+Copy `.env.example` to `.env.local` and set `MONGODB_URI` to your MongoDB connection string before running the app. Keep `.env.local` private and never prefix server secrets with `NEXT_PUBLIC_`.
+
 ```bash
 npm install
 npm run dev
