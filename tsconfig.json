@@ -12,6 +12,10 @@
     "incremental": true,
     "module": "esnext",
     "moduleResolution": "bundler",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    },
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
@@ -20,7 +24,7 @@
         "name": "next"
       }
     ],
-    "strict": false,
+    "strict": true,
     "esModuleInterop": true
   },
   "include": [
