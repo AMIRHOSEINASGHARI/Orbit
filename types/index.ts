@@ -16,3 +16,5 @@ export type Paginated<T> = Pagination & {
 export type Prettify<T> = {
   [Key in keyof T]: T[Key];
 };
+
+export type { ActionFailure, ActionResult, ActionSuccess } from "./action";
