@@ -24,6 +24,7 @@ Available commands:
 
 - App Router routes and layouts live under `app/`.
 - Global Tailwind styles live in `app/globals.css`.
+- shadcn/ui is configured in `components.json`; generated UI components belong in `components/ui/`, and light/dark tokens live in `app/globals.css`.
 - Shared interface components belong under `components/`; domain-specific code belongs under `features/` as those areas are added.
 - Keep server-side data access and mutations on the server. Internal CRUD flows use Server Actions, as specified in `context/architecture.md`.
 - Write user-facing copy in English and set document language and direction to `en` and `ltr`.
