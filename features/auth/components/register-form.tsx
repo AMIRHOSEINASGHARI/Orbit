@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type UseFormRegisterReturn } from "react-hook-form";
-import { EyeIcon } from "@/components/icons";
+import { PasswordVisibilityIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Form } from "@/components/ui/form";
@@ -36,11 +36,11 @@ function PasswordField({ id, label, placeholder, hint, registration, error }: {
       <div className="relative">
         <Input {...registration} id={id} type={visible ? "text" : "password"} placeholder={placeholder} aria-invalid={Boolean(error)} aria-describedby={[hintId, errorId].filter(Boolean).join(" ") || undefined} className="h-12 rounded-lg px-3.5 pr-12 text-ui-body" />
         <button type="button" aria-label={`${visible ? "Hide" : "Show"} ${label.toLowerCase()}`} onClick={() => setVisible((value) => !value)} className="absolute inset-y-0 right-2 flex w-8 items-center justify-center text-muted-foreground hover:text-foreground">
-          <EyeIcon className="size-[18px]" />
+          <PasswordVisibilityIcon className="size-[18px]" />
         </button>
       </div>
       {hint && <FieldDescription id={hintId} className="text-ui-small text-muted-foreground">{hint}</FieldDescription>}
-      <FieldError id={errorId} errors={error ? [{ message: error }] : []} className="text-ui-small text-danger" />
+      <FieldError id={errorId} errors={error ? [{ message: error }] : []} className="text-ui-small font-medium text-danger-foreground" />
     </Field>
   );
 }
@@ -82,20 +82,20 @@ export function RegisterForm({ onSubmit, pending = false, state = null }: Regist
           <Field data-invalid={Boolean(usernameError)} className="gap-2">
             <FieldLabel htmlFor="username" className="text-[13px] font-semibold text-foreground">Username</FieldLabel>
             <Input {...form.register("username")} id="username" autoComplete="username" placeholder="Choose a username" aria-invalid={Boolean(usernameError)} aria-describedby={usernameError ? "username-error" : undefined} className="h-12 rounded-lg px-3.5 text-ui-body" />
-            <FieldError id="username-error" errors={usernameError ? [{ message: usernameError }] : []} className="text-ui-small text-danger" />
+            <FieldError id="username-error" errors={usernameError ? [{ message: usernameError }] : []} className="text-ui-small font-medium text-danger-foreground" />
           </Field>
 
           <Field data-invalid={Boolean(emailError)} className="gap-2">
             <FieldLabel htmlFor="email" className="text-[13px] font-semibold text-foreground">Email</FieldLabel>
             <Input {...form.register("email")} id="email" type="email" autoComplete="email" placeholder="you@example.com" aria-invalid={Boolean(emailError)} aria-describedby={emailError ? "email-error" : undefined} className="h-12 rounded-lg px-3.5 text-ui-body" />
-            <FieldError id="email-error" errors={emailError ? [{ message: emailError }] : []} className="text-ui-small text-danger" />
+            <FieldError id="email-error" errors={emailError ? [{ message: emailError }] : []} className="text-ui-small font-medium text-danger-foreground" />
           </Field>
 
           <PasswordField id="password" label="Password" placeholder="Create a password" hint="Use at least 8 characters." registration={form.register("password")} error={passwordError} />
           <PasswordField id="confirmPassword" label="Confirm password" placeholder="Re-enter your password" registration={form.register("confirmPassword")} error={confirmationError} />
         </FieldGroup>
 
-        {state && !state.success && <p role="alert" className="text-ui-small text-danger">{state.error}</p>}
+        {state && !state.success && <p role="alert" className="rounded-lg border border-danger-foreground/20 bg-danger px-3 py-2 text-ui-small font-medium text-danger-foreground">{state.error}</p>}
         {state?.success && <p role="status" className="text-ui-small text-success-foreground">{state.data.message}</p>}
 
         <div className="space-y-3.5 text-center">
