@@ -3,6 +3,7 @@
 ## Completed
 
 - **T-49 — Protect authenticated application routes** (2026-10-09): Strengthened the authenticated route-group guard to verify the signed token and load an existing user record before rendering protected pages; invalid and deleted-user sessions redirect to login. Verified with TypeScript.
+- **T-50 — Keep authenticated users out of auth pages** (2026-10-09): Applied the same verified current-user check to the public auth route group; valid sessions redirect to the app, while missing, invalid, or deleted-user sessions can access login/register. Verified with TypeScript.
 - **T-48 — Add Logout functionality to the application UI** (2026-10-09): Replaced the inert header logout control with the shared Form component wired to the logout Server Action and an accessible pending label. Verified with TypeScript.
 - **T-47 — Create the Logout Server Action** (2026-10-09): Added a Server Action that clears the HTTP-only session cookie and redirects to login. Verified with TypeScript.
 - **T-46 — Connect the Login form to the Login Server Action** (2026-10-09): Connected RHF-validated login input to the Server Action through `useActionState`, with pending state and generic server errors. Successful login sets the session cookie and redirects to the authenticated home. Verified with TypeScript.
