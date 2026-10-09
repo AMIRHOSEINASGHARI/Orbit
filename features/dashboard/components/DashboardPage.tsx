@@ -4,15 +4,18 @@ import { CircleCheckIcon, CircleDotIcon, LayersIcon, TimerIcon } from "@/compone
 import { TaskMetricCard } from "@/features/dashboard/components/TaskMetricCard";
 import { RecentTasksSection } from "@/features/dashboard/components/RecentTasksSection";
 import { UpcomingTasksSection } from "@/features/dashboard/components/UpcomingTasksSection";
-import type { RecentTask, TaskStatistics } from "@/features/dashboard/types/dashboard.types";
+import { OverdueTasksSection } from "@/features/dashboard/components/OverdueTasksSection";
+import type { OverdueTasks, RecentTask, TaskStatistics } from "@/features/dashboard/types/dashboard.types";
 
-export function DashboardPage({ statistics, recentTasks, upcomingTasks, taskError, recentTaskError, upcomingTaskError }: {
+export function DashboardPage({ statistics, recentTasks, upcomingTasks, overdueTasks, taskError, recentTaskError, upcomingTaskError, overdueTaskError }: {
   statistics: TaskStatistics | null;
   recentTasks: RecentTask[] | null;
   upcomingTasks: RecentTask[] | null;
+  overdueTasks: OverdueTasks | null;
   taskError?: string;
   recentTaskError?: string;
   upcomingTaskError?: string;
+  overdueTaskError?: string;
 }) {
   return (
     <main className="space-y-6 p-7">
@@ -30,7 +33,10 @@ export function DashboardPage({ statistics, recentTasks, upcomingTasks, taskErro
       </section>
       <div className="grid gap-5 xl:grid-cols-[2fr_1fr]">
         <RecentTasksSection tasks={recentTasks} error={recentTaskError} />
-        <UpcomingTasksSection tasks={upcomingTasks} error={upcomingTaskError} />
+        <div className="space-y-5">
+          <OverdueTasksSection overdue={overdueTasks} error={overdueTaskError} />
+          <UpcomingTasksSection tasks={upcomingTasks} error={upcomingTaskError} />
+        </div>
       </div>
     </main>
   );

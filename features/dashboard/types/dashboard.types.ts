@@ -14,3 +14,8 @@ export type RecentTask = {
   status: "todo" | "in-progress" | "done";
   dueDate: string | null;
 };
+
+export type OverdueTasks = {
+  items: RecentTask[];
+  total: number;
+};
