@@ -2,6 +2,8 @@
 
 ## Completed
 
+- **T-27 — Create the authenticated `(view)` layout** (2026-10-09): Moved the app shell into the `(view)` route group and redirect unauthenticated requests to `/login` after verifying the session cookie's HS256 signature, subject, and expiry. Added optional `JWT_SECRET` validation and an environment example; persisted-session revocation remains for the later auth implementation. Verified with TypeScript and production build.
+
 - **T-22 — Create the application logo component** (2026-10-09): Verified the existing reusable Orbit logo's accessible link, size variants, and theme-token tones with a component test.
 - **T-21 — Configure global English typography** (2026-10-09): Loaded Inter with `next/font` as a self-hosted Latin font, exposed it globally, and retained system fallbacks with swap display.
 - **T-20 — Configure English LTR and Gregorian calendar** (2026-10-09): Kept the existing English LTR document settings, defaulted the shared calendar to English Gregorian dates, and retained locale overrides. Added a calendar regression test.

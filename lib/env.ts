@@ -2,6 +2,7 @@ import "server-only";
 import { z } from "zod";
 
 export const envSchema = z.object({
+  JWT_SECRET: z.string().trim().min(32).optional(),
   MONGODB_URI: z
     .string()
     .trim()
