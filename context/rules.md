@@ -19,6 +19,7 @@
 ## Component Rules
 
 - Reuse the UI components and icons in `components/` throughout the project to maintain consistency; extend them when needed instead of duplicating them.
+- Before creating or changing a UI component, open the canonical Figma design link in `context/generated/figma-design.md` and inspect its exact frame/component, variants, and states. Match its structure, layout, sizing, typography, colors, spacing, radii, borders, shadows, icons, responsive behavior, and interactions using shared design tokens/components. Do not approximate or redesign it; if the reference cannot be inspected, record the blocker and request the missing design reference instead of inventing details.
 
 Maximum file size:
 

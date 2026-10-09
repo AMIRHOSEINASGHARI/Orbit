@@ -115,7 +115,8 @@ change must update this table and the canonical CSS tokens together.
 | `--color-primary`          | `#635BFF` | `#635BFF` | Primary action and selection  |
 | `--color-background`       | `#F6F7FA` | `#101116` | Application canvas            |
 | `--color-surface`          | `#FFFFFF` | `#17181F` | Card, control, dialog surface |
-| `--color-surface-muted`    | `#F0F1F5` | `#1D1F27` | Muted/header/status surface   |
+| `--color-surface-muted`    | `#F0F1F5` | `#1D1F27` | Muted surface and neutral status |
+| `--color-table-header`     | `#FBFBFD` | `#1D1F27` | Workspace switcher and storage surfaces |
 | `--color-surface-selected` | `#F7F6FF` | `#222331` | Selected row/surface          |
 | `--color-primary-subtle`   | `#EEECFF` | `#2A2851` | Subtle accent surface         |
 | `--color-border`           | `#E4E6ED` | `#2C2E38` | Default border and divider    |
@@ -166,6 +167,7 @@ Persian font substitution.
 | Icon button box               | `34 × 34px`                                                  |
 | Checkbox                      | `18 × 18px`, radius `5px`                                    |
 | Common icon boxes             | `12`, `13`, `14`, `15`, `16px`                               |
+| Application header            | `72px` high; `28px` horizontal inset; `292 × 38px` search    |
 | Default border                | `1px solid`                                                  |
 | Card shadow                   | `0 8px 24px rgba(24, 26, 36, 0.13)`                          |
 | Dialog shadow                 | `0 18px 48px rgba(9, 10, 15, 0.25)`                          |
@@ -602,13 +604,14 @@ For each screen or component:
 
 ### Comparison with the current implementation
 
-The canonical token definitions live in `app/globals.css`. The current theme
-already matches the audited foundation colors, status pairs, Inter typography
-scale, radii, card shadow, and dark table-header surface. Two mismatches found
-during this audit have been aligned: the dialog shadow now uses the audited
-48px blur, and the light table header now uses the audited muted surface
-(`--muted`, exposed as `bg-muted`, `#F0F1F5`). Keep these values synchronized with the
-baseline above when the Figma source changes.
+The canonical token definitions live in `app/globals.css`. The header and
+sidebar were compared with task frames `2:35642` (light header), `2:36934` (dark
+header), `2:35589` (expanded sidebar), and `82:2033` (collapsed sidebar). The
+header uses `--spacing-header: 72px` and `--width-header-search: 292px`. The
+light `--table-header` surface is `#FBFBFD`, as shown on the workspace switcher
+and storage card; it is distinct from the muted `#F0F1F5` surface. The dialog
+shadow uses the audited `48px` blur. Keep these values synchronized with the
+Figma layers when the source changes.
 
 Before implementing the first screen—and whenever Figma source layers or future
 Variables change—keep a token audit using this format:

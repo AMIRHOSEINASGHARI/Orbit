@@ -6,8 +6,12 @@ import {
   ChevronsUpDownIcon,
   HardDriveIcon,
   OrbitIcon,
+  PanelLeftOpenIcon,
 } from "@/components/icons";
-import { navigationGroups } from "@/components/shared/sidebar-navigation";
+import {
+  isNavigationItemActive,
+  navigationGroups,
+} from "@/components/shared/sidebar-navigation";
 import {
   Sidebar as UiSidebar,
   SidebarContent,
@@ -22,6 +26,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export function NavigationLinks({ onNavigate }: { onNavigate?: () => void }) {
@@ -35,11 +40,15 @@ export function NavigationLinks({ onNavigate }: { onNavigate?: () => void }) {
             {group.label}
           </h2>
           <ul className="space-y-1">
-            {group.items.map(({ badge, href, icon: Icon, label }) => {
-              const active =
-                pathname === href || pathname.startsWith(`${href}/`);
+            {group.items.map(({ badge, href, icon: Icon, label, separatorBefore }) => {
+              const active = isNavigationItemActive(pathname, href);
               return (
-                <li key={href}>
+                <li
+                  key={href}
+                  className={cn(
+                    separatorBefore && "mt-2 border-t border-border pt-2",
+                  )}
+                >
                   <Link
                     href={href}
                     aria-current={active ? "page" : undefined}
@@ -97,7 +106,7 @@ export function Sidebar() {
         >
           <div
             aria-hidden="true"
-            className="flex size-6 shrink-0 items-center justify-center rounded-[7px] bg-primary-tint text-ui-label font-bold text-primary group-data-[collapsible=icon]:size-6.5"
+            className="flex size-6 shrink-0 items-center justify-center rounded-[7px] bg-primary-tint text-ui-label font-bold text-primary group-data-[collapsible=icon]:size-6"
           >
             {" "}
             <span className="hidden group-data-[collapsible=icon]:inline">
@@ -121,12 +130,16 @@ export function Sidebar() {
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu className="gap-1.25">
-                {group.items.map(({ badge, href, icon: Icon, label }) => {
-                  const active =
-                    pathname === href || pathname.startsWith(`${href}/`);
+                {group.items.map(({ badge, href, icon: Icon, label, separatorBefore }) => {
+                  const active = isNavigationItemActive(pathname, href);
 
                   return (
-                    <SidebarMenuItem key={href}>
+                    <SidebarMenuItem
+                      key={href}
+                      className={cn(
+                        separatorBefore && "mt-2 border-t border-border pt-2",
+                      )}
+                    >
                       <SidebarMenuButton
                         render={
                           <Link
@@ -159,6 +172,15 @@ export function Sidebar() {
         ))}
       </SidebarContent>
       <SidebarFooter className="gap-2 p-4 pt-0 group-data-[collapsible=icon]:items-center">
+        <Button
+          type="button"
+          variant="outline"
+          aria-label="Expand sidebar"
+          onClick={toggleSidebar}
+          className="hidden size-8.5 border-border bg-table-header p-0 group-data-[collapsible=icon]:inline-flex"
+        >
+          <PanelLeftOpenIcon className="size-4.5" />
+        </Button>
         <div className="w-full space-y-2 rounded-card bg-table-header p-3 group-data-[collapsible=icon]:hidden">
           <div className="flex items-center justify-between text-ui-label">
             <span className="font-semibold text-muted-foreground">Storage</span>

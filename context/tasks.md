@@ -1,5 +1,9 @@
 # Development Workflow
 
+## Figma UI implementation rule
+
+For every task that creates or changes a UI component, open the canonical Figma design link recorded in `context/generated/figma-design.md` and inspect the exact frame or component, including its variants and states. Recreate it faithfully: match its structure, layout, sizing, typography, colors, spacing, radii, borders, shadows, icons, responsive behavior, and interactions using the shared design tokens and components. Do not approximate or redesign the approved UI. If the link or exact reference cannot be inspected, record the blocker and ask for the missing design reference instead of inventing visual details.
+
 ## T-01
 
 Initialize the Next.js project with App Router.
