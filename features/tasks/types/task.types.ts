@@ -21,6 +21,8 @@ export type Task = {
   updatedAt: Date;
 };
 
+export type TaskListItem = Omit<Task, "userId">;
+
 export type TaskRecord = Omit<Task, "id" | "userId" | "groupId"> & {
   _id: Types.ObjectId;
   userId: Types.ObjectId;
