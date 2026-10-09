@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Sidebar } from "@/components/shared/Sidebar";
@@ -22,7 +22,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html lang="en" dir="ltr">
       <body>
         <TooltipProvider>
-          <SidebarProvider>
+          <SidebarProvider style={{ "--sidebar-width": "14.25rem" } as CSSProperties}>
             <Sidebar />
             <div className="flex min-w-0 flex-1 flex-col">
               <div className="flex h-14 items-center border-b border-border px-4">
