@@ -27,12 +27,20 @@ export async function getRecentTasks(): Promise<ActionResult<RecentTask[]>> {
       { projection: { title: 1, groupId: 1, priority: 1, status: 1, dueDate: 1 } },
     ).sort({ updatedAt: -1 }).limit(5).toArray();
 
+    const groupIds = [...new Set(tasks.flatMap((task) => task.groupId ? [task.groupId] : []))];
+    const groups = groupIds.length ? await db.collection("taskgroups").find<{ _id: mongoose.Types.ObjectId; name: string }>(
+      { _id: { $in: groupIds }, userId: new mongoose.Types.ObjectId(user.id), deletedAt: null },
+      { projection: { name: 1 } },
+    ).toArray() : [];
+    const groupNames = new Map(groups.map((group) => [group._id.toString(), group.name]));
+
     return {
       success: true,
       data: tasks.map(({ _id, dueDate, groupId, ...task }) => ({
         ...task,
         id: _id.toString(),
         groupId: groupId?.toString() ?? null,
+        groupName: groupId ? groupNames.get(groupId.toString()) ?? null : null,
         dueDate: dueDate?.toISOString() ?? null,
       })),
     };

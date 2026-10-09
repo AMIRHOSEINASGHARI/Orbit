@@ -17,6 +17,11 @@ const priorityStyles: Record<RecentTask["priority"], string> = {
   medium: "bg-warning text-warning-foreground",
   high: "bg-danger text-danger-foreground",
 };
+const statusStyles: Record<RecentTask["status"], string> = {
+  todo: "bg-muted text-muted-foreground",
+  "in-progress": "bg-info text-info-foreground",
+  done: "bg-success text-success-foreground",
+};
 
 export function RecentTasksSection({ tasks, error }: { tasks: RecentTask[] | null; error?: string }) {
   return (
@@ -36,11 +41,11 @@ export function RecentTasksSection({ tasks, error }: { tasks: RecentTask[] | nul
             <tbody>
               {tasks.map((task) => (
                 <tr key={task.id} className="border-b border-border last:border-0">
-                  <th scope="row" className="max-w-80 px-4 py-4 text-ui-small font-semibold text-foreground">{task.title}</th>
-                  <td className="px-4 py-4 text-ui-label text-muted-foreground">{task.groupId ? "Group" : "Personal"}</td>
-                  <td className="px-4 py-4"><Badge className={priorityStyles[task.priority]}>{task.priority}</Badge></td>
-                  <td className="px-4 py-4 text-ui-label text-muted-foreground">{task.dueDate ? new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(new Date(task.dueDate)) : "—"}</td>
-                  <td className="px-4 py-4"><Badge variant="secondary">{statusLabel[task.status]}</Badge></td>
+                  <th scope="row" className="max-w-80 px-4 py-[21px] text-ui-small font-semibold text-foreground">{task.title}</th>
+                  <td className="px-4 py-[21px] text-ui-label text-muted-foreground">{task.groupName ?? (task.groupId ? "Group" : "Personal")}</td>
+                  <td className="px-4 py-[21px]"><Badge className={priorityStyles[task.priority]}><span aria-hidden="true" className="mr-1 inline-block size-1.5 rounded-full bg-current" />{task.priority}</Badge></td>
+                  <td className="px-4 py-[21px] text-ui-label text-muted-foreground">{task.dueDate ? new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" }).format(new Date(task.dueDate)) : "—"}</td>
+                  <td className="px-4 py-[21px]"><Badge className={statusStyles[task.status]}><span aria-hidden="true" className="mr-1 inline-block size-1.5 rounded-full bg-current" />{statusLabel[task.status]}</Badge></td>
                 </tr>
               ))}
             </tbody>

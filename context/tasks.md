@@ -418,57 +418,57 @@ Handle expired and invalid 180-day authentication sessions.
 
 ## T-52
 
-Create the Dashboard page structure.
+Create the Dashboard analytics page structure.
 
-**Description:** Build the Dashboard page for Dashboard with the shared application layout, the required data and actions, and clear loading, empty, and error states. Ensure the route is accessible and responsive.
+**Description:** Compose the approved analytics Dashboard frame inside the authenticated application layout, including summary metrics, charts, task sections, notes, and activity. Keep the page responsive and accessible, with designed loading, empty, and recoverable error states.
 
 ---
 
 ## T-53
 
-Create the total tasks statistics card.
+Create the total tasks summary card.
 
-**Description:** Create the total tasks statistics card for Dashboard. Define the required behavior and data contract, integrate it with related features, and handle validation, access control, and expected failure states where applicable.
+**Description:** Display the signed-in user's total task count and the Todo, In Progress, and Done composition bar in the Figma summary card.
 
 ---
 
 ## T-54
 
-Create the Todo tasks statistics card.
+Create the completed this week summary card.
 
-**Description:** Create the Todo tasks statistics card for Dashboard. Define the required behavior and data contract, integrate it with related features, and handle validation, access control, and expected failure states where applicable.
+**Description:** Display the signed-in user's tasks completed in the last seven days with the approved completion icon and supporting detail.
 
 ---
 
 ## T-55
 
-Create the In Progress tasks statistics card.
+Create the In Progress summary card.
 
-**Description:** Create the In Progress tasks statistics card for Dashboard. Define the required behavior and data contract, integrate it with related features, and handle validation, access control, and expected failure states where applicable.
+**Description:** Display the signed-in user's In Progress count and its share of current tasks in the approved summary card.
 
 ---
 
 ## T-56
 
-Create the Done tasks statistics card.
+Create the overdue summary card.
 
-**Description:** Create the Done tasks statistics card for Dashboard. Define the required behavior and data contract, integrate it with related features, and handle validation, access control, and expected failure states where applicable.
+**Description:** Display the signed-in user's overdue task count and attention indicator in the approved summary card.
 
 ---
 
 ## T-57
 
-Create the task statistics Server Action.
+Create the Dashboard analytics Server Action.
 
-**Description:** Implement the `task statistics` Server Action for Dashboard. Authenticate the caller, authorize access to the requested data, validate query parameters, and return a typed result with safe errors.
+**Description:** Return typed task totals, seven-day completion trends, group workload, priority counts, deadline buckets, and activity measures. Enforce caller ownership and return safe errors through the shared ActionResult contract.
 
 ---
 
 ## T-58
 
-Connect task statistics to the Dashboard.
+Connect Dashboard analytics and export controls.
 
-**Description:** Connect task statistics to the Dashboard end to end within Dashboard. Pass the right inputs and state, handle pending and error results, provide accessible feedback, and refresh affected data after success.
+**Description:** Load analytics and section data on the Dashboard route, render the selected personal scope and seven-day period, and export the displayed report as CSV. Preserve the page layout during loading and surface safe errors.
 
 ---
 
@@ -476,39 +476,39 @@ Connect task statistics to the Dashboard.
 
 Create the recent tasks section.
 
-**Description:** Create the recent tasks section for Dashboard. Define the required behavior and data contract, integrate it with related features, and handle validation, access control, and expected failure states where applicable.
+**Description:** Show the latest authorized tasks in the Figma table with group, priority, due date, and status. Include a link to all tasks, an empty state, and a safe error state.
 
 ---
 
 ## T-60
 
-Create the upcoming tasks section.
+Create the upcoming tasks list.
 
-**Description:** Create the upcoming tasks section for Dashboard. Define the required behavior and data contract, integrate it with related features, and handle validation, access control, and expected failure states where applicable.
+**Description:** Show the signed-in user's next due tasks inside the Needs Attention panel with dates, empty state, and safe error state.
 
 ---
 
 ## T-61
 
-Create the overdue tasks section.
+Create the overdue tasks panel.
 
-**Description:** Create the overdue tasks section for Dashboard. Define the required behavior and data contract, integrate it with related features, and handle validation, access control, and expected failure states where applicable.
+**Description:** Show the overdue count and first overdue task details above the upcoming list, with a link to open the task and safe error and empty states.
 
 ---
 
 ## T-62
 
-Create the Group statistics Server Action and Dashboard card.
+Create the Group workload chart and progress measures.
 
-**Description:** Implement the Group statistics Server Action for Dashboard. Authenticate the caller, scope the query to the current user, and return typed counts for the dashboard. Build the Dashboard card to present those statistics clearly.
+**Description:** Aggregate owned tasks by active Group and display stacked status counts, totals, and completion percentages. Exclude Groups the caller cannot access.
 
 ---
 
 ## T-63
 
-Create the Note statistics Server Action and Dashboard card.
+Create the Note statistics and recent Notes count.
 
-**Description:** Implement the Note statistics Server Action for Dashboard. Authenticate the caller, scope the query to the current user, and return typed statistics. Build the Dashboard card to present those results clearly.
+**Description:** Return the signed-in user's active Note count for the Recent Notes heading, keeping deleted and archived Notes out of the total.
 
 ---
 
@@ -516,7 +516,7 @@ Create the Note statistics Server Action and Dashboard card.
 
 Create the recent Notes Dashboard section using a Server Action.
 
-**Description:** Implement the `recent Notes Dashboard section using a` Server Action for Dashboard. Authenticate and authorize the caller, validate input, enforce resource ownership, perform the mutation through the data layer, return the shared result shape, and revalidate affected data.
+**Description:** Return a small, typed list of the caller's recently updated Notes and display each title, preview, and update time in the Recent Notes card. Include empty and safe error states.
 
 ---
 
@@ -524,7 +524,7 @@ Create the recent Notes Dashboard section using a Server Action.
 
 Create the recent Notifications Dashboard section using a Server Action.
 
-**Description:** Implement the `recent Notifications Dashboard section using a` Server Action for Dashboard. Authenticate and authorize the caller, validate input, enforce resource ownership, perform the mutation through the data layer, return the shared result shape, and revalidate affected data.
+**Description:** Return a small, typed list of the caller's recent Notifications and display each event icon, title, and time in the Recent Activity card. Enforce recipient ownership and include empty and safe error states.
 
 ---
 
