@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type UseFormRegisterReturn } from "react-hook-form";
 import { EyeIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
+import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { registerSchema, type RegisterInput } from "@/features/auth/schemas/auth.schema";
 import type { AuthActionState } from "@/features/auth/types/auth-action.types";
 
@@ -31,17 +31,17 @@ function PasswordField({ id, label, placeholder, hint, registration, error }: {
   const errorId = error ? `${id}-error` : undefined;
 
   return (
-    <div className="space-y-2">
-      <Label htmlFor={id} className="text-[13px] font-semibold text-foreground">{label}</Label>
+    <Field data-invalid={Boolean(error)} className="gap-2">
+      <FieldLabel htmlFor={id} className="text-[13px] font-semibold text-foreground">{label}</FieldLabel>
       <div className="relative">
         <Input {...registration} id={id} type={visible ? "text" : "password"} placeholder={placeholder} aria-invalid={Boolean(error)} aria-describedby={[hintId, errorId].filter(Boolean).join(" ") || undefined} className="h-12 rounded-lg px-3.5 pr-12 text-ui-body" />
         <button type="button" aria-label={`${visible ? "Hide" : "Show"} ${label.toLowerCase()}`} onClick={() => setVisible((value) => !value)} className="absolute inset-y-0 right-2 flex w-8 items-center justify-center text-muted-foreground hover:text-foreground">
           <EyeIcon className="size-[18px]" />
         </button>
       </div>
-      {hint && <p id={hintId} className="text-ui-small text-muted-foreground">{hint}</p>}
-      {error && <p id={errorId} className="text-ui-small text-danger" role="alert">{error}</p>}
-    </div>
+      {hint && <FieldDescription id={hintId} className="text-ui-small text-muted-foreground">{hint}</FieldDescription>}
+      <FieldError id={errorId} errors={error ? [{ message: error }] : []} className="text-ui-small text-danger" />
+    </Field>
   );
 }
 
@@ -54,10 +54,15 @@ export function RegisterForm({ onSubmit, pending = false, state = null }: Regist
     resolver: zodResolver(registerSchema),
     defaultValues: { username: "", email: "", password: "", confirmPassword: "" },
   });
+  const { reset } = form;
   const usernameError = form.formState.errors.username?.message ?? serverFieldError(state, "username");
   const emailError = form.formState.errors.email?.message ?? serverFieldError(state, "email");
   const passwordError = form.formState.errors.password?.message ?? serverFieldError(state, "password");
   const confirmationError = form.formState.errors.confirmPassword?.message ?? serverFieldError(state, "confirmPassword");
+
+  useEffect(() => {
+    if (state?.success) reset();
+  }, [reset, state]);
 
   function submit(values: RegisterInput) {
     const formData = new FormData();
@@ -73,22 +78,22 @@ export function RegisterForm({ onSubmit, pending = false, state = null }: Regist
       </header>
 
       <Form onSubmit={form.handleSubmit(submit)} className="space-y-6">
-        <div className="space-y-[18px]">
-          <div className="space-y-2">
-            <Label htmlFor="username" className="text-[13px] font-semibold text-foreground">Username</Label>
+        <FieldGroup className="gap-[18px]">
+          <Field data-invalid={Boolean(usernameError)} className="gap-2">
+            <FieldLabel htmlFor="username" className="text-[13px] font-semibold text-foreground">Username</FieldLabel>
             <Input {...form.register("username")} id="username" autoComplete="username" placeholder="Choose a username" aria-invalid={Boolean(usernameError)} aria-describedby={usernameError ? "username-error" : undefined} className="h-12 rounded-lg px-3.5 text-ui-body" />
-            {usernameError && <p id="username-error" className="text-ui-small text-danger" role="alert">{usernameError}</p>}
-          </div>
+            <FieldError id="username-error" errors={usernameError ? [{ message: usernameError }] : []} className="text-ui-small text-danger" />
+          </Field>
 
-          <div className="space-y-2">
-            <Label htmlFor="email" className="text-[13px] font-semibold text-foreground">Email</Label>
+          <Field data-invalid={Boolean(emailError)} className="gap-2">
+            <FieldLabel htmlFor="email" className="text-[13px] font-semibold text-foreground">Email</FieldLabel>
             <Input {...form.register("email")} id="email" type="email" autoComplete="email" placeholder="you@example.com" aria-invalid={Boolean(emailError)} aria-describedby={emailError ? "email-error" : undefined} className="h-12 rounded-lg px-3.5 text-ui-body" />
-            {emailError && <p id="email-error" className="text-ui-small text-danger" role="alert">{emailError}</p>}
-          </div>
+            <FieldError id="email-error" errors={emailError ? [{ message: emailError }] : []} className="text-ui-small text-danger" />
+          </Field>
 
           <PasswordField id="password" label="Password" placeholder="Create a password" hint="Use at least 8 characters." registration={form.register("password")} error={passwordError} />
           <PasswordField id="confirmPassword" label="Confirm password" placeholder="Re-enter your password" registration={form.register("confirmPassword")} error={confirmationError} />
-        </div>
+        </FieldGroup>
 
         {state && !state.success && <p role="alert" className="text-ui-small text-danger">{state.error}</p>}
         {state?.success && <p role="status" className="text-ui-small text-success-foreground">{state.data.message}</p>}

@@ -12,7 +12,7 @@
 - Enforce workspace membership and role authorization in every collaborative Server Action
 - Delete external UploadThing files when their application records are permanently removed
 - Never export password hashes, token hashes, two-factor secrets, or other credential material
-- Use React Hook Form for every form's state and submission, validate with Zod through `@hookform/resolvers/zod`, and compose the shared shadcn Form component from `components/ui/form.tsx` for form markup and errors.
+- Build every form with React Hook Form for state and submission, a feature-owned Zod schema through `@hookform/resolvers/zod` for client validation, and server-side validation at the action boundary. Use the shared `Form` from `components/ui/form.tsx` and the shadcn `Field` family from `components/ui/field.tsx` for accessible form and field markup, labels, descriptions, and errors, following the [shadcn React Hook Form guide](https://ui.shadcn.com/docs/forms/react-hook-form).
 - Write all user-facing content, including success and error messages, in English; keep developer diagnostics and logs in English as well
 
 ---
