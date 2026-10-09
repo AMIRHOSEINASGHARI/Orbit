@@ -8,8 +8,6 @@
     "incremental": true,
     "module": "esnext",
     "moduleResolution": "bundler",
-    "ignoreDeprecations": "6.0",
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./*"]
     },
