@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **T-58 — Connect task statistics to the Dashboard** (2026-10-09): Loaded the authenticated statistics action in the dashboard route, populated all four task counts, and added route loading and safe error feedback through shared state components. Verified with TypeScript.
 - **T-57 — Create the task statistics Server Action** (2026-10-09): Added an authenticated Server Action that aggregates active personal task counts by status and overdue state, scoped by the signed-in user ID and returning the shared result type. The Task Mongoose model is scheduled after T-65, so the action currently queries the schema-defined Mongo collection directly. Verified with TypeScript.
 - **T-56 — Create the Done tasks statistics card** (2026-10-09): Added the completed-task count card to the dashboard metrics row using the shared completion icon and card styles. Values will be wired in T-58. Verified with TypeScript.
 - **T-55 — Create the In Progress tasks statistics card** (2026-10-09): Added the In Progress count card with a shared timer icon and status-appropriate description; live values are connected in T-58. Verified with TypeScript.
