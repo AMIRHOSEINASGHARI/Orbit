@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **T-60 — Create the upcoming tasks section** (2026-10-09): Added a user-scoped query for the next three non-completed tasks due from today onward and a responsive section with due-date labels and empty/error states. Connected it to the Dashboard. Verified with TypeScript.
 - **T-59 — Create the recent tasks section** (2026-10-09): Added an authenticated recent-task query and a responsive, accessible task table with status/priority badges, empty feedback, and safe errors; connected it to the dashboard route. The query follows the documented Task fields pending the later model task. Verified with TypeScript.
 - **T-58 — Connect task statistics to the Dashboard** (2026-10-09): Loaded the authenticated statistics action in the dashboard route, populated all four task counts, and added route loading and safe error feedback through shared state components. Verified with TypeScript.
 - **T-57 — Create the task statistics Server Action** (2026-10-09): Added an authenticated Server Action that aggregates active personal task counts by status and overdue state, scoped by the signed-in user ID and returning the shared result type. The Task Mongoose model is scheduled after T-65, so the action currently queries the schema-defined Mongo collection directly. Verified with TypeScript.

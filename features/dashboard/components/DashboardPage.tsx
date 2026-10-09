@@ -3,13 +3,16 @@ import { ErrorState } from "@/components/shared/ErrorState";
 import { CircleCheckIcon, CircleDotIcon, LayersIcon, TimerIcon } from "@/components/icons";
 import { TaskMetricCard } from "@/features/dashboard/components/TaskMetricCard";
 import { RecentTasksSection } from "@/features/dashboard/components/RecentTasksSection";
+import { UpcomingTasksSection } from "@/features/dashboard/components/UpcomingTasksSection";
 import type { RecentTask, TaskStatistics } from "@/features/dashboard/types/dashboard.types";
 
-export function DashboardPage({ statistics, recentTasks, taskError, recentTaskError }: {
+export function DashboardPage({ statistics, recentTasks, upcomingTasks, taskError, recentTaskError, upcomingTaskError }: {
   statistics: TaskStatistics | null;
   recentTasks: RecentTask[] | null;
+  upcomingTasks: RecentTask[] | null;
   taskError?: string;
   recentTaskError?: string;
+  upcomingTaskError?: string;
 }) {
   return (
     <main className="space-y-6 p-7">
@@ -27,7 +30,7 @@ export function DashboardPage({ statistics, recentTasks, taskError, recentTaskEr
       </section>
       <div className="grid gap-5 xl:grid-cols-[2fr_1fr]">
         <RecentTasksSection tasks={recentTasks} error={recentTaskError} />
-        <section aria-label="Task priorities" />
+        <UpcomingTasksSection tasks={upcomingTasks} error={upcomingTaskError} />
       </div>
     </main>
   );
