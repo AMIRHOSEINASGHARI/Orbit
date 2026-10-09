@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **T-09 — Configure automated test framework and shared test utilities** (2026-10-09): Configured Vitest with jsdom, React Testing Library cleanup and matchers, shared test exports, and test scripts. Verified with the shared UI smoke test.
 - **T-08 — Validate environment variables with Zod** (2026-10-09): Added `lib/env.ts` as a server-only Zod boundary, validating `MONGODB_URI` and exporting typed configuration with safe field-level diagnostics. Verified with `tsc --noEmit` and `npm run build`.
 - **T-07 — Configure environment variables** (2026-10-09): Added a non-secret `.env.example` for server-only `MONGODB_URI` and documented copying it to ignored `.env.local`. Verified the ignore rules keep local secrets out of Git.
 - **T-06 — Base feature-based folder structure** (2026-10-09): Scaffolded the eight architecture-defined feature roots and shared `services`, `types`, `utils`, and `constants` roots. Existing `app`, `components/shared`, `components/ui`, `hooks`, and `lib` remain the shared route/UI/infrastructure areas; feature subfolders are added as needed. Verified all expected directories exist.
