@@ -3,10 +3,10 @@ import { redirect } from "next/navigation";
 import { Header } from "@/components/shared/Header";
 import { Sidebar } from "@/components/shared/Sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { hasValidSession } from "@/lib/auth/session";
+import { getCurrentUser } from "@/lib/auth/current-user";
 
 export default async function ViewLayout({ children }: Readonly<{ children: ReactNode }>) {
-  if (!(await hasValidSession())) redirect("/login");
+  if (!(await getCurrentUser())) redirect("/login");
 
   return (
     <SidebarProvider style={{ "--sidebar-width": "14.25rem", "--sidebar-width-icon": "4.5rem" } as CSSProperties}>
