@@ -1,11 +1,8 @@
-"use client";
+import { LoginPageForm } from "@/features/auth/components/login-page-form";
 
-import { startTransition, useActionState } from "react";
-import { loginAction } from "@/features/auth/actions/login.action";
-import { LoginForm } from "@/features/auth/components/login-form";
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ session?: string }> }) {
+  const { session } = await searchParams;
+  const showSessionNotice = session === "invalid" || session === "expired";
 
-export default function LoginPage() {
-  const [state, action, pending] = useActionState(loginAction, null);
-
-  return <LoginForm onSubmit={(formData) => startTransition(() => action(formData))} pending={pending} state={state} />;
+  return <LoginPageForm showSessionNotice={showSessionNotice} />;
 }

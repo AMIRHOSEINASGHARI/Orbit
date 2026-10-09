@@ -15,14 +15,19 @@ export function generateAuthToken(userId: string): string {
   });
 }
 
-export function verifyAuthToken(token: string): string | null {
-  if (!env.JWT_SECRET || !token || token.length > 8192) return null;
+export function inspectAuthToken(token: string): { status: "valid"; userId: string } | { status: "expired" | "invalid" } {
+  if (!env.JWT_SECRET || !token || token.length > 8192) return { status: "invalid" };
 
   try {
     const claims = jwt.verify(token, env.JWT_SECRET, { algorithms: ["HS256"] });
-    if (typeof claims !== "object" || typeof claims.sub !== "string" || !claims.sub) return null;
-    return claims.sub;
-  } catch {
-    return null;
+    if (typeof claims !== "object" || typeof claims.sub !== "string" || !claims.sub) return { status: "invalid" };
+    return { status: "valid", userId: claims.sub };
+  } catch (error) {
+    return { status: error instanceof jwt.TokenExpiredError ? "expired" : "invalid" };
   }
+}
+
+export function verifyAuthToken(token: string): string | null {
+  const result = inspectAuthToken(token);
+  return result.status === "valid" ? result.userId : null;
 }
