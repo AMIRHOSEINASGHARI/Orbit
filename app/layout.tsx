@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Sidebar } from "@/components/shared/Sidebar";
 
 export const metadata: Metadata = {
   title: {
@@ -17,7 +19,10 @@ type RootLayoutProps = Readonly<{
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" dir="ltr">
-      <body>{children}</body>
+      <body>
+        <Sidebar />
+        <TooltipProvider>{children}</TooltipProvider>
+      </body>
     </html>
   );
 }

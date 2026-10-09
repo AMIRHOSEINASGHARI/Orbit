@@ -28,7 +28,7 @@
 | Field | client | - | components/ui/field.tsx |
 | Form | client | - | components/ui/form.tsx |
 | HoverCard | client | - | components/ui/hover-card.tsx |
-| Icon | server | - | icons/index.tsx |
+| Icon | server | - | components/icons/index.tsx |
 | Input | server | - | components/ui/input.tsx |
 | InputGroup | client | - | components/ui/input-group.tsx |
 | InputOTP | client | - | components/ui/input-otp.tsx |
