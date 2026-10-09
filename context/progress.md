@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **Collapsed sidebar Figma state** (2026-10-09): Refactored the shadcn sidebar to match the new 72px collapsed design, including icon navigation, notification badge, workspace initial, expand control, and storage meter. Preserved expanded and mobile navigation. Verified with `tsc --noEmit` and `npm run build`.
 - **Figma sidebar alignment** (2026-10-09): Refined the shared sidebar to match the Figma design's Orbit brand, workspace switcher, single navigation group, notification count, active styling, and storage meter while retaining shadcn collapse and mobile behavior. Verified with `tsc --noEmit` and `npm run build`.
 - **T-24 — Collapsible shared Sidebar** (2026-10-09): Rebuilt the shared navigation with shadcn Sidebar icon-collapse mode, active links, grouped sections, tooltips, and its responsive mobile sheet. Added the provider and accessible toggle to the root layout. Verified with `npm run build`.
 - **T-13 — Export Figma icons** (2026-10-09): Exported 71 distinct icon shapes from the Orbit Figma design into `components/icons/index.tsx`, replaced the provisional brand mark, retained existing icon imports, and aligned shared navigation with the design. Verified SVG path fidelity, TypeScript, and `npm run build`.
