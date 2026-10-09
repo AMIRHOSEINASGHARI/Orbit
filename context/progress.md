@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **T-45 — Create the Login form UI** (2026-10-09): Implemented the Figma login frame with username/password fields, password visibility control, forgot-password and registration links, field-level errors, and pending feedback. Uses React Hook Form, Zod, and shared shadcn Form/Field components. Verified with TypeScript.
 - **T-44 — Create the Login Server Action** (2026-10-09): Added a form-compatible Server Action that validates credentials, fetches the hidden password hash only for verification, returns a generic invalid-credentials error, sets the signed 180-day HTTP-only cookie, and redirects after login. Verified with TypeScript.
 - **T-43 — Connect the Register form to the Register Server Action** (2026-10-09): Connected the React Hook Form submit handler to the typed Server Action through `useActionState`, showing server field errors and pending/success feedback and clearing credentials after successful registration. Updated the app-wide rule to follow shadcn’s RHF/Zod guidance and use shared Form/Field primitives. Verified with TypeScript.
 - **T-42 — Create the Register form UI** (2026-10-09): Implemented the Figma registration frame with username/email/password fields, password visibility controls, field-level feedback, pending/success/error states, terms links, and sign-in navigation. Uses React Hook Form, the Zod resolver, and shared Form/Input/Label/Button components. Documented this as the required form pattern across the app. Verified with TypeScript.
