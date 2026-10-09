@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **T-28 — Create the authentication `(auth)` layout** (2026-10-09): Added the public auth route-group layout with valid-session redirects and the responsive light/dark split framing from the Figma login/register pages, including a token-based workspace preview and shared brand treatment. The marketing preview is hidden below the desktop Figma breakpoint because no mobile auth frame exists. Verified with TypeScript and production build.
 - **T-27 — Create the authenticated `(view)` layout** (2026-10-09): Moved the app shell into the `(view)` route group and redirect unauthenticated requests to `/login` after verifying the session cookie's HS256 signature, subject, and expiry. Added optional `JWT_SECRET` validation and an environment example; persisted-session revocation remains for the later auth implementation. Verified with TypeScript and production build.
 
 - **T-22 — Create the application logo component** (2026-10-09): Verified the existing reusable Orbit logo's accessible link, size variants, and theme-token tones with a component test.
