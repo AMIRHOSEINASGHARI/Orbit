@@ -2,9 +2,15 @@ import { PageHeader } from "@/components/shared/PageHeader";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { CircleCheckIcon, CircleDotIcon, LayersIcon, TimerIcon } from "@/components/icons";
 import { TaskMetricCard } from "@/features/dashboard/components/TaskMetricCard";
-import type { TaskStatistics } from "@/features/dashboard/types/dashboard.types";
+import { RecentTasksSection } from "@/features/dashboard/components/RecentTasksSection";
+import type { RecentTask, TaskStatistics } from "@/features/dashboard/types/dashboard.types";
 
-export function DashboardPage({ statistics, error }: { statistics: TaskStatistics | null; error?: string }) {
+export function DashboardPage({ statistics, recentTasks, taskError, recentTaskError }: {
+  statistics: TaskStatistics | null;
+  recentTasks: RecentTask[] | null;
+  taskError?: string;
+  recentTaskError?: string;
+}) {
   return (
     <main className="space-y-6 p-7">
       <PageHeader
@@ -12,7 +18,7 @@ export function DashboardPage({ statistics, error }: { statistics: TaskStatistic
         description="A clear view of your work, progress, and priorities."
         breadcrumbs="WORKSPACE / DASHBOARD"
       />
-      {error && <ErrorState title="Task statistics are unavailable" description={error} />}
+      {taskError && <ErrorState title="Task statistics are unavailable" description={taskError} />}
       <section aria-label="Task statistics" className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
         <TaskMetricCard title="Total tasks" value={statistics?.total ?? null} description="Current workload" icon={<LayersIcon className="size-4" />} />
         <TaskMetricCard title="Todo tasks" value={statistics?.todo ?? null} description="Waiting to get started" icon={<CircleDotIcon className="size-4" />} />
@@ -20,12 +26,8 @@ export function DashboardPage({ statistics, error }: { statistics: TaskStatistic
         <TaskMetricCard title="Done tasks" value={statistics?.done ?? null} description="Completed tasks" icon={<CircleCheckIcon className="size-4" />} />
       </section>
       <div className="grid gap-5 xl:grid-cols-[2fr_1fr]">
-        <section aria-label="Task overview" />
+        <RecentTasksSection tasks={recentTasks} error={recentTaskError} />
         <section aria-label="Task priorities" />
-      </div>
-      <div className="grid gap-5 xl:grid-cols-2">
-        <section aria-label="Recent tasks" />
-        <section aria-label="Workspace updates" />
       </div>
     </main>
   );
