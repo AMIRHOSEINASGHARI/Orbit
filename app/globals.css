@@ -53,7 +53,7 @@
   --color-primary-tint: var(--primary-tint);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --text-ui-caption: 0.625rem;
-  --text-ui-label: 0.6875rem;
+  --text-ui-label: 11px;
   --text-ui-small: 0.75rem;
   --text-ui-body: 0.875rem;
   --text-ui-body--line-height: 1.45;

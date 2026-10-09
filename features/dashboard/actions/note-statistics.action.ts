@@ -7,9 +7,12 @@ import { connectToDatabase } from "@/lib/db/mongoose";
 import { handleActionError } from "@/utils/actionError";
 import type { NoteStatistics } from "@/features/dashboard/types/dashboard.types";
 
-export async function getNoteStatistics(): Promise<ActionResult<NoteStatistics>> {
+export async function getNoteStatistics(): Promise<
+  ActionResult<NoteStatistics>
+> {
   const user = await getCurrentUser();
-  if (!user) return { success: false, error: "Sign in to view note statistics." };
+  if (!user)
+    return { success: false, error: "Sign in to view note statistics." };
 
   try {
     await connectToDatabase();

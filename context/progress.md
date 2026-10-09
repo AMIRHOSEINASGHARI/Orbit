@@ -2,6 +2,15 @@
 
 ## Completed
 
+- **T-74 — Create the Task service foundation** (2026-10-09): Added user-scoped task list and detail queries, with soft-deleted tasks excluded by default.
+- **T-73 — Create Task query keys** (2026-10-09): Added user-scoped React Query keys for task lists, filters, and detail records.
+- **T-72 — Create Task Zod schemas** (2026-10-09): Added Task persistence and creation schemas with validated IDs, status, priority, due date, and lifecycle fields.
+- **T-71 — Create Task TypeScript types** (2026-10-09): Added shared task status, priority, record, list-filter, and DTO types; reused the shared status and priority types in Dashboard data.
+- **T-70 — Add task soft-delete fields** (2026-10-09): Added nullable `deletedAt` and `archivedAt` lifecycle fields with indexes and service filters that exclude them by default.
+- **T-69 — Add task due date fields** (2026-10-09): Added nullable `dueDate` to the Task model and validation contract with an index for due-date queries.
+- **T-68 — Add task priority fields** (2026-10-09): Added the `low`, `medium`, and `high` priority values and a `medium` default to the model and Zod contract.
+- **T-67 — Add Todo, In Progress, and Done task statuses** (2026-10-09): Added the `todo`, `in-progress`, and `done` status values and `todo` default, and shared the union with Dashboard task data.
+- **T-66 — Create the Task Mongoose model** (2026-10-09): Added the server-only Task model in the existing `tasks` collection with owner/group references, timestamps, lifecycle fields, and query indexes.
 - **T-63 — Create the Note statistics Server Action and Dashboard card** (2026-10-09): Added an authenticated count of the current user's active, unarchived notes and displayed it beside Groups using the shared Dashboard metric card. Generalized the task metric card for reuse. The Note model is scheduled later, so the action uses the documented collection directly for now. Verified with TypeScript.
 - **T-62 — Create the Group statistics Server Action and Dashboard card** (2026-10-09): Added an authenticated count scoped to the current user and excluded deleted groups; displayed the result in a shared-token Dashboard card with error feedback. The Group model is scheduled later, so this reads the documented group collection directly for now. Verified with TypeScript.
 - **T-61 — Create the overdue tasks section** (2026-10-09): Added a user-scoped overdue task query with a count and three-item limit, plus a token-based attention panel with task links and empty/error feedback. Integrated it with Dashboard. Verified with TypeScript.

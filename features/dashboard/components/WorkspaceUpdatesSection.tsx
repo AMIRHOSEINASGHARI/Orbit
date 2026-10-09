@@ -47,10 +47,11 @@ export function WorkspaceUpdatesSection({ notes, notifications, noteCount, noteE
         {notificationError ? <ErrorState title="Recent activity is unavailable" description={notificationError} /> : notifications?.length ? (
           <ul className="mt-2 divide-y divide-border">
             {notifications.map((notification) => {
-              const ActivityIcon = notification.type.startsWith("note.") ? NotebookTabsIcon : notification.type === "task.status-changed" ? CheckIcon : notification.type.startsWith("task.") ? ArrowRightLeftIcon : BellIcon;
+              const completed = notification.type === "task.status-changed" && /\b(done|completed)\b/i.test(notification.message);
+              const ActivityIcon = notification.type.startsWith("note.") ? NotebookTabsIcon : completed ? CheckIcon : notification.type.startsWith("task.") ? ArrowRightLeftIcon : BellIcon;
               return <li key={notification.id} className="flex min-h-[47px] items-center gap-2.5 py-2">
               <span className={`grid size-7 shrink-0 place-items-center rounded-full ${notification.isRead ? "bg-muted text-muted-foreground" : "bg-info text-info-foreground"}`}><ActivityIcon aria-hidden="true" className="size-3.5" /></span>
-              <p className="min-w-0 flex-1 truncate text-ui-small text-foreground">{notification.title}</p>{notification.createdAt && <time dateTime={notification.createdAt} className="shrink-0 text-ui-caption text-muted-foreground">{relativeTime(notification.createdAt)}</time>}
+              <p className="min-w-0 flex-1 truncate text-ui-small text-foreground" title={notification.message || notification.title}>{notification.message || notification.title}</p>{notification.createdAt && <time dateTime={notification.createdAt} className="shrink-0 text-ui-caption text-muted-foreground">{relativeTime(notification.createdAt)}</time>}
             </li>;
             })}
           </ul>
