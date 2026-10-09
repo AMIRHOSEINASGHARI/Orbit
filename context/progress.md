@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **T-41 — Create the Register Server Action** (2026-10-09): Added a form-compatible Server Action that validates registration input, hashes passwords, persists normalized account data, returns the shared result shape, and reports duplicate accounts without exposing database details. Verified with TypeScript.
 - **T-40 — Create the `getCurrentUser` authentication helper** (2026-10-09): Added a server-only helper that verifies the session token, loads only safe user profile fields, and returns a serializable user ID. Deleted or invalid accounts return `null`. Verified with TypeScript.
 - **T-39 — Create secure HTTP-only authentication cookie utilities with a 180-day lifetime** (2026-10-09): Added server-only helpers to set and clear the shared session cookie with HTTP-only, same-site, path, secure-production, and 180-day max-age options. Verified with TypeScript.
 - **T-38 — Create JWT verification utilities** (2026-10-09): Added strict HS256 JWT verification with expiry enforcement, subject validation, malformed-token handling, and an input size limit. Reused it from the existing session check. Verified with TypeScript.
