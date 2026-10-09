@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **T-48 — Add Logout functionality to the application UI** (2026-10-09): Replaced the inert header logout control with the shared Form component wired to the logout Server Action and an accessible pending label. Verified with TypeScript.
 - **T-47 — Create the Logout Server Action** (2026-10-09): Added a Server Action that clears the HTTP-only session cookie and redirects to login. Verified with TypeScript.
 - **T-46 — Connect the Login form to the Login Server Action** (2026-10-09): Connected RHF-validated login input to the Server Action through `useActionState`, with pending state and generic server errors. Successful login sets the session cookie and redirects to the authenticated home. Verified with TypeScript.
 - **T-45 — Create the Login form UI** (2026-10-09): Implemented the Figma login frame with username/password fields, password visibility control, forgot-password and registration links, field-level errors, and pending feedback. Uses React Hook Form, Zod, and shared shadcn Form/Field components. Verified with TypeScript.

@@ -1,8 +1,9 @@
 import Link from "next/link";
 import type { MouseEventHandler, ReactNode } from "react";
-import { BellIcon, LogOutIcon, PlusIcon, SearchIcon } from "@/components/icons";
+import { BellIcon, PlusIcon, SearchIcon } from "@/components/icons";
 import { AppLogo } from "@/components/shared/AppLogo";
 import { MobileNavigation } from "@/components/shared/MobileNavigation";
+import { LogoutForm } from "@/features/auth/components/logout-form";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -16,7 +17,6 @@ type HeaderProps = {
   actions?: ReactNode;
   account?: ReactNode;
   onAddTask?: MouseEventHandler<HTMLButtonElement>;
-  onSignOut?: MouseEventHandler<HTMLButtonElement>;
 };
 
 function ProfileLink() {
@@ -42,7 +42,7 @@ function ProfileLink() {
   );
 }
 
-export function Header({ actions, account, onAddTask, onSignOut }: HeaderProps) {
+export function Header({ actions, account, onAddTask }: HeaderProps) {
   return (
     <header className="flex h-header items-center justify-between gap-2 border-b border-border bg-card px-3 md:px-7">
       <div className="flex min-w-0 flex-1 items-center gap-2">
@@ -79,16 +79,7 @@ export function Header({ actions, account, onAddTask, onSignOut }: HeaderProps) 
         </nav>
         <ThemeToggle />
         {account ?? <ProfileLink />}
-        <Button
-          type="button"
-          variant="ghost"
-          aria-label="Log out"
-          onClick={onSignOut}
-          className="hidden h-8 gap-[5px] rounded-lg border-0 px-[7px] text-ui-small lg:inline-flex"
-        >
-          <LogOutIcon className="size-3.5" />
-          <span>Log out</span>
-        </Button>
+        <LogoutForm />
         {actions}
         <Button
           type="button"
