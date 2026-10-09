@@ -12,6 +12,7 @@
 - Enforce workspace membership and role authorization in every collaborative Server Action
 - Delete external UploadThing files when their application records are permanently removed
 - Never export password hashes, token hashes, two-factor secrets, or other credential material
+- Use React Hook Form for every form's state and submission, validate with Zod through `@hookform/resolvers/zod`, and compose the shared shadcn Form component from `components/ui/form.tsx` for form markup and errors.
 - Write all user-facing content, including success and error messages, in English; keep developer diagnostics and logs in English as well
 
 ---
