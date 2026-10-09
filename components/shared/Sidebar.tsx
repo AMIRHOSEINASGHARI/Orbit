@@ -84,21 +84,32 @@ export function Sidebar() {
   return (
     <UiSidebar collapsible="icon">
       <SidebarHeader className="gap-6 px-4 pt-5.5 pb-0 group-data-[collapsible=icon]:px-3.5">
-        <Link
-          href="/dashboard"
-          aria-label="Orbit home"
-          className="flex items-center gap-2 px-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0"
-        >
-          <OrbitIcon className="size-8.5 shrink-0" />
-          <span className="flex min-w-0 flex-col group-data-[collapsible=icon]:hidden">
-            <span className="text-[17px] font-bold leading-tight text-foreground">
-              Orbit
+        <div className="flex items-center justify-between">
+          <Link
+            href="/dashboard"
+            aria-label="Orbit home"
+            className="flex items-center gap-2 px-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0"
+          >
+            <OrbitIcon className="size-8.5 shrink-0" />
+            <span className="flex min-w-0 flex-col group-data-[collapsible=icon]:hidden">
+              <span className="text-ui-section font-bold leading-tight text-foreground">
+                Orbit
+              </span>
+              <span className="text-ui-caption font-medium leading-tight text-subtle-foreground">
+                WORKSPACE
+              </span>
             </span>
-            <span className="text-ui-caption font-medium leading-tight text-subtle-foreground">
-              WORKSPACE
-            </span>
-          </span>
-        </Link>
+          </Link>
+          <Button
+            type="button"
+            variant="ghost"
+            aria-label="Collapse sidebar"
+            onClick={toggleSidebar}
+            className="size-8 shrink-0 p-0 group-data-[collapsible=icon]:hidden"
+          >
+            <PanelLeftOpenIcon className="size-4.5 rotate-180" />
+          </Button>
+        </div>
         <div
           role="group"
           aria-label="Current workspace"
@@ -119,13 +130,22 @@ export function Sidebar() {
           <ChevronsUpDownIcon className="hidden size-2 shrink-0 text-subtle-foreground group-data-[collapsible=icon]:block" />
         </div>
       </SidebarHeader>
-      <SidebarContent className="pt-6 group-data-[collapsible=icon]:pt-10.5">
+      <SidebarContent className="pt-6 group-data-[collapsible=icon]:pt-4">
+        <Button
+          type="button"
+          variant="outline"
+          aria-label="Expand sidebar"
+          onClick={toggleSidebar}
+          className="mx-auto mb-3 hidden size-8.5 shrink-0 border-border bg-table-header p-0 group-data-[collapsible=icon]:inline-flex"
+        >
+          <PanelLeftOpenIcon className="size-4.5" />
+        </Button>
         {navigationGroups.map((group) => (
           <SidebarGroup
             key={group.label}
             className="px-4 py-0 group-data-[collapsible=icon]:px-3.5"
           >
-            <SidebarGroupLabel className="h-5 px-2.5 pb-1 text-2.5 font-semibold uppercase tracking-wide text-subtle-foreground">
+            <SidebarGroupLabel className="h-5 px-2.5 pb-1 text-ui-caption font-semibold uppercase tracking-wide text-subtle-foreground">
               {group.label}
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -159,7 +179,7 @@ export function Sidebar() {
                         </span>
                       </SidebarMenuButton>
                       {badge && (
-                        <SidebarMenuBadge className="top-1/2 right-2 h-5 min-w-5.5 -translate-y-1/2 rounded-full bg-danger px-1 text-ui-caption font-bold text-danger-foreground peer-data-active/menu-button:text-danger-foreground group-data-[collapsible=icon]:top-0 group-data-[collapsible=icon]:right-0 group-data-[collapsible=icon]:h-4 group-data-[collapsible=icon]:min-w-4 group-data-[collapsible=icon]:translate-y-0 group-data-[collapsible=icon]:rounded-full group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:text-[9px] group-data-[collapsible=icon]:flex">
+                        <SidebarMenuBadge className="top-1/2 right-2 h-5 min-w-5.5 -translate-y-1/2 rounded-full bg-danger px-1 text-ui-caption font-bold text-danger-foreground peer-data-active/menu-button:text-danger-foreground group-data-[collapsible=icon]:top-0 group-data-[collapsible=icon]:right-0 group-data-[collapsible=icon]:h-4 group-data-[collapsible=icon]:min-w-4 group-data-[collapsible=icon]:translate-y-0 group-data-[collapsible=icon]:rounded-full group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:flex">
                           {badge}
                         </SidebarMenuBadge>
                       )}
@@ -172,15 +192,6 @@ export function Sidebar() {
         ))}
       </SidebarContent>
       <SidebarFooter className="gap-2 p-4 pt-0 group-data-[collapsible=icon]:items-center">
-        <Button
-          type="button"
-          variant="outline"
-          aria-label="Expand sidebar"
-          onClick={toggleSidebar}
-          className="hidden size-8.5 border-border bg-table-header p-0 group-data-[collapsible=icon]:inline-flex"
-        >
-          <PanelLeftOpenIcon className="size-4.5" />
-        </Button>
         <div className="w-full space-y-2 rounded-card bg-table-header p-3 group-data-[collapsible=icon]:hidden">
           <div className="flex items-center justify-between text-ui-label">
             <span className="font-semibold text-muted-foreground">Storage</span>

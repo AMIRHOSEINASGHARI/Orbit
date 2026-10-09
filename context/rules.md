@@ -70,6 +70,9 @@ Use Tailwind only.
 
 Avoid custom CSS when possible.
 
+- Prefer named Tailwind typography utilities such as `text-sm` and existing project typography utilities such as `text-ui-body` over arbitrary numeric sizes like `text-[14px]` when they match the Figma specification.
+- Preserve the established design tokens and design system. Keep an arbitrary size only when no existing utility matches the required design value; do not change the visual design just to avoid an arbitrary value.
+
 ---
 
 ## Accessibility
