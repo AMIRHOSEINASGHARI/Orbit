@@ -2,6 +2,8 @@
 
 ## Completed
 
+- **T-52 — Create the Dashboard page structure** (2026-10-09): Added the protected `/dashboard` route and responsive semantic regions matching the approved Dashboard frame; the root route now forwards to the dashboard. Verified with TypeScript.
+
 - **T-51 — Handle expired and invalid sessions** (2026-10-09): Distinguished expired JWTs from other invalid tokens, rejected both at the protected-route boundary, and displayed a generic sign-in-again notice without exposing token details. Successful login replaces the stale cookie. Verified with TypeScript.
 - **T-50 — Keep authenticated users out of auth pages** (2026-10-09): Applied the same verified current-user check to the public auth route group; valid sessions redirect to the app, while missing, invalid, or deleted-user sessions can access login/register. Verified with TypeScript.
 - **T-49 — Protect authenticated application routes** (2026-10-09): Strengthened the authenticated route-group guard to verify the signed token and load an existing user record before rendering protected pages; invalid and deleted-user sessions redirect to login. Verified with TypeScript.
