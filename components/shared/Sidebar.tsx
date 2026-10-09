@@ -6,7 +6,6 @@ import {
   ChevronsUpDownIcon,
   HardDriveIcon,
   OrbitIcon,
-  PanelLeftOpenIcon,
 } from "@/components/icons";
 import { navigationGroups } from "@/components/shared/sidebar-navigation";
 import {
@@ -142,7 +141,9 @@ export function Sidebar() {
                         className="h-10 rounded-lg px-[10px] text-muted-foreground data-active:bg-primary-tint data-active:font-semibold data-active:text-primary group-data-[collapsible=icon]:h-10! group-data-[collapsible=icon]:w-11! group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0!"
                       >
                         <Icon className="size-[17px]" />
-                        <span className="group-data-[collapsible=icon]:hidden">{label}</span>
+                        <span className="group-data-[collapsible=icon]:hidden">
+                          {label}
+                        </span>
                       </SidebarMenuButton>
                       {badge && (
                         <SidebarMenuBadge className="top-1/2 right-2 h-5 min-w-[22px] -translate-y-1/2 rounded-full bg-danger px-1 text-[10px] font-bold text-danger-foreground peer-data-active/menu-button:text-danger-foreground group-data-[collapsible=icon]:top-0 group-data-[collapsible=icon]:right-0 group-data-[collapsible=icon]:h-4 group-data-[collapsible=icon]:min-w-4 group-data-[collapsible=icon]:translate-y-0 group-data-[collapsible=icon]:rounded-full group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:text-[9px] group-data-[collapsible=icon]:flex">
@@ -174,15 +175,6 @@ export function Sidebar() {
             <div className="h-full w-[68%] rounded-full bg-primary" />
           </div>
         </div>
-        <button
-          type="button"
-          aria-label="Expand sidebar"
-          title="Expand sidebar"
-          onClick={toggleSidebar}
-          className="hidden h-9 w-10 items-center justify-center rounded-lg border border-border bg-table-header text-muted-foreground hover:bg-accent group-data-[collapsible=icon]:flex"
-        >
-          <PanelLeftOpenIcon className="size-[18px]" />
-        </button>
         <div className="hidden w-10 flex-col items-center gap-2 pt-5 group-data-[collapsible=icon]:flex">
           <HardDriveIcon className="size-4 text-subtle-foreground" />
           <div
