@@ -67,7 +67,7 @@
     --radius-2xl: 18px;
     --radius-full: 999px;
     --shadow-card: 0 8px 24px rgb(24 26 36 / 13%);
-    --shadow-dialog: 0 18px 24px rgb(9 10 15 / 25%);
+    --shadow-dialog: 0 18px 48px rgb(9 10 15 / 25%);
 }
 
 :root {
@@ -98,7 +98,7 @@
     --info-foreground: #3478c7;
     --status-todo: #f0f1f5;
     --status-todo-foreground: #606474;
-    --table-header: #fbfbfd;
+    --table-header: #f0f1f5;
     --border: #e4e6ed;
     --input: #e4e6ed;
     --ring: #635bff;

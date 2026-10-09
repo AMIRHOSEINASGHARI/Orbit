@@ -33,16 +33,16 @@ remain usable but are not exact Figma targets until approved frames exist.
 
 ## Figma source registry
 
-| Item | Orbit source |
-|---|---|
-| Figma file | `Orbit` |
-| Canonical URL | `https://www.figma.com/design/laiZSESHpTPjtjhrWSU4aK/Orbit?node-id=0-1&p=f` |
-| File key | `laiZSESHpTPjtjhrWSU4aK` |
-| Page | `Page 1` — node `0:1` |
-| Design-system reference | `Task management design system` — node `2:37735` |
-| Theme coverage | Light and dark |
-| Supplied viewport class | Desktop only; width `1440px` |
-| Handoff label | `October 2026 · v1.0`, as displayed inside node `2:37735` |
+| Item                    | Orbit source                                                                |
+| ----------------------- | --------------------------------------------------------------------------- |
+| Figma file              | `Orbit`                                                                     |
+| Canonical URL           | `https://www.figma.com/design/laiZSESHpTPjtjhrWSU4aK/Orbit?node-id=0-1&p=f` |
+| File key                | `laiZSESHpTPjtjhrWSU4aK`                                                    |
+| Page                    | `Page 1` — node `0:1`                                                       |
+| Design-system reference | `Task management design system` — node `2:37735`                            |
+| Theme coverage          | Light and dark                                                              |
+| Supplied viewport class | Desktop only; width `1440px`                                                |
+| Handoff label           | `October 2026 · v1.0`, as displayed inside node `2:37735`                   |
 
 The `t` query parameter in a shared Figma URL is transient and must not be
 stored as the design identity. File key plus node ID form the stable reference.
@@ -51,37 +51,37 @@ resolve a concrete frame from the inventory below.
 
 ### Screen inventory
 
-| Area | Theme/state | Frame node | Viewport |
-|---|---|---:|---:|
-| Design system | Light and dark foundations | `2:37735` | `1440 × 1000` |
-| Authentication | Login · Light | `21:3338` | `1440 × 1000` |
-| Authentication | Register · Light | `21:3452` | `1440 × 1000` |
-| Authentication | Login · Dark | `26:1252` | `1440 × 1000` |
-| Authentication | Register · Dark | `26:1370` | `1440 × 1000` |
-| Tasks | Table View · Light | `2:35588` | `1440 × 1000` |
-| Tasks | Table View · Selected | `2:35996` | `1440 × 1080` |
-| Tasks | Drag & Drop View · Light | `2:36433` | `1440 × 1000` |
-| Tasks | Details drawer · Light | `8:2169` | `1440 × 1000` |
-| Tasks | Create task dialog · Light | `12:674` | `1440 × 1000` |
-| Tasks | Edit task dialog · Light | `1:2056` | `1440 × 1000` |
-| Tasks | Status filter open · Light | `29:1560` | `1440 × 1000` |
-| Tasks | Priority open · Light | `31:6411` | `1440 × 1000` |
-| Tasks | Group open · Light | `31:6961` | `1440 × 1000` |
-| Tasks | Due date open · Light | `31:7524` | `1440 × 1000` |
-| Tasks | Last update open · Light | `31:8092` | `1440 × 1000` |
-| Tasks | Collapsed sidebar · Light | `82:2033` | `1440 × 1000` |
-| Tasks | Table View · Dark | `2:36880` | `1440 × 1000` |
-| Tasks | Drag & Drop View · Dark | `2:37288` | `1440 × 1000` |
-| Tasks | Details drawer · Dark | `10:3368` | `1440 × 1000` |
-| Tasks | Create task dialog · Dark | `12:1400` | `1440 × 1000` |
-| Tasks | Edit task dialog · Dark | `1:3012` | `1440 × 1000` |
-| Tasks | Status filter open · Dark | `31:17397` | `1440 × 1000` |
-| Tasks | Priority open · Dark | `31:17944` | `1440 × 1000` |
-| Tasks | Group open · Dark | `31:18494` | `1440 × 1000` |
-| Tasks | Due date open · Dark | `31:19057` | `1440 × 1000` |
-| Tasks | Last update open · Dark | `31:19688` | `1440 × 1000` |
-| Dashboard | Analytics overview · Light | `54:6997` | `1440 × 2451` |
-| Dashboard | Analytics overview · Dark | `60:586` | `1440 × 2451` |
+| Area           | Theme/state                | Frame node |      Viewport |
+| -------------- | -------------------------- | ---------: | ------------: |
+| Design system  | Light and dark foundations |  `2:37735` | `1440 × 1000` |
+| Authentication | Login · Light              |  `21:3338` | `1440 × 1000` |
+| Authentication | Register · Light           |  `21:3452` | `1440 × 1000` |
+| Authentication | Login · Dark               |  `26:1252` | `1440 × 1000` |
+| Authentication | Register · Dark            |  `26:1370` | `1440 × 1000` |
+| Tasks          | Table View · Light         |  `2:35588` | `1440 × 1000` |
+| Tasks          | Table View · Selected      |  `2:35996` | `1440 × 1080` |
+| Tasks          | Drag & Drop View · Light   |  `2:36433` | `1440 × 1000` |
+| Tasks          | Details drawer · Light     |   `8:2169` | `1440 × 1000` |
+| Tasks          | Create task dialog · Light |   `12:674` | `1440 × 1000` |
+| Tasks          | Edit task dialog · Light   |   `1:2056` | `1440 × 1000` |
+| Tasks          | Status filter open · Light |  `29:1560` | `1440 × 1000` |
+| Tasks          | Priority open · Light      |  `31:6411` | `1440 × 1000` |
+| Tasks          | Group open · Light         |  `31:6961` | `1440 × 1000` |
+| Tasks          | Due date open · Light      |  `31:7524` | `1440 × 1000` |
+| Tasks          | Last update open · Light   |  `31:8092` | `1440 × 1000` |
+| Tasks          | Collapsed sidebar · Light  |  `82:2033` | `1440 × 1000` |
+| Tasks          | Table View · Dark          |  `2:36880` | `1440 × 1000` |
+| Tasks          | Drag & Drop View · Dark    |  `2:37288` | `1440 × 1000` |
+| Tasks          | Details drawer · Dark      |  `10:3368` | `1440 × 1000` |
+| Tasks          | Create task dialog · Dark  |  `12:1400` | `1440 × 1000` |
+| Tasks          | Edit task dialog · Dark    |   `1:3012` | `1440 × 1000` |
+| Tasks          | Status filter open · Dark  | `31:17397` | `1440 × 1000` |
+| Tasks          | Priority open · Dark       | `31:17944` | `1440 × 1000` |
+| Tasks          | Group open · Dark          | `31:18494` | `1440 × 1000` |
+| Tasks          | Due date open · Dark       | `31:19057` | `1440 × 1000` |
+| Tasks          | Last update open · Dark    | `31:19688` | `1440 × 1000` |
+| Dashboard      | Analytics overview · Light |  `54:6997` | `1440 × 2451` |
+| Dashboard      | Analytics overview · Dark  |   `60:586` | `1440 × 2451` |
 
 No tablet or mobile frame was found in the supplied page. Responsive behavior
 may be engineered so the application remains usable, but it must not be called
@@ -110,44 +110,44 @@ change must update this table and the canonical CSS tokens together.
 
 ### Foundation colors
 
-| Code token | Light | Dark | Role |
-|---|---:|---:|---|
-| `--color-primary` | `#635BFF` | `#635BFF` | Primary action and selection |
-| `--color-background` | `#F6F7FA` | `#101116` | Application canvas |
-| `--color-surface` | `#FFFFFF` | `#17181F` | Card, control, dialog surface |
-| `--color-surface-muted` | `#F0F1F5` | `#1D1F27` | Muted/header/status surface |
-| `--color-surface-selected` | `#F7F6FF` | `#222331` | Selected row/surface |
-| `--color-primary-subtle` | `#EEECFF` | `#2A2851` | Subtle accent surface |
-| `--color-border` | `#E4E6ED` | `#2C2E38` | Default border and divider |
-| `--color-text` | `#171822` | `#F4F4F7` | Primary text |
-| `--color-text-secondary` | `#6F7282` | `#A2A5B3` | Secondary/body text |
-| `--color-text-muted` | `#9A9DAC` | `#717582` | Labels and subdued metadata |
+| Code token                 |     Light |      Dark | Role                          |
+| -------------------------- | --------: | --------: | ----------------------------- |
+| `--color-primary`          | `#635BFF` | `#635BFF` | Primary action and selection  |
+| `--color-background`       | `#F6F7FA` | `#101116` | Application canvas            |
+| `--color-surface`          | `#FFFFFF` | `#17181F` | Card, control, dialog surface |
+| `--color-surface-muted`    | `#F0F1F5` | `#1D1F27` | Muted/header/status surface   |
+| `--color-surface-selected` | `#F7F6FF` | `#222331` | Selected row/surface          |
+| `--color-primary-subtle`   | `#EEECFF` | `#2A2851` | Subtle accent surface         |
+| `--color-border`           | `#E4E6ED` | `#2C2E38` | Default border and divider    |
+| `--color-text`             | `#171822` | `#F4F4F7` | Primary text                  |
+| `--color-text-secondary`   | `#6F7282` | `#A2A5B3` | Secondary/body text           |
+| `--color-text-muted`       | `#9A9DAC` | `#717582` | Labels and subdued metadata   |
 
 `#ECEEF3` is the presentation-board background of the design-system reference;
 do not use it as the application canvas unless a concrete screen uses it.
 
 ### Status and priority colors
 
-| Semantic role | Light background | Light foreground | Dark background | Dark foreground |
-|---|---:|---:|---:|---:|
-| Low / Done / Success | `#E7F6EE` | `#21875A` | `#183B2D` | `#7BD5A8` |
-| Medium / Warning | `#FFF3D6` | `#A86500` | `#44351B` | `#F0BD66` |
-| High / Danger | `#FDECEF` | `#D84A5D` | `#41232A` | `#F18A99` |
-| Todo / Neutral | `#F0F1F5` | `#606474` | `#1D1F27` | `#A2A5B3` |
-| In progress / Info | `#E9F2FC` | `#3478C7` | `#1C3048` | `#80B8F1` |
+| Semantic role        | Light background | Light foreground | Dark background | Dark foreground |
+| -------------------- | ---------------: | ---------------: | --------------: | --------------: |
+| Low / Done / Success |        `#E7F6EE` |        `#21875A` |       `#183B2D` |       `#7BD5A8` |
+| Medium / Warning     |        `#FFF3D6` |        `#A86500` |       `#44351B` |       `#F0BD66` |
+| High / Danger        |        `#FDECEF` |        `#D84A5D` |       `#41232A` |       `#F18A99` |
+| Todo / Neutral       |        `#F0F1F5` |        `#606474` |       `#1D1F27` |       `#A2A5B3` |
+| In progress / Info   |        `#E9F2FC` |        `#3478C7` |       `#1C3048` |       `#80B8F1` |
 
 Never replace these pairs with opacity applied to a single hue. Background and
 foreground are independently approved values.
 
 ### Typography
 
-| Property | Audited values |
-|---|---|
-| Figma family | `Inter` |
-| Weights | Regular `400`, Medium `500`, Semi Bold `600`, Bold `700` |
-| Font sizes | `10`, `11`, `12`, `14`, `16`, `20`, `26`, `28px` |
-| Body line height | `145%` where explicitly set; otherwise Figma `Auto` |
-| Letter spacing observed | `-0.6`, `-0.5`, `0`, `0.6`, `0.8px` |
+| Property                | Audited values                                           |
+| ----------------------- | -------------------------------------------------------- |
+| Figma family            | `Inter`                                                  |
+| Weights                 | Regular `400`, Medium `500`, Semi Bold `600`, Bold `700` |
+| Font sizes              | `10`, `11`, `12`, `14`, `16`, `20`, `26`, `28px`         |
+| Body line height        | `145%` where explicitly set; otherwise Figma `Auto`      |
+| Letter spacing observed | `-0.6`, `-0.5`, `0`, `0.6`, `0.8px`                      |
 
 Do not apply one letter-spacing value globally. Map size, weight, line height,
 and tracking as a named typography role only after inspecting the target text
@@ -156,19 +156,19 @@ Persian font substitution.
 
 ### Geometry and elevation
 
-| Domain | Audited values |
-|---|---|
-| Repeated spacing | `3`, `4`, `5`, `6`, `7`, `8`, `10`, `12`, `14`, `18`, `20px` |
-| Additional container padding | `9`, `16`, `28`, `30px` |
-| Radii | `5`, `8`, `10`, `14`, `18`, `999px` |
-| Primary/compact button height | `32px` |
-| Standard input/button height | `38px` |
-| Icon button box | `34 × 34px` |
-| Checkbox | `18 × 18px`, radius `5px` |
-| Common icon boxes | `12`, `13`, `14`, `15`, `16px` |
-| Default border | `1px solid` |
-| Card shadow | `0 8px 24px rgba(24, 26, 36, 0.13)` |
-| Dialog shadow | `0 18px 48px rgba(9, 10, 15, 0.25)` |
+| Domain                        | Audited values                                               |
+| ----------------------------- | ------------------------------------------------------------ |
+| Repeated spacing              | `3`, `4`, `5`, `6`, `7`, `8`, `10`, `12`, `14`, `18`, `20px` |
+| Additional container padding  | `9`, `16`, `28`, `30px`                                      |
+| Radii                         | `5`, `8`, `10`, `14`, `18`, `999px`                          |
+| Primary/compact button height | `32px`                                                       |
+| Standard input/button height  | `38px`                                                       |
+| Icon button box               | `34 × 34px`                                                  |
+| Checkbox                      | `18 × 18px`, radius `5px`                                    |
+| Common icon boxes             | `12`, `13`, `14`, `15`, `16px`                               |
+| Default border                | `1px solid`                                                  |
+| Card shadow                   | `0 8px 24px rgba(24, 26, 36, 0.13)`                          |
+| Dialog shadow                 | `0 18px 48px rgba(9, 10, 15, 0.25)`                          |
 
 These sets are not permission to use any value in any place. The selected token
 must still match the inspected node and component role.
@@ -212,11 +212,11 @@ and ask for a decision when they materially affect the result.
 
 Tokens have three levels:
 
-| Level | Purpose | Example names |
-|---|---|---|
-| Reference | Raw design values extracted from Figma Variables | `--ref-color-blue-600`, `--ref-space-4`, `--ref-radius-8` |
-| Semantic | Meaning that remains stable across themes | `--background`, `--foreground`, `--primary`, `--border`, `--surface-raised` |
-| Component | Exceptional values owned by one reusable component | `--sidebar-width`, `--header-height`, `--dialog-max-width` |
+| Level     | Purpose                                            | Example names                                                               |
+| --------- | -------------------------------------------------- | --------------------------------------------------------------------------- |
+| Reference | Raw design values extracted from Figma Variables   | `--ref-color-blue-600`, `--ref-space-4`, `--ref-radius-8`                   |
+| Semantic  | Meaning that remains stable across themes          | `--background`, `--foreground`, `--primary`, `--border`, `--surface-raised` |
+| Component | Exceptional values owned by one reusable component | `--sidebar-width`, `--header-height`, `--dialog-max-width`                  |
 
 Feature components consume semantic tokens. Reference tokens may define semantic
 tokens but must not be used directly throughout feature code. Component tokens
@@ -225,21 +225,21 @@ cannot be expressed through a semantic token.
 
 ### Required token domains
 
-| Domain | Must capture from Figma |
-|---|---|
-| Color | Brand palette, neutral palette, surfaces, text, icons, borders, overlays, status colors, charts, light/dark values |
-| Typography | Font family, weight, size, line height, letter spacing, text transform, paragraph spacing |
-| Spacing | Reusable gaps, padding, margins, section spacing, control spacing |
-| Sizing | Control heights, icon sizes, avatar sizes, sidebar/header dimensions, content widths, min/max sizes |
-| Radius | Control, card, popover, dialog, badge, avatar, and container radii |
-| Border | Width, style, color, divider treatment, selected and focus borders |
-| Shadow | Card, raised surface, dropdown, popover, dialog, tooltip, and focus shadows |
-| Opacity | Disabled, muted, overlay, decorative, hover, and pressed opacity |
-| Blur | Backdrop and decorative blur values |
-| Motion | Duration, easing, delay, movement distance, scale, and reduced-motion behavior |
-| Layering | Base, sticky, dropdown, popover, drawer, dialog, toast, tooltip, and maximum overlay levels |
-| Layout | Grid columns, gutters, page padding, content max width, breakpoints, safe areas |
-| Data visualization | Chart series, grid, axes, tooltip, positive/negative and comparison colors |
+| Domain             | Must capture from Figma                                                                                            |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| Color              | Brand palette, neutral palette, surfaces, text, icons, borders, overlays, status colors, charts, light/dark values |
+| Typography         | Font family, weight, size, line height, letter spacing, text transform, paragraph spacing                          |
+| Spacing            | Reusable gaps, padding, margins, section spacing, control spacing                                                  |
+| Sizing             | Control heights, icon sizes, avatar sizes, sidebar/header dimensions, content widths, min/max sizes                |
+| Radius             | Control, card, popover, dialog, badge, avatar, and container radii                                                 |
+| Border             | Width, style, color, divider treatment, selected and focus borders                                                 |
+| Shadow             | Card, raised surface, dropdown, popover, dialog, tooltip, and focus shadows                                        |
+| Opacity            | Disabled, muted, overlay, decorative, hover, and pressed opacity                                                   |
+| Blur               | Backdrop and decorative blur values                                                                                |
+| Motion             | Duration, easing, delay, movement distance, scale, and reduced-motion behavior                                     |
+| Layering           | Base, sticky, dropdown, popover, drawer, dialog, toast, tooltip, and maximum overlay levels                        |
+| Layout             | Grid columns, gutters, page padding, content max width, breakpoints, safe areas                                    |
+| Data visualization | Chart series, grid, axes, tooltip, positive/negative and comparison colors                                         |
 
 If Figma repeats an exact value, define one token and reuse it. Near-identical
 values are not automatically merged; preserve them until the designer confirms
@@ -399,15 +399,15 @@ between children—not by copying coordinates.
 
 For every page, record:
 
-| Property | Required evidence |
-|---|---|
-| Viewport | Exact width and height of each approved frame |
-| Shell | Sidebar, header, content, and optional panel dimensions |
-| Container | Max width, fluid behavior, horizontal padding, centering |
-| Grid | Column count, width rules, gutters, row spacing |
+| Property    | Required evidence                                                        |
+| ----------- | ------------------------------------------------------------------------ |
+| Viewport    | Exact width and height of each approved frame                            |
+| Shell       | Sidebar, header, content, and optional panel dimensions                  |
+| Container   | Max width, fluid behavior, horizontal padding, centering                 |
+| Grid        | Column count, width rules, gutters, row spacing                          |
 | Breakpoints | The width at which the composition changes, justified by approved frames |
-| Overflow | Scroll owner, sticky regions, clipping, and visible overflow |
-| Density | Row height, card density, and mobile touch target changes |
+| Overflow    | Scroll owner, sticky regions, clipping, and visible overflow             |
+| Density     | Row height, card density, and mobile touch target changes                |
 
 Do not choose framework-default breakpoints without verifying that they reproduce
 the Figma frames. Between supplied breakpoints, interpolate responsibly using
@@ -478,16 +478,16 @@ appearance is not the design source of truth.
 For every reusable Figma component, the code implementation must document and
 match:
 
-| Area | Required match |
-|---|---|
-| Anatomy | Child elements, slots, leading/trailing content, labels, helper text |
-| Variants | Visual intent and structural variants |
-| Sizes | Height, padding, typography, icon size, gap, radius |
-| States | Default, hover, active, focus-visible, selected, disabled, loading, error |
-| Content | Truncation, wrapping, empty content, long content, localization |
-| Behavior | Click, keyboard, open/close, selection, validation, drag/drop |
-| Responsive | Reflow, hiding, stacking, drawer/dialog conversion |
-| Accessibility | Accessible name, description, roles, focus order, contrast |
+| Area          | Required match                                                            |
+| ------------- | ------------------------------------------------------------------------- |
+| Anatomy       | Child elements, slots, leading/trailing content, labels, helper text      |
+| Variants      | Visual intent and structural variants                                     |
+| Sizes         | Height, padding, typography, icon size, gap, radius                       |
+| States        | Default, hover, active, focus-visible, selected, disabled, loading, error |
+| Content       | Truncation, wrapping, empty content, long content, localization           |
+| Behavior      | Click, keyboard, open/close, selection, validation, drag/drop             |
+| Responsive    | Reflow, hiding, stacking, drawer/dialog conversion                        |
+| Accessibility | Accessible name, description, roles, focus order, contrast                |
 
 Do not encode visual variants with scattered boolean props when Figma defines a
 single variant axis. Keep the code variant model aligned with the Figma component
@@ -613,9 +613,9 @@ baseline above when the Figma source changes.
 Before implementing the first screen—and whenever Figma source layers or future
 Variables change—keep a token audit using this format:
 
-| Figma variable/style/layer | Figma mode | Exact value | Code token | Used by | Status |
-|---|---|---|---|---|---|
-| Approved Figma name | Light/Dark/etc. | Inspected value | CSS variable | Components/screens | Mapped/Missing/Conflict |
+| Figma variable/style/layer | Figma mode      | Exact value     | Code token   | Used by            | Status                  |
+| -------------------------- | --------------- | --------------- | ------------ | ------------------ | ----------------------- |
+| Approved Figma name        | Light/Dark/etc. | Inspected value | CSS variable | Components/screens | Mapped/Missing/Conflict |
 
 Rules:
 
@@ -655,8 +655,8 @@ different size.
 
 Any intentional difference from Figma must be recorded before delivery:
 
-| Frame/node | Difference | Reason | Approved by | Follow-up |
-|---|---|---|---|---|
+| Frame/node     | Difference   | Reason                                                   | Approved by   | Follow-up            |
+| -------------- | ------------ | -------------------------------------------------------- | ------------- | -------------------- |
 | Exact Figma ID | What differs | Accessibility, technical constraint, or explicit request | User/designer | None or tracked task |
 
 Unrecorded deviations are defects. Technical convenience is not sufficient
@@ -679,19 +679,19 @@ reason for a visual deviation.
 
 ## Decision log
 
-| Decision | Why | Trade-off accepted |
-|---|---|---|
-| Figma is the visual source of truth | The user requires exact reproduction | Implementation pauses when the approved design is ambiguous or incomplete |
-| CSS variables in `globals.css` own tokens | One runtime source prevents drift across features | Token changes affect the whole application and require coordinated verification |
-| Semantic tokens are the component API | Themes can change values without rewriting features | Initial mapping requires a deliberate token audit |
-| shadcn behavior, Figma appearance | Keeps accessible interaction while matching the custom design | Default shadcn styling must be fully reconciled |
-| No raw reusable values in features | Colors, spacing, radii, and shadows remain consistent | One-off exceptions require explanation |
-| Exact node and viewport references | Makes visual verification reproducible | Every implementation task needs Figma handoff metadata |
-| Missing states are surfaced, not invented | Prevents design drift | Some feature work may wait for a design decision |
-| RTL is verified as part of fidelity | Direction affects layout, icons, text, and interaction | Every component needs bidi testing |
-| Node `2:37735` bootstraps Orbit tokens | The file has no formal Variables or local styles | Source-layer changes require a fresh audit |
-| Desktop is the only exact responsive target | All supplied implementation frames are `1440px` wide | Smaller layouts remain provisional until designed |
-| Persian/RTL is an explicit localization adaptation | Architecture requires Persian while Orbit is English/LTR | Localized screens need review and cannot yet claim exact Figma equivalence |
+| Decision                                           | Why                                                           | Trade-off accepted                                                              |
+| -------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| Figma is the visual source of truth                | The user requires exact reproduction                          | Implementation pauses when the approved design is ambiguous or incomplete       |
+| CSS variables in `globals.css` own tokens          | One runtime source prevents drift across features             | Token changes affect the whole application and require coordinated verification |
+| Semantic tokens are the component API              | Themes can change values without rewriting features           | Initial mapping requires a deliberate token audit                               |
+| shadcn behavior, Figma appearance                  | Keeps accessible interaction while matching the custom design | Default shadcn styling must be fully reconciled                                 |
+| No raw reusable values in features                 | Colors, spacing, radii, and shadows remain consistent         | One-off exceptions require explanation                                          |
+| Exact node and viewport references                 | Makes visual verification reproducible                        | Every implementation task needs Figma handoff metadata                          |
+| Missing states are surfaced, not invented          | Prevents design drift                                         | Some feature work may wait for a design decision                                |
+| RTL is verified as part of fidelity                | Direction affects layout, icons, text, and interaction        | Every component needs bidi testing                                              |
+| Node `2:37735` bootstraps Orbit tokens             | The file has no formal Variables or local styles              | Source-layer changes require a fresh audit                                      |
+| Desktop is the only exact responsive target        | All supplied implementation frames are `1440px` wide          | Smaller layouts remain provisional until designed                               |
+| Persian/RTL is an explicit localization adaptation | Architecture requires Persian while Orbit is English/LTR      | Localized screens need review and cannot yet claim exact Figma equivalence      |
 
 Any change to the approved design source, token architecture, component variant
 model, responsive contract, theme behavior, or visual acceptance process updates
