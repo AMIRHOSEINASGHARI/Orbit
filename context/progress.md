@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **Figma task card primitive** (2026-10-09): Matched the shared Card surface to the Figma sample with token-based 14px padding, 10px spacing/radius, and the card shadow while preserving composition slots.
 - **Figma design tokens and UI primitives** (2026-10-09): Mapped the design-system typography and component samples to shared buttons, badges, cards, form controls, tables, and dialogs; reused the existing light/dark color tokens. Verified with TypeScript and production build.
 - **Reusable UI and icon rule** (2026-10-09): Documented that project screens should reuse components and icons from `components/` for consistency.
 - **Collapsed navigation labels** (2026-10-09): Hide sidebar link labels in icon-collapse mode while keeping the accessible link name and tooltip.
