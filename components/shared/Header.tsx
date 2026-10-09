@@ -16,35 +16,43 @@ import {
 type HeaderProps = {
   actions?: ReactNode;
   account?: ReactNode;
+  profile: { displayName: string; username: string; avatarUrl: string | null };
   onAddTask?: MouseEventHandler<HTMLButtonElement>;
 };
 
-function ProfileLink() {
+function ProfileLink({ profile }: { profile: HeaderProps["profile"] }) {
+  const initials = profile.displayName
+    .split(/\s+/)
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
   return (
     <Link
       href="/settings/profile"
-      aria-label="Maya Chen, Product lead. Open profile"
+      aria-label={`${profile.displayName}. Open profile`}
       className="inline-flex shrink-0 items-center gap-[9px] px-[7px]"
     >
       <Avatar className="size-8">
-        <AvatarImage src="/figma/maya-chen.png" alt="Maya Chen" />
-        <AvatarFallback>MC</AvatarFallback>
+        {profile.avatarUrl && <AvatarImage src={profile.avatarUrl} alt={profile.displayName} />}
+        <AvatarFallback>{initials}</AvatarFallback>
       </Avatar>
       <span className="hidden flex-col gap-px lg:flex">
         <span className="text-ui-small font-semibold leading-none text-foreground">
-          Maya Chen
+          {profile.displayName}
         </span>
         <span className="text-ui-caption leading-none text-subtle-foreground">
-          Product lead
+          @{profile.username}
         </span>
       </span>
     </Link>
   );
 }
 
-export function Header({ actions, account, onAddTask }: HeaderProps) {
+export function Header({ actions, account, profile, onAddTask }: HeaderProps) {
   return (
-    <header className="flex h-header items-center justify-between gap-2 border-b border-border bg-card px-3 md:px-7">
+    <header className="sticky top-0 z-30 flex h-header shrink-0 items-center justify-between gap-2 border-b border-border bg-card px-3 md:px-7">
       <div className="flex min-w-0 flex-1 items-center gap-2">
         <MobileNavigation />
         <AppLogo
@@ -78,7 +86,7 @@ export function Header({ actions, account, onAddTask }: HeaderProps) {
           </Link>
         </nav>
         <ThemeToggle />
-        {account ?? <ProfileLink />}
+        {account ?? <ProfileLink profile={profile} />}
         <LogoutForm />
         {actions}
         <Button

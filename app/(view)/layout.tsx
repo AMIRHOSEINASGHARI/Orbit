@@ -10,16 +10,22 @@ import { TaskCreationEntryPoint } from "@/features/tasks/components/task-creatio
 
 export default async function ViewLayout({ children }: Readonly<{ children: ReactNode }>) {
   const token = (await cookies()).get(SESSION_COOKIE)?.value;
-  if (!(await getCurrentUser())) {
+  const user = await getCurrentUser();
+  if (!user) {
     const status = token ? inspectAuthToken(token).status : "missing";
     redirect(status === "missing" ? "/login" : `/login?session=${status === "expired" ? "expired" : "invalid"}`);
   }
+  const profile = {
+    displayName: user.displayName || [user.firstName, user.lastName].filter(Boolean).join(" ") || user.username,
+    username: user.username,
+    avatarUrl: user.avatar?.url ?? null,
+  };
 
   return (
     <SidebarProvider style={{ "--sidebar-width": "14.25rem", "--sidebar-width-icon": "4.5rem" } as CSSProperties}>
       <Sidebar />
       <div className="flex min-w-0 flex-1 flex-col">
-        <TaskCreationEntryPoint />
+        <TaskCreationEntryPoint profile={profile} />
         {children}
       </div>
     </SidebarProvider>
