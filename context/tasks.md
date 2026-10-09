@@ -728,33 +728,33 @@ Create the `getTasks` Server Action.
 
 ## T-90
 
-Create the Tasks page structure.
+Create the Tasks page route and states.
 
-**Description:** Build the Tasks page for Task Reading with the shared application layout, the required data and actions, and clear loading, empty, and error states. Ensure the route is accessible and responsive.
+**Description:** Build the authenticated `/tasks` route inside the shared application shell, using the approved Figma Tasks Table View (`2:35588`) as the page reference. Connect the task-reading data flow and provide accessible loading, empty, and recoverable error states. Keep the route usable at narrow widths.
 
 ---
 
 ## T-91
 
-Create the Task Card component.
+Build the Tasks page header and view switcher.
 
-**Description:** Build the Task Card interface for Task Reading using shared components and design tokens. Support the required interactions, accessible keyboard behavior, responsive layout, and applicable loading or error states.
+**Description:** Recreate the Tasks page heading from Figma node `2:35665`: `WORKSPACE / TASKS` breadcrumb, “Tasks” title, supporting description, and the Table View / Drag & Drop View switcher. Use shared components and design tokens, show the active view clearly, and make view switching keyboard accessible.
 
 ---
 
 ## T-92
 
-Create the Task List component.
+Build the Tasks search and filter toolbar.
 
-**Description:** Build the Task List interface for Task Reading using shared components and design tokens. Support the required interactions, accessible keyboard behavior, responsive layout, and applicable loading or error states.
+**Description:** Recreate the toolbar in Figma node `2:35677` with task search, Status, Priority, Group, and Due date filters, Last updated sorting, and the task-view preset control. Connect controls to the task query, preserve combined filter selections, and support keyboard use, clear labels, and narrow screens.
 
 ---
 
 ## T-93
 
-Display tasks on the Tasks page.
+Display tasks in the Figma table view.
 
-**Description:** Display tasks on the Tasks page in Task Reading using the persisted data and shared visual patterns. Include the relevant empty and loading states and ensure the content remains readable on mobile and with assistive technology.
+**Description:** Implement the Tasks table from Figma node `2:35705` and its selected-row state `2:35996` with persisted, authorized task data. Match the designed columns for task, created date, priority, group, due date, status, assignees, and row actions; include row selection, the table footer and pagination, and connect view/edit/delete actions to their task flows. Use the shared Table component, handle missing optional values, and keep the table accessible and usable on narrow screens.
 
 ---
 
@@ -768,9 +768,9 @@ Create the `getTaskById` Server Action.
 
 ## T-95
 
-Create the Task Details page.
+Create the Task Details drawer.
 
-**Description:** Build the Task Details page for Task Reading with the shared application layout, the required data and actions, and clear loading, empty, and error states. Ensure the route is accessible and responsive.
+**Description:** Build the task details interface as a drawer opened from a task row or card, using the shared `components/ui/drawer.tsx` component and the approved Figma Tasks Details drawer (`8:2169`). Load the selected task through `getTaskById`, handle loading and safe error states, and support accessible close behavior. Do not create a standalone task details route or page.
 
 ---
 
@@ -778,7 +778,7 @@ Create the Task Details page.
 
 Display basic task information.
 
-**Description:** Display basic task information in Task Reading using the persisted data and shared visual patterns. Include the relevant empty and loading states and ensure the content remains readable on mobile and with assistive technology.
+**Description:** Display the selected task's title, description, due date, and group information inside the Task Details drawer using authorized persisted data. Handle missing optional values and keep the content readable on narrow screens and with assistive technology.
 
 ---
 
@@ -786,7 +786,7 @@ Display basic task information.
 
 Display task status.
 
-**Description:** Display task status in Task Reading using the persisted data and shared visual patterns. Include the relevant empty and loading states and ensure the content remains readable on mobile and with assistive technology.
+**Description:** Display the selected task's status inside the Task Details drawer using the approved status treatment and persisted data. Keep the status understandable to assistive technology and readable at narrow widths.
 
 ---
 
@@ -794,7 +794,7 @@ Display task status.
 
 Display task priority.
 
-**Description:** Display task priority in Task Reading using the persisted data and shared visual patterns. Include the relevant empty and loading states and ensure the content remains readable on mobile and with assistive technology.
+**Description:** Display the selected task's priority inside the Task Details drawer using the approved priority treatment and persisted data. Keep the priority understandable to assistive technology and readable at narrow widths.
 
 ---
 
@@ -3202,9 +3202,9 @@ Add multiple Tag selection to Note forms.
 
 ## T-393
 
-Display Tags on Task and Note cards and details pages.
+Display Tags on Task cards, the Task Details drawer, and Note details pages.
 
-**Description:** Display Tags on Task and Note cards and details pages in Tags and Labels using the persisted data and shared visual patterns. Include the relevant empty and loading states and ensure the content remains readable on mobile and with assistive technology.
+**Description:** Display persisted Tags on Task cards, inside the Task Details drawer, and on Note details pages in Tags and Labels. Include relevant empty and loading states and keep the content readable on mobile and with assistive technology.
 
 ---
 
@@ -3244,9 +3244,9 @@ Create the Task checklist editor UI.
 
 ## T-398
 
-Display checklist progress on Task cards and details pages.
+Display checklist progress on Task cards and in the Task Details drawer.
 
-**Description:** Display checklist progress on Task cards and details pages in Subtasks and Checklists using the persisted data and shared visual patterns. Include the relevant empty and loading states and ensure the content remains readable on mobile and with assistive technology.
+**Description:** Display persisted checklist progress on Task cards and in the Task Details drawer in Subtasks and Checklists. Include relevant empty and loading states and keep the content readable on mobile and with assistive technology.
 
 ---
 

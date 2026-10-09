@@ -320,7 +320,6 @@ Server Components must invoke the appropriate Server Action for CRUD reads. They
 │   │   ├── tasks/
 │   │   │   ├── page.tsx
 │   │   │   └── [taskId]/
-│   │   │       ├── page.tsx
 │   │   │       └── edit/
 │   │   │           └── page.tsx
 │   │   │
@@ -457,6 +456,7 @@ features/
     ├── components/
     │   ├── task-card.tsx
     │   ├── task-list.tsx
+    │   ├── task-details-drawer.tsx
     │   ├── task-form.tsx
     │   └── task-filters.tsx
     │
@@ -470,7 +470,6 @@ features/
     │
     ├── pages/
     │   ├── tasks-page.tsx
-    │   ├── task-details-page.tsx
     │   └── edit-task-page.tsx
     │
     ├── schemas/
@@ -504,8 +503,10 @@ TaskCard
 TaskList
 TaskForm
 TaskFilters
-TaskDetails
+TaskDetailsDrawer
 ```
+
+Task details open from a task row or card in the shared components/ui/drawer.tsx component, following the approved Figma Tasks Details drawer frame (8:2169). Do not create a standalone task details route or page. Load the selected task with getTaskById() and enforce the usual ownership checks.
 
 ---
 

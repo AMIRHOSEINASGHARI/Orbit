@@ -664,6 +664,7 @@ Any intentional difference from Figma must be recorded before delivery:
 | Frame/node     | Difference   | Reason                                                   | Approved by   | Follow-up            |
 | -------------- | ------------ | -------------------------------------------------------- | ------------- | -------------------- |
 | Exact Figma ID | What differs | Accessibility, technical constraint, or explicit request | User/designer | None or tracked task |
+| Tasks table `2:35705` | Shows only Task, Created, Priority, Due date, and Status; omits filters, group labels, assignees, row actions, and pagination | Current task list API/model does not provide the data or operations those controls need | Implementation scope | Add when the related task data and actions exist |
 
 Unrecorded deviations are defects. Technical convenience is not sufficient
 reason for a visual deviation.

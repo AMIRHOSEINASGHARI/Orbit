@@ -2,6 +2,8 @@
 
 ## Completed
 
+- **T-90 — Create the Tasks page structure** (2026-10-09): Added the authenticated `/tasks` route backed by `getTasks`, shared page header, route loading skeleton, accessible empty/error states, and a Figma-guided table for available task fields. Verified with TypeScript.
+
 - **T-89 — Create the `getTasks` Server Action** (2026-10-09): Added authenticated, strictly validated task filters and used the owner-scoped task service; returns typed records with string IDs and omits the owner ID from client data. Verified with TypeScript.
 - **T-88 — Add task creation error feedback** (2026-10-09): Added safe form-level and field-level validation/action errors with accessible announcements.
 - **T-87 — Add task creation success feedback** (2026-10-09): Added a success toast after the task is saved and mounted the shared Toaster at the application root.
