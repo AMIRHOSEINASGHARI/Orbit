@@ -7,7 +7,7 @@ The interface uses English (`en-US`) and left-to-right layout.
 
 Use Node.js 20.9 or newer and npm.
 
-Copy `.env.example` to `.env.local` and set `MONGODB_URI` to your MongoDB connection string before running the app. Keep `.env.local` private and never prefix server secrets with `NEXT_PUBLIC_`.
+Set `MONGODB_URI` and a random `JWT_SECRET` of at least 32 characters in the root `.env` file before running the app. Next.js loads `.env` automatically; it is ignored by Git. Keep server secrets out of `NEXT_PUBLIC_` variables.
 
 ```bash
 npm install

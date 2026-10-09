@@ -14,7 +14,6 @@
 
 # Local environment files
 .env*
-!.env.example
 
 # Tool and operating system files
 *.log
