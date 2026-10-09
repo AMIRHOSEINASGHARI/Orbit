@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **T-16 — Create shared Zod validation helpers** (2026-10-09): Added a reusable trimmed required-text schema and Zod 4 formatter for form and field errors, with focused validation tests.
 - **T-15 — Create shared TypeScript utility types** (2026-10-09): Added common identifier, nullable, pagination/result, and object-shaping utility types under `types/`.
 - **T-14 — Create global application constants** (2026-10-09): Added `DEFAULT_PAGE_SIZE` with the required default of 100 documents in the shared constants entry point.
 - **T-12 — Configure the application theme provider** (2026-10-09): Wrapped the application in next-themes with class-based light, dark, and system support and suppressed the expected root theme hydration attribute mismatch.
