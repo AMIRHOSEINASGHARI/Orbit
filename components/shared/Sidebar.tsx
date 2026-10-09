@@ -52,7 +52,7 @@ export function NavigationLinks({ onNavigate }: { onNavigate?: () => void }) {
                     <Icon className="size-4" />
                     {label}
                     {badge && (
-                      <span className="ml-auto rounded-full bg-danger px-2 py-0.5 text-[10px] font-bold text-danger-foreground">
+                      <span className="ml-auto rounded-full bg-danger px-2 py-0.5 text-ui-caption font-bold text-danger-foreground">
                         {badge}
                       </span>
                     )}
@@ -74,18 +74,18 @@ export function Sidebar() {
   // shortcut: labels, unread count, and storage usage mirror the Figma sample until live workspace data is wired.
   return (
     <UiSidebar collapsible="icon">
-      <SidebarHeader className="gap-6 px-4 pt-[22px] pb-0 group-data-[collapsible=icon]:px-[14px]">
+      <SidebarHeader className="gap-6 px-4 pt-5.5 pb-0 group-data-[collapsible=icon]:px-3.5">
         <Link
           href="/dashboard"
           aria-label="Orbit home"
           className="flex items-center gap-2 px-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0"
         >
-          <OrbitIcon className="size-[34px] shrink-0" />
+          <OrbitIcon className="size-8.5 shrink-0" />
           <span className="flex min-w-0 flex-col group-data-[collapsible=icon]:hidden">
             <span className="text-[17px] font-bold leading-tight text-foreground">
               Orbit
             </span>
-            <span className="text-[10px] font-medium leading-tight text-subtle-foreground">
+            <span className="text-ui-caption font-medium leading-tight text-subtle-foreground">
               WORKSPACE
             </span>
           </span>
@@ -93,11 +93,11 @@ export function Sidebar() {
         <div
           role="group"
           aria-label="Current workspace"
-          className="flex h-[42px] w-full items-center gap-[9px] overflow-hidden rounded-[10px] border border-border bg-table-header px-[10px] group-data-[collapsible=icon]:w-[42px] group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:gap-1 group-data-[collapsible=icon]:px-0"
+          className="flex h-10.5 w-full items-center gap-2.25 overflow-hidden rounded-card border border-border bg-table-header px-2.5 group-data-[collapsible=icon]:w-10.5 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:gap-1 group-data-[collapsible=icon]:px-0"
         >
           <div
             aria-hidden="true"
-            className="flex size-6 shrink-0 items-center justify-center rounded-[7px] bg-primary-tint text-[11px] font-bold text-primary group-data-[collapsible=icon]:size-[26px]"
+            className="flex size-6 shrink-0 items-center justify-center rounded-[7px] bg-primary-tint text-ui-label font-bold text-primary group-data-[collapsible=icon]:size-6.5"
           >
             {" "}
             <span className="hidden group-data-[collapsible=icon]:inline">
@@ -110,17 +110,17 @@ export function Sidebar() {
           <ChevronsUpDownIcon className="hidden size-2 shrink-0 text-subtle-foreground group-data-[collapsible=icon]:block" />
         </div>
       </SidebarHeader>
-      <SidebarContent className="pt-6 group-data-[collapsible=icon]:pt-[42px]">
+      <SidebarContent className="pt-6 group-data-[collapsible=icon]:pt-10.5">
         {navigationGroups.map((group) => (
           <SidebarGroup
             key={group.label}
-            className="px-4 py-0 group-data-[collapsible=icon]:px-[14px]"
+            className="px-4 py-0 group-data-[collapsible=icon]:px-3.5"
           >
-            <SidebarGroupLabel className="h-5 px-[10px] pb-1 text-[10px] font-semibold uppercase tracking-wide text-subtle-foreground">
+            <SidebarGroupLabel className="h-5 px-2.5 pb-1 text-2.5 font-semibold uppercase tracking-wide text-subtle-foreground">
               {group.label}
             </SidebarGroupLabel>
             <SidebarGroupContent>
-              <SidebarMenu className="gap-[5px]">
+              <SidebarMenu className="gap-1.25">
                 {group.items.map(({ badge, href, icon: Icon, label }) => {
                   const active =
                     pathname === href || pathname.startsWith(`${href}/`);
@@ -138,15 +138,15 @@ export function Sidebar() {
                         }
                         isActive={active}
                         tooltip={label}
-                        className="h-10 rounded-lg px-[10px] text-muted-foreground data-active:bg-primary-tint data-active:font-semibold data-active:text-primary group-data-[collapsible=icon]:h-10! group-data-[collapsible=icon]:w-11! group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0!"
+                        className="h-10 rounded-lg px-2.5 text-muted-foreground data-active:bg-primary-tint data-active:font-semibold data-active:text-primary group-data-[collapsible=icon]:h-10! group-data-[collapsible=icon]:w-11! group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0!"
                       >
-                        <Icon className="size-[17px]" />
+                        <Icon className="size-4.25" />
                         <span className="group-data-[collapsible=icon]:hidden">
                           {label}
                         </span>
                       </SidebarMenuButton>
                       {badge && (
-                        <SidebarMenuBadge className="top-1/2 right-2 h-5 min-w-[22px] -translate-y-1/2 rounded-full bg-danger px-1 text-[10px] font-bold text-danger-foreground peer-data-active/menu-button:text-danger-foreground group-data-[collapsible=icon]:top-0 group-data-[collapsible=icon]:right-0 group-data-[collapsible=icon]:h-4 group-data-[collapsible=icon]:min-w-4 group-data-[collapsible=icon]:translate-y-0 group-data-[collapsible=icon]:rounded-full group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:text-[9px] group-data-[collapsible=icon]:flex">
+                        <SidebarMenuBadge className="top-1/2 right-2 h-5 min-w-5.5 -translate-y-1/2 rounded-full bg-danger px-1 text-ui-caption font-bold text-danger-foreground peer-data-active/menu-button:text-danger-foreground group-data-[collapsible=icon]:top-0 group-data-[collapsible=icon]:right-0 group-data-[collapsible=icon]:h-4 group-data-[collapsible=icon]:min-w-4 group-data-[collapsible=icon]:translate-y-0 group-data-[collapsible=icon]:rounded-full group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:text-[9px] group-data-[collapsible=icon]:flex">
                           {badge}
                         </SidebarMenuBadge>
                       )}
@@ -159,8 +159,8 @@ export function Sidebar() {
         ))}
       </SidebarContent>
       <SidebarFooter className="gap-2 p-4 pt-0 group-data-[collapsible=icon]:items-center">
-        <div className="w-full space-y-2 rounded-[10px] bg-table-header p-3 group-data-[collapsible=icon]:hidden">
-          <div className="flex items-center justify-between text-[11px]">
+        <div className="w-full space-y-2 rounded-card bg-table-header p-3 group-data-[collapsible=icon]:hidden">
+          <div className="flex items-center justify-between text-ui-label">
             <span className="font-semibold text-muted-foreground">Storage</span>
             <span className="text-subtle-foreground">6.8 / 10 GB</span>
           </div>
@@ -170,7 +170,7 @@ export function Sidebar() {
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={68}
-            className="h-[5px] overflow-hidden rounded-full bg-border"
+            className="h-1.25 overflow-hidden rounded-full bg-border"
           >
             <div className="h-full w-[68%] rounded-full bg-primary" />
           </div>
