@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **Reusable UI and icon rule** (2026-10-09): Documented that project screens should reuse components and icons from `components/` for consistency.
 - **Collapsed navigation labels** (2026-10-09): Hide sidebar link labels in icon-collapse mode while keeping the accessible link name and tooltip.
 - **Collapsed sidebar Figma state** (2026-10-09): Refactored the shadcn sidebar to match the new 72px collapsed design, including icon navigation, notification badge, workspace initial, expand control, and storage meter. Preserved expanded and mobile navigation. Verified with `tsc --noEmit` and `npm run build`.
 - **Figma sidebar alignment** (2026-10-09): Refined the shared sidebar to match the Figma design's Orbit brand, workspace switcher, single navigation group, notification count, active styling, and storage meter while retaining shadcn collapse and mobile behavior. Verified with `tsc --noEmit` and `npm run build`.

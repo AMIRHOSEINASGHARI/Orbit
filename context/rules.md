@@ -18,6 +18,8 @@
 
 ## Component Rules
 
+- Reuse the UI components and icons in `components/` throughout the project to maintain consistency; extend them when needed instead of duplicating them.
+
 Maximum file size:
 
 300 lines
