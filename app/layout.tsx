@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Sidebar } from "@/components/shared/Sidebar";
 
 export const metadata: Metadata = {
   title: {
@@ -20,7 +19,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" dir="ltr">
       <body>
-        <Sidebar />
         <TooltipProvider>{children}</TooltipProvider>
       </body>
     </html>
