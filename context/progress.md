@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **T-22 — Create the application logo component** (2026-10-09): Verified the existing reusable Orbit logo's accessible link, size variants, and theme-token tones with a component test.
 - **T-21 — Configure global English typography** (2026-10-09): Loaded Inter with `next/font` as a self-hosted Latin font, exposed it globally, and retained system fallbacks with swap display.
 - **T-20 — Configure English LTR and Gregorian calendar** (2026-10-09): Kept the existing English LTR document settings, defaulted the shared calendar to English Gregorian dates, and retained locale overrides. Added a calendar regression test.
 - **T-19 — Create the root application layout** (2026-10-09): Verified the existing App Router root layout composes global styles, metadata, theme/query/tooltip/sidebar providers, and English LTR document settings. Confirmed with tests, TypeScript, and a production build.
