@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **T-36 — Create password hashing utilities using bcryptjs** (2026-10-09): Added server-only asynchronous hash and verification helpers using 12 bcrypt rounds. Rejects empty or over-72-byte inputs before hashing/comparison and rejects malformed hash prefixes. Verified with TypeScript.
 - **T-35 — Create authentication Zod schemas** (2026-10-09): Added registration and login validation with normalized username/email, an eight-character registration password minimum, and field-associated password confirmation errors. Exported inferred input types. Verified with TypeScript.
 - **T-34 — Create the User Mongoose model** (2026-10-09): Aligned the server-only Mongoose User model and Zod contract with `context/schemas.md`, including unique normalized username/email indexes, profile fields, preferences, email verification, and account-security state. Enabled timestamps and excluded password and security secrets from ordinary queries. Verified with TypeScript and production build.
 - **T-33 — Create a shared Confirmation Dialog component** (2026-10-09): Reused the accessible AlertDialog primitives, added the shared dialog shadow and Figma-like action row, exposed pending state, and announced pending/failure feedback. The dialog stays open after failures and while pending, closing only after confirmation succeeds. No dedicated destructive-confirmation frame exists in Figma; the inspected generic dialog is the visual reference. Verified with TypeScript and production build.
