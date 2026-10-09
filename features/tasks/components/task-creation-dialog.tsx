@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { differenceInCalendarDays, format, parseISO, startOfToday } from "date-fns";
 import { useForm } from "react-hook-form";
@@ -16,9 +17,9 @@ import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import type { ActionResult } from "@/types";
 import { createTaskAction, getTaskGroupOptions } from "@/features/tasks/actions/create-task.action";
 import { createTaskSchema, type TaskInput } from "@/features/tasks/schemas/task.schema";
-import type { TaskActionState } from "@/features/tasks/types/task-action.types";
 import { TASK_PRIORITIES, TASK_STATUSES } from "@/features/tasks/types/task.types";
 import type { TaskGroupOption } from "@/features/tasks/types/task.types";
 import { z } from "zod";
@@ -29,7 +30,7 @@ const statusVariants = { todo: "todo", "in-progress": "info", done: "success" } 
 const priorityVariants = { low: "success", medium: "warning", high: "danger" } as const;
 type TaskFormValues = z.input<typeof createTaskSchema>;
 
-function fieldError(state: TaskActionState, field: string) {
+function fieldError(state: ActionResult<unknown> | undefined, field: string) {
   return state && !state.success ? state.fieldErrors?.[field]?.[0] : undefined;
 }
 
@@ -37,7 +38,19 @@ export function TaskCreationDialog({ open, onOpenChange }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
-  const [state, dispatch, pending] = useActionState(createTaskAction, null);
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: createTaskAction,
+    onSuccess: async (result) => {
+      if (!result.success) return;
+      toast.success(result.data.message);
+      form.reset();
+      onOpenChange(false);
+      await queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
+    onError: () => toast.error("Unable to create the task. Please try again."),
+  });
+  const state = mutation.data;
   const [groups, setGroups] = useState<TaskGroupOption[]>([]);
   const [groupsPending, setGroupsPending] = useState(false);
   const [groupsError, setGroupsError] = useState<string>();
@@ -73,13 +86,6 @@ export function TaskCreationDialog({ open, onOpenChange }: {
     return () => { active = false; };
   }, [form, open]);
 
-  useEffect(() => {
-    if (!state?.success) return;
-    toast.success(state.data.message);
-    form.reset();
-    onOpenChange(false);
-  }, [form, onOpenChange, state]);
-
   function submit(values: TaskInput) {
     const data = new FormData();
     data.set("title", values.title);
@@ -88,7 +94,7 @@ export function TaskCreationDialog({ open, onOpenChange }: {
     data.set("priority", values.priority);
     data.set("groupId", values.groupId ?? "");
     data.set("dueDate", values.dueDate ? format(values.dueDate, "yyyy-MM-dd") : "");
-    dispatch(data);
+    mutation.mutate(data);
   }
 
   const titleError = form.formState.errors.title?.message ?? fieldError(state, "title");
@@ -199,9 +205,9 @@ export function TaskCreationDialog({ open, onOpenChange }: {
             <span className="hidden text-ui-caption text-subtle-foreground sm:inline">⌘ Enter to create</span>
             <div className="flex justify-end gap-2">
               <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="h-[42px] rounded-lg px-4">Cancel</Button>
-              <Button type="submit" disabled={pending || groupsPending} className="h-[42px] rounded-lg px-4">
-                {pending ? <Loader2Icon aria-hidden="true" className="size-4 animate-spin" /> : <PlusIcon aria-hidden="true" className="size-4" />}
-                {pending ? "Creating task…" : "Create task"}
+              <Button type="submit" disabled={mutation.isPending || groupsPending} className="h-[42px] rounded-lg px-4">
+                {mutation.isPending ? <Loader2Icon aria-hidden="true" className="size-4 animate-spin" /> : <PlusIcon aria-hidden="true" className="size-4" />}
+                {mutation.isPending ? "Creating task…" : "Create task"}
               </Button>
             </div>
           </footer>

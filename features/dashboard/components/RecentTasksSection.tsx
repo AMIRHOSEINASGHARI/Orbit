@@ -4,6 +4,14 @@ import { EmptyState } from "@/components/shared/EmptyState";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import type { RecentTask } from "@/features/dashboard/types/dashboard.types";
 
 const statusLabel: Record<RecentTask["status"], string> = {
@@ -58,68 +66,69 @@ export function RecentTasksSection({
           />
         </div>
       ) : tasks?.length ? (
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[680px] border-collapse text-left">
-            <thead className="bg-table-header text-ui-caption font-semibold uppercase text-muted-foreground">
-              <tr>
-                {["Task", "Group", "Priority", "Due", "Status"].map((label) => (
-                  <th
-                    key={label}
-                    scope="col"
-                    className="border-y border-border px-4 py-3"
-                  >
-                    {label}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {tasks.map((task) => (
-                <tr
-                  key={task.id}
-                  className="border-b border-border last:border-0"
+        <Table className="min-w-[680px] border-none text-left">
+          <TableHeader className="text-ui-caption font-semibold uppercase text-muted-foreground">
+            <TableRow className="h-auto border-0 hover:bg-transparent">
+              {["Task", "Group", "Priority", "Due", "Status"].map((label) => (
+                <TableHead
+                  key={label}
+                  scope="col"
+                  className="h-auto border-y border-border px-4 py-3"
                 >
-                  <th
-                    scope="row"
-                    className="max-w-80 px-4 py-[21px] text-ui-small font-semibold text-foreground"
-                  >
-                    {task.title}
-                  </th>
-                  <td className="px-4 py-[21px] text-ui-label text-muted-foreground">
-                    {task.groupName ?? (task.groupId ? "Group" : "Personal")}
-                  </td>
-                  <td className="px-4 py-[21px]">
-                    <Badge variant={priorityVariants[task.priority]}>
-                      <span
-                        aria-hidden="true"
-                        className="inline-block size-1.5 rounded-full bg-current"
-                      />
-                      {task.priority}
-                    </Badge>
-                  </td>
-                  <td className="px-4 py-[21px] text-ui-label text-muted-foreground">
-                    {task.dueDate
-                      ? new Intl.DateTimeFormat("en-US", {
-                          month: "short",
-                          day: "numeric",
-                          timeZone: "UTC",
-                        }).format(new Date(task.dueDate))
-                      : "—"}
-                  </td>
-                  <td className="px-4 py-[21px]">
-                    <Badge variant={statusVariants[task.status]}>
-                      <span
-                        aria-hidden="true"
-                        className="inline-block size-1.5 rounded-full bg-current"
-                      />
-                      {statusLabel[task.status]}
-                    </Badge>
-                  </td>
-                </tr>
+                  {label}
+                </TableHead>
               ))}
-            </tbody>
-          </table>
-        </div>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {tasks.map((task) => (
+              <TableRow
+                key={task.id}
+                className="h-auto border-b border-border last:border-0 hover:bg-transparent"
+              >
+                <TableHead
+                  scope="row"
+                  className="h-auto max-w-80 px-4 py-[21px] text-left normal-case text-ui-small font-semibold text-foreground"
+                >
+                  {task.title}
+                </TableHead>
+                <TableCell className="px-4 py-[21px] text-ui-label text-muted-foreground">
+                  {task.groupName ?? (task.groupId ? "Group" : "Personal")}
+                </TableCell>
+                <TableCell className="px-4 py-[21px]">
+                  <Badge
+                    className="capitalize"
+                    variant={priorityVariants[task.priority]}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="inline-block size-1.5 rounded-full bg-current"
+                    />
+                    {task.priority}
+                  </Badge>
+                </TableCell>
+                <TableCell className="px-4 py-[21px] text-ui-label text-muted-foreground">
+                  {task.dueDate
+                    ? new Intl.DateTimeFormat("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        timeZone: "UTC",
+                      }).format(new Date(task.dueDate))
+                    : "—"}
+                </TableCell>
+                <TableCell className="px-4 py-[21px]">
+                  <Badge variant={statusVariants[task.status]}>
+                    <span
+                      aria-hidden="true"
+                      className="inline-block size-1.5 rounded-full bg-current"
+                    />
+                    {statusLabel[task.status]}
+                  </Badge>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       ) : (
         <div className="px-5 pb-5">
           <EmptyState
