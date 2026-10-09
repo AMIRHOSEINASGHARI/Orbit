@@ -21,3 +21,5 @@ export type OverdueTasks = {
 };
 
 export type GroupStatistics = { total: number };
+
+export type NoteStatistics = { total: number };

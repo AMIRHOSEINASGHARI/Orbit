@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **T-63 — Create the Note statistics Server Action and Dashboard card** (2026-10-09): Added an authenticated count of the current user's active, unarchived notes and displayed it beside Groups using the shared Dashboard metric card. Generalized the task metric card for reuse. The Note model is scheduled later, so the action uses the documented collection directly for now. Verified with TypeScript.
 - **T-62 — Create the Group statistics Server Action and Dashboard card** (2026-10-09): Added an authenticated count scoped to the current user and excluded deleted groups; displayed the result in a shared-token Dashboard card with error feedback. The Group model is scheduled later, so this reads the documented group collection directly for now. Verified with TypeScript.
 - **T-61 — Create the overdue tasks section** (2026-10-09): Added a user-scoped overdue task query with a count and three-item limit, plus a token-based attention panel with task links and empty/error feedback. Integrated it with Dashboard. Verified with TypeScript.
 - **T-60 — Create the upcoming tasks section** (2026-10-09): Added a user-scoped query for the next three non-completed tasks due from today onward and a responsive section with due-date labels and empty/error states. Connected it to the Dashboard. Verified with TypeScript.

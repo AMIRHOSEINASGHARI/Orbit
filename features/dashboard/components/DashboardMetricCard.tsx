@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Card } from "@/components/ui/card";
 
-export function TaskMetricCard({ title, value, description, icon }: {
+export function DashboardMetricCard({ title, value, description, icon }: {
   title: string;
   value: number | null;
   description: string;
@@ -13,9 +13,7 @@ export function TaskMetricCard({ title, value, description, icon }: {
         <h2>{title}</h2>
         <span aria-hidden="true" className="text-muted-foreground">{icon}</span>
       </div>
-      <p className="text-[32px] leading-none font-bold text-foreground" aria-live="polite">
-        {value ?? "—"}
-      </p>
+      <p className="text-[32px] leading-none font-bold text-foreground" aria-live="polite">{value ?? "—"}</p>
       <p className="text-ui-label text-muted-foreground">{description}</p>
     </Card>
   );
