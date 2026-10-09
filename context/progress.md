@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **T-24 — Collapsible shared Sidebar** (2026-10-09): Rebuilt the shared navigation with shadcn Sidebar icon-collapse mode, active links, grouped sections, tooltips, and its responsive mobile sheet. Added the provider and accessible toggle to the root layout. Verified with `npm run build`.
 - **T-13 — Export Figma icons** (2026-10-09): Exported 71 distinct icon shapes from the Orbit Figma design into `components/icons/index.tsx`, replaced the provisional brand mark, retained existing icon imports, and aligned shared navigation with the design. Verified SVG path fidelity, TypeScript, and `npm run build`.
 - **Component inventory implemented** (2026-10-09): Added all 61 component paths listed in `context/generated/components.md`, including shadcn UI primitives, shared navigation and states, and local icons. Preserved existing theme and button edits. Verified with `tsc --noEmit`, inventory path checks, and `npm run build`.
 - **T-04 — Configure shadcn/ui** (2026-10-09): Initialized the neutral Tailwind v4 setup with root aliases, `components/ui` output, a shared class utility, and light/dark CSS variable tokens. Verified with `tsc --noEmit` and `npm run build`.

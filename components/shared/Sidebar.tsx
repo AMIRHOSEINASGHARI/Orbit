@@ -4,6 +4,19 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AppLogo } from "@/components/shared/AppLogo";
 import { navigationGroups } from "@/components/shared/sidebar-navigation";
+import {
+  Sidebar as UiSidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarRail,
+  useSidebar,
+} from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 
 export function NavigationLinks({ onNavigate }: { onNavigate?: () => void }) {
@@ -42,10 +55,42 @@ export function NavigationLinks({ onNavigate }: { onNavigate?: () => void }) {
 }
 
 export function Sidebar() {
+  const pathname = usePathname();
+  const { setOpenMobile } = useSidebar();
+
   return (
-    <aside className="hidden w-64 shrink-0 flex-col gap-8 border-r border-sidebar-border bg-sidebar px-4 py-6 lg:flex">
-      <AppLogo href="/dashboard" />
-      <NavigationLinks />
-    </aside>
+    <UiSidebar collapsible="icon">
+      <SidebarHeader className="px-3 py-4 group-data-[collapsible=icon]:items-center">
+        <AppLogo href="/dashboard" size="sm" className="group-data-[collapsible=icon]:[&>span]:hidden" />
+      </SidebarHeader>
+      <SidebarContent>
+        {navigationGroups.map((group) => (
+          <SidebarGroup key={group.label}>
+            <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {group.items.map(({ href, icon: Icon, label }) => {
+                  const active = pathname === href || pathname.startsWith(`${href}/`);
+
+                  return (
+                    <SidebarMenuItem key={href}>
+                      <SidebarMenuButton
+                        render={<Link href={href} aria-label={label} aria-current={active ? "page" : undefined} onClick={() => setOpenMobile(false)} />}
+                        isActive={active}
+                        tooltip={label}
+                      >
+                        <Icon className="size-4" />
+                        <span>{label}</span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  );
+                })}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ))}
+      </SidebarContent>
+      <SidebarRail />
+    </UiSidebar>
   );
 }
