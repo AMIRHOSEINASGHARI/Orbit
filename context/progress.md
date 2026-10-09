@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **T-05 — Configure project path aliases** (2026-10-09): Verified `@/*` resolves from the repository root without deprecated `baseUrl`, and project imports use aliases across app, components, and shared modules. Kept sibling-only imports relative. Verified with `tsc --noEmit` and `npm run build`.
 - **Figma task card primitive** (2026-10-09): Matched the shared Card surface to the Figma sample with token-based 14px padding, 10px spacing/radius, and the card shadow while preserving composition slots.
 - **Figma design tokens and UI primitives** (2026-10-09): Mapped the design-system typography and component samples to shared buttons, badges, cards, form controls, tables, and dialogs; reused the existing light/dark color tokens. Verified with TypeScript and production build.
 - **Reusable UI and icon rule** (2026-10-09): Documented that project screens should reuse components and icons from `components/` for consistency.
