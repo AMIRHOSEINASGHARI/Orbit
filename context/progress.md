@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **T-11 — Configure React Query provider** (2026-10-09): Added a reusable provider with a browser singleton, per-render server client, and 60-second query freshness default. Verified provider behavior with a component test.
 - **T-10 — Create the MongoDB connection utility** (2026-10-09): Added a server-only Mongoose connector that caches both the in-flight connection and resolved instance, clearing failed attempts for retry. Verified connection reuse with a unit test.
 - **T-09 — Configure automated test framework and shared test utilities** (2026-10-09): Configured Vitest with jsdom, React Testing Library cleanup and matchers, shared test exports, and test scripts. Verified with the shared UI smoke test.
 - **T-08 — Validate environment variables with Zod** (2026-10-09): Added `lib/env.ts` as a server-only Zod boundary, validating `MONGODB_URI` and exporting typed configuration with safe field-level diagnostics. Verified with `tsc --noEmit` and `npm run build`.
