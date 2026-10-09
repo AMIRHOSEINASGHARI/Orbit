@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Sidebar } from "@/components/shared/Sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { ReactQueryProvider } from "@/components/providers/ReactQueryProvider";
+import { AppThemeProvider } from "@/components/providers/AppThemeProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -20,21 +21,23 @@ type RootLayoutProps = Readonly<{
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" dir="ltr">
+    <html lang="en" dir="ltr" suppressHydrationWarning>
       <body>
-        <ReactQueryProvider>
-          <TooltipProvider>
-            <SidebarProvider style={{ "--sidebar-width": "14.25rem", "--sidebar-width-icon": "4.5rem" } as CSSProperties}>
-              <Sidebar />
-              <div className="flex min-w-0 flex-1 flex-col">
-                <div className="flex h-14 items-center border-b border-border px-4">
-                  <SidebarTrigger aria-label="Toggle navigation" />
+        <AppThemeProvider>
+          <ReactQueryProvider>
+            <TooltipProvider>
+              <SidebarProvider style={{ "--sidebar-width": "14.25rem", "--sidebar-width-icon": "4.5rem" } as CSSProperties}>
+                <Sidebar />
+                <div className="flex min-w-0 flex-1 flex-col">
+                  <div className="flex h-14 items-center border-b border-border px-4">
+                    <SidebarTrigger aria-label="Toggle navigation" />
+                  </div>
+                  {children}
                 </div>
-                {children}
-              </div>
-            </SidebarProvider>
-          </TooltipProvider>
-        </ReactQueryProvider>
+              </SidebarProvider>
+            </TooltipProvider>
+          </ReactQueryProvider>
+        </AppThemeProvider>
       </body>
     </html>
   );

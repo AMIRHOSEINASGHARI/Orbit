@@ -2,6 +2,7 @@
 
 ## Completed
 
+- **T-12 — Configure the application theme provider** (2026-10-09): Wrapped the application in next-themes with class-based light, dark, and system support and suppressed the expected root theme hydration attribute mismatch.
 - **T-11 — Configure React Query provider** (2026-10-09): Added a reusable provider with a browser singleton, per-render server client, and 60-second query freshness default. Verified provider behavior with a component test.
 - **T-10 — Create the MongoDB connection utility** (2026-10-09): Added a server-only Mongoose connector that caches both the in-flight connection and resolved instance, clearing failed attempts for retry. Verified connection reuse with a unit test.
 - **T-09 — Configure automated test framework and shared test utilities** (2026-10-09): Configured Vitest with jsdom, React Testing Library cleanup and matchers, shared test exports, and test scripts. Verified with the shared UI smoke test.
