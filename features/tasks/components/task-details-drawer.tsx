@@ -15,7 +15,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
-import { CalendarClockIcon, XIcon } from "@/components/icons";
+import { CalendarClockIcon, FolderIcon, XIcon } from "@/components/icons";
 import type { TaskGroupOption } from "@/features/tasks/types/task.types";
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", { month: "short", day: "2-digit", year: "numeric" });
@@ -99,7 +99,9 @@ export function TaskDetailsDrawer({
                   </div>
                   <div>
                     <dt className="text-ui-caption font-medium text-muted-foreground">Group</dt>
-                    <dd className="mt-1 text-ui-small text-foreground">
+                    <dd className="mt-1 inline-flex items-center gap-2 text-ui-small text-foreground">
+                      <FolderIcon aria-hidden="true" className="size-4 text-muted-foreground" />
+                      <span aria-hidden="true" className="size-2 rounded-full" style={{ backgroundColor: taskGroup?.color ?? "var(--muted-foreground)" }} />
                       {taskResult.data.groupId ? taskGroup?.name ?? "Group unavailable" : "Personal"}
                     </dd>
                   </div>
