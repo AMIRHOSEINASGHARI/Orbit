@@ -21,6 +21,8 @@ import type { TaskGroupOption } from "@/features/tasks/types/task.types";
 const dateFormatter = new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" });
 const statusLabels = { todo: "To do", "in-progress": "In progress", done: "Done" } as const;
 const statusVariants = { todo: "todo", "in-progress": "info", done: "success" } as const;
+const priorityLabels = { low: "Low", medium: "Medium", high: "High" } as const;
+const priorityVariants = { low: "info", medium: "warning", high: "danger" } as const;
 
 export function TaskDetailsDrawer({
   userId,
@@ -82,6 +84,10 @@ export function TaskDetailsDrawer({
                   <div>
                     <dt className="text-ui-caption font-medium text-muted-foreground">Status</dt>
                     <dd className="mt-1"><Badge variant={statusVariants[taskResult.data.status]}><span aria-hidden="true" className="size-1.5 rounded-full bg-current" />{statusLabels[taskResult.data.status]}</Badge></dd>
+                  </div>
+                  <div>
+                    <dt className="text-ui-caption font-medium text-muted-foreground">Priority</dt>
+                    <dd className="mt-1"><Badge variant={priorityVariants[taskResult.data.priority]}><span aria-hidden="true" className="size-1.5 rounded-full bg-current" />{priorityLabels[taskResult.data.priority]}</Badge></dd>
                   </div>
                   <div>
                     <dt className="text-ui-caption font-medium text-muted-foreground">Due date</dt>

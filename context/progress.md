@@ -2,6 +2,8 @@
 
 ## Completed
 
+- **T-98 - Display task priority** (2026-10-11): Added the persisted priority to drawer metadata using the shared priority badge variants and title-cased labels. Verified with TypeScript.
+
 - **T-97 - Display task status** (2026-10-11): Added the persisted task status to drawer metadata with the shared status badge treatment, a visual indicator, and readable labels for assistive technology. Verified with TypeScript.
 
 - **T-96 - Display basic task information** (2026-10-11): Added the selected task description, due date, and group to the drawer using the authorized task response and current user’s group options, with readable fallbacks for missing values. Verified with TypeScript.
