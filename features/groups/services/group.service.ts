@@ -30,6 +30,27 @@ export async function updateGroupForUser(userId: string, groupId: string, input:
   return result.matchedCount > 0;
 }
 
+export async function trashGroupForUser(userId: string, groupId: string): Promise<boolean> {
+  if (!mongoose.isValidObjectId(groupId)) return false;
+  const ownerId = new mongoose.Types.ObjectId(userId);
+  const id = new mongoose.Types.ObjectId(groupId);
+  const now = new Date();
+  return mongoose.connection.transaction(async (session) => {
+    const group = await TaskGroupModel.findOneAndUpdate(
+      { _id: id, userId: ownerId, workspaceId: null, deletedAt: null },
+      { deletedAt: now },
+      { session, new: true },
+    ).select({ _id: 1 }).lean().exec();
+    if (!group) return false;
+    await TaskModel.updateMany(
+      { groupId: id, userId: ownerId, workspaceId: null, deletedAt: null },
+      { $set: { deletedAt: now, trashedByGroupId: id } },
+      { session, runValidators: true },
+    ).exec();
+    return true;
+  });
+}
+
 export async function getGroupsForUser(userId: string): Promise<GroupListItem[]> {
   const ownerId = new mongoose.Types.ObjectId(userId);
   const groups = await TaskGroupModel.aggregate<GroupAggregateResult>([

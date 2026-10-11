@@ -1,4 +1,8 @@
-﻿## 2026-10-12 - T-185 Create the Edit Group dialog
+﻿## 2026-10-12 - T-186 Create the trashGroup Server Action
+- Added a validated owner-scoped group soft-delete transaction that marks only active group tasks and records their originating group.
+- Deviations: Transaction support requires MongoDB replica-set deployment configuration.
+
+## 2026-10-12 - T-185 Create the Edit Group dialog
 - Connected the shared form dialog in edit mode from group cards and detail pages; successful saves refresh group queries.
 - Deviations: None.
 
