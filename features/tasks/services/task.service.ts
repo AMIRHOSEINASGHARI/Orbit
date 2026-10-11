@@ -177,6 +177,23 @@ export async function changeTaskStatusForUser(
   return Boolean(task);
 }
 
+export async function changeTasksStatusForUser(
+  userId: string,
+  taskIds: string[],
+  status: TaskStatus,
+): Promise<number> {
+  const result = await TaskModel.updateMany(
+    {
+      _id: { $in: taskIds.map((taskId) => requireObjectId(taskId, "task ID")) },
+      userId: requireObjectId(userId, "user ID"),
+      deletedAt: null,
+    },
+    { status },
+    { runValidators: true, timestamps: false },
+  ).exec();
+  return result.modifiedCount;
+}
+
 export async function changeTaskPriorityForUser(
   userId: string,
   taskId: string,

@@ -38,6 +38,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - Connected the toolbar action to selected IDs with pending feedback, accessible success/error toasts, list invalidation, and success-only selection clearing.
 - Deviations: None.
 
+## 2026-10-12 — T-158 Create Bulk Change Status Server Action
+- Added an authenticated bulk status action with validated unique IDs/status, owner-scoped active-task updates, safe result messages, and route revalidation.
+- Deviations: Stale or inaccessible IDs are skipped and excluded from the updated count.
+
 ## 2026-10-11 — T-149 Connect Drag & Drop View to the Task View switcher
 - Connected the three-column board to the shared query, task details/edit/trash flows, and existing status Server Action mutation.
 - Kept both modes mounted so switching preserves table selection and filters; column Add task opens the existing form with that status selected.
