@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-139 Create the Table View component
+- Isolated the Figma row-based table, selection, row actions, and pagination as `TaskTableView`, nested under `TaskListView`.
+- Deviations: Reused the existing table interactions instead of recreating them.
+
 ## 2026-10-11 — T-138 Create the List View component
 - Extracted the row-based list composition into `TaskListView`, leaving task fetching, mutations, dialogs, and error states in the page-level list controller.
 - Documented that List View is the row-based collection behind Figma’s Table View, not a third switcher mode.

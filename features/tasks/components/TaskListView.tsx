@@ -1,12 +1,12 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import { TaskTable, type TaskTableProps } from "./TaskTable";
+import { TaskTableView, type TaskTableViewProps } from "./TaskTableView";
 
-export function TaskListView(props: TaskTableProps) {
+export function TaskListView(props: TaskTableViewProps) {
   return (
     <Card role="region" aria-label="Task list" className="gap-0 p-0">
-      <TaskTable {...props} />
+      <TaskTableView {...props} />
     </Card>
   );
 }
