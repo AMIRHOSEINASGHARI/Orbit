@@ -20,6 +20,16 @@ export async function createGroupForUser(userId: string, input: CreateGroupInput
   return group._id.toString();
 }
 
+export async function updateGroupForUser(userId: string, groupId: string, input: CreateGroupInput): Promise<boolean> {
+  if (!mongoose.isValidObjectId(groupId)) return false;
+  const result = await TaskGroupModel.updateOne(
+    { _id: new mongoose.Types.ObjectId(groupId), userId: new mongoose.Types.ObjectId(userId), workspaceId: null, deletedAt: null },
+    { $set: input },
+    { runValidators: true },
+  ).exec();
+  return result.matchedCount > 0;
+}
+
 export async function getGroupsForUser(userId: string): Promise<GroupListItem[]> {
   const ownerId = new mongoose.Types.ObjectId(userId);
   const groups = await TaskGroupModel.aggregate<GroupAggregateResult>([

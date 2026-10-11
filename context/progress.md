@@ -1,4 +1,8 @@
-﻿## 2026-10-12 - T-183 Display tasks belonging to a Group
+﻿## 2026-10-12 - T-184 Create the updateGroup Server Action
+- Added authenticated and validated group updates scoped to the current user's active personal group, with route revalidation.
+- Deviations: None.
+
+## 2026-10-12 - T-183 Display tasks belonging to a Group
 - Added an accessible responsive task table to group details using the authenticated task query filtered by group ID.
 - Deviations: The existing query page-size limit applies to this initial table.
 
