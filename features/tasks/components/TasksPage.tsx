@@ -37,6 +37,7 @@ import {
 } from "@/components/ui/select";
 import { changeTaskStatusAction } from "@/features/tasks/actions/change-task-status.action";
 import { changeTaskPriorityAction } from "@/features/tasks/actions/change-task-priority.action";
+import { trashTask } from "@/features/tasks/actions/trash-task.action";
 import type { ActionResult } from "@/types";
 import type {
   TaskListItem,
@@ -89,6 +90,9 @@ function TaskTable({
   onPriorityChange,
   priorityMutationPending,
   pendingPriorityTaskId,
+  onTrash,
+  trashMutationPending,
+  pendingTrashTaskId,
 }: {
   tasks: TaskListItem[];
   groups: TaskGroupOption[];
@@ -102,6 +106,9 @@ function TaskTable({
   onPriorityChange: (taskId: string, priority: TaskPriority) => void;
   priorityMutationPending: boolean;
   pendingPriorityTaskId?: string;
+  onTrash: (taskId: string) => void;
+  trashMutationPending: boolean;
+  pendingTrashTaskId?: string;
 }) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set());
   const pageCount = Math.max(1, Math.ceil(tasks.length / PAGE_SIZE));
@@ -321,12 +328,15 @@ function TaskTable({
                     type="button"
                     variant="ghost"
                     size="icon"
-                    disabled
-                    aria-label={`Delete ${task.title}`}
-                    title="Task deletion is being implemented"
+                    aria-label={`Move ${task.title} to trash`}
+                    title="Move to trash"
+                    disabled={trashMutationPending}
+                    onClick={() => onTrash(task.id)}
                     className="rounded-lg text-destructive disabled:opacity-100"
                   >
-                    <Trash2Icon />
+                    {pendingTrashTaskId === task.id && trashMutationPending
+                      ? <Loader2Icon className="animate-spin" />
+                      : <Trash2Icon />}
                   </Button>
                 </div>
               </TableCell>
@@ -458,6 +468,18 @@ export function TasksPage({
     onError: () =>
       toast.error("Unable to update task priority. Please try again."),
   });
+  const trashMutation = useMutation({
+    mutationFn: (taskId: string) => trashTask(taskId),
+    onSuccess: async (result) => {
+      if (!result.success) {
+        toast.error(result.error);
+        return;
+      }
+      toast.success(result.data.message);
+      await queryClient.invalidateQueries({ queryKey: taskKeys.lists(userId) });
+    },
+    onError: () => toast.error("Unable to move the task to trash. Please try again."),
+  });
   const tasksQuery = useQuery({
     queryKey: taskKeys.list(userId, filters),
     queryFn: () => getTasks(filters),
@@ -504,6 +526,9 @@ export function TasksPage({
           }
           priorityMutationPending={priorityMutation.isPending}
           pendingPriorityTaskId={priorityMutation.variables?.taskId}
+          onTrash={(taskId) => trashMutation.mutate(taskId)}
+          trashMutationPending={trashMutation.isPending}
+          pendingTrashTaskId={trashMutation.variables}
         />
       </Card>
     ) : (
