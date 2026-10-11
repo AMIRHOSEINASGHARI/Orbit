@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { useTaskFilters } from "@/features/tasks/hooks/use-task-filters";
 import type { ActionResult } from "@/types";
@@ -14,6 +15,7 @@ export function TasksPage({ result, userId, groups, initialFilters }: {
   groups: TaskGroupOption[];
   initialFilters: TaskListFilters;
 }) {
+  const [view, setView] = useState<"table" | "board">("table");
   const { filters, searchQuery, page, setPage, onSearchChange, onFiltersChange } = useTaskFilters(initialFilters);
 
   return (
@@ -22,7 +24,7 @@ export function TasksPage({ result, userId, groups, initialFilters }: {
         title="Tasks"
         description="Plan, prioritize, and move work forward with your team."
         breadcrumbs="WORKSPACE / TASKS"
-        actions={<TasksViewSwitcher />}
+        actions={<TasksViewSwitcher view={view} onChange={setView} />}
       />
       <TasksToolbar
         filters={filters}

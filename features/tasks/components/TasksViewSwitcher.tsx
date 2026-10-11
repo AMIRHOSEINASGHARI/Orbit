@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Columns3Icon, ListIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
@@ -13,9 +12,10 @@ const optionClassName = (selected: boolean) => cn(
     : "text-muted-foreground",
 );
 
-export function TasksViewSwitcher() {
-  const [view, setView] = useState<"table" | "board">("table");
-
+export function TasksViewSwitcher({ view, onChange }: {
+  view: "table" | "board";
+  onChange: (view: "table" | "board") => void;
+}) {
   return (
     <ButtonGroup
       aria-label="Task views"
@@ -26,7 +26,7 @@ export function TasksViewSwitcher() {
         variant="ghost"
         size="sm"
         aria-pressed={view === "table"}
-        onClick={() => setView("table")}
+        onClick={() => onChange("table")}
         className={optionClassName(view === "table")}
       >
         <ListIcon aria-hidden="true" className="size-3.5" />
@@ -37,7 +37,7 @@ export function TasksViewSwitcher() {
         variant="ghost"
         size="sm"
         aria-pressed={view === "board"}
-        onClick={() => setView("board")}
+        onClick={() => onChange("board")}
         className={optionClassName(view === "board")}
       >
         <Columns3Icon aria-hidden="true" className="size-3.5" />

@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-146 Create the Task View switcher
+- Matched the switcher to the Figma’s two modes and lifted selected-view state to `TasksPage`; Table View remains the default.
+- Deviations: None recorded.
+
 ## 2026-10-11 — T-145 Persist Drag & Drop status changes using a Server Action
 - Reused the existing authenticated, ownership-checked status Server Action and only move board data after its successful cache update.
 - Added live success and failure announcements; failed updates leave the task in its source column.
