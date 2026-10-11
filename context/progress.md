@@ -1,4 +1,8 @@
-﻿## 2026-10-12 - T-188 Exclude trashed Groups from normal Group queries
+﻿## 2026-10-12 - T-189 Create the restoreGroup Server Action
+- Added transactional group recovery that restores only tasks tagged as automatically trashed by that same group, plus a group Trash view and restore action.
+- Deviations: Recovery is provided at /groups/trash pending a unified task and group Trash view.
+
+## 2026-10-12 - T-188 Exclude trashed Groups from normal Group queries
 - Confirmed normal group list/detail queries and task group selectors filter on deletedAt: null; cascade trash keeps tasks out of active task views.
 - Deviations: These filters were already in place and required no query changes.
 

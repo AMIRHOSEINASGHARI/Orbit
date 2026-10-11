@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { PlusIcon } from "@/components/icons";
@@ -52,7 +53,7 @@ export function GroupsPage({ initialResult, userId }: {
         title="Groups"
         description="Organize related tasks in one place."
         breadcrumbs="WORKSPACE / GROUPS"
-        actions={<Button onClick={() => setCreateOpen(true)}><PlusIcon aria-hidden="true" />Create group</Button>}
+        actions={<div className="flex gap-2"><Button variant="outline" render={<Link href="/groups/trash" />}>Group Trash</Button><Button onClick={() => setCreateOpen(true)}><PlusIcon aria-hidden="true" />Create group</Button></div>}
       />
 
       {query.isError || !query.data.success ? (

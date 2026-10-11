@@ -51,10 +51,30 @@ export async function trashGroupForUser(userId: string, groupId: string): Promis
   });
 }
 
-export async function getGroupsForUser(userId: string): Promise<GroupListItem[]> {
+export async function restoreGroupForUser(userId: string, groupId: string): Promise<boolean> {
+  if (!mongoose.isValidObjectId(groupId)) return false;
+  const ownerId = new mongoose.Types.ObjectId(userId);
+  const id = new mongoose.Types.ObjectId(groupId);
+  return mongoose.connection.transaction(async (session) => {
+    const group = await TaskGroupModel.findOneAndUpdate(
+      { _id: id, userId: ownerId, workspaceId: null, deletedAt: { $ne: null } },
+      { deletedAt: null },
+      { session, new: true },
+    ).select({ _id: 1 }).lean().exec();
+    if (!group) return false;
+    await TaskModel.updateMany(
+      { groupId: id, userId: ownerId, workspaceId: null, deletedAt: { $ne: null }, trashedByGroupId: id },
+      { $set: { deletedAt: null, trashedByGroupId: null } },
+      { session, runValidators: true },
+    ).exec();
+    return true;
+  });
+}
+
+async function listGroupsForUser(userId: string, deleted: boolean): Promise<GroupListItem[]> {
   const ownerId = new mongoose.Types.ObjectId(userId);
   const groups = await TaskGroupModel.aggregate<GroupAggregateResult>([
-    { $match: { userId: ownerId, workspaceId: null, deletedAt: null } },
+    { $match: { userId: ownerId, workspaceId: null, deletedAt: deleted ? { $ne: null } : null } },
     {
       $lookup: {
         from: TaskModel.collection.name,
@@ -114,6 +134,14 @@ export async function getGroupsForUser(userId: string): Promise<GroupListItem[]>
     ...taskCounts,
     completionPercent: taskCounts.taskCount ? Math.round((taskCounts.doneCount / taskCounts.taskCount) * 100) : 0,
   }));
+}
+
+export async function getGroupsForUser(userId: string): Promise<GroupListItem[]> {
+  return listGroupsForUser(userId, false);
+}
+
+export async function getTrashedGroupsForUser(userId: string): Promise<GroupListItem[]> {
+  return listGroupsForUser(userId, true);
 }
 
 export async function getGroupByIdForUser(userId: string, groupId: string): Promise<GroupListItem | null> {
