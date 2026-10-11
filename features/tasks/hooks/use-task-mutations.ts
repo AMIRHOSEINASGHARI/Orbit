@@ -9,6 +9,7 @@ import { bulkTrashTasks } from "@/features/tasks/actions/bulk-trash-tasks.action
 import { bulkChangeTaskStatus } from "@/features/tasks/actions/bulk-change-task-status.action";
 import { bulkChangeTaskPriority } from "@/features/tasks/actions/bulk-change-task-priority.action";
 import { bulkMoveTasksToGroup } from "@/features/tasks/actions/bulk-move-tasks-to-group.action";
+import { bulkRemoveTasksFromGroup } from "@/features/tasks/actions/bulk-remove-tasks-from-group.action";
 import { taskKeys } from "@/features/tasks/queries/task-keys";
 import type { ActionResult } from "@/types";
 import type { TaskListItem, TaskListPage, TaskListFilters, TaskStatus, TaskPriority } from "@/features/tasks/types/task.types";
@@ -135,6 +136,18 @@ export function useTaskMutations(userId: string, filters: TaskListFilters) {
     },
     onError: () => toast.error("Unable to move selected tasks to the group. Please try again."),
   });
+  const bulkRemoveGroupMutation = useMutation({
+    mutationFn: (taskIds: string[]) => bulkRemoveTasksFromGroup(taskIds),
+    onSuccess: async (result) => {
+      if (!result.success) {
+        toast.error(result.error);
+        return;
+      }
+      toast.success(result.data.message);
+      await queryClient.invalidateQueries({ queryKey: taskKeys.lists(userId) });
+    },
+    onError: () => toast.error("Unable to move selected tasks to Personal. Please try again."),
+  });
 
-  return { statusMutation, priorityMutation, trashMutation, bulkTrashMutation, bulkStatusMutation, bulkPriorityMutation, bulkGroupMutation };
+  return { statusMutation, priorityMutation, trashMutation, bulkTrashMutation, bulkStatusMutation, bulkPriorityMutation, bulkGroupMutation, bulkRemoveGroupMutation };
 }
