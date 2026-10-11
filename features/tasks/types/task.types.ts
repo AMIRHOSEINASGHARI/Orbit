@@ -5,7 +5,7 @@ export const TASK_PRIORITIES = ["low", "medium", "high"] as const;
 
 export type TaskStatus = (typeof TASK_STATUSES)[number];
 export type TaskPriority = (typeof TASK_PRIORITIES)[number];
-export const TASK_SORT_OPTIONS = ["updated-desc", "updated-asc", "created-desc"] as const;
+export const TASK_SORT_OPTIONS = ["updated-desc", "updated-asc", "created-desc", "due-date-asc"] as const;
 export type TaskSortOption = (typeof TASK_SORT_OPTIONS)[number];
 
 export type Task = {

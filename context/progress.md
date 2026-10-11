@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-132 Add sorting by due date
+- Added “Due date (soonest)” and server-side ascending sorting, placing tasks without due dates last and using recent update time to break ties.
+- Deviations: None recorded.
+
 ## 2026-10-11 — T-131 Add sorting by creation date
 - Verified “Recently created” is exposed by the sort control and uses server-side `createdAt` descending order.
 - Deviations: Creation-date sorting was already implemented.

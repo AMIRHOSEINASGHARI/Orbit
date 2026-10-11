@@ -24,6 +24,7 @@ export function TaskSortControl({ value, onChange }: {
         <SelectItem value="updated-desc">Last updated</SelectItem>
         <SelectItem value="updated-asc">Least recently updated</SelectItem>
         <SelectItem value="created-desc">Recently created</SelectItem>
+        <SelectItem value="due-date-asc">Due date (soonest)</SelectItem>
       </SelectContent>
     </Select>
   );

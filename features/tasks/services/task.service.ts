@@ -35,9 +35,25 @@ export async function listTasks(
     query.dueDate = { $gte: start, $lt: end };
   }
 
+  if (filters.sort === "due-date-asc") {
+    return TaskModel.aggregate<TaskRecord>([
+      { $match: query },
+      {
+        $addFields: {
+          _hasNoDueDate: {
+            $cond: [{ $eq: [{ $ifNull: ["$dueDate", null] }, null] }, 1, 0],
+          },
+        },
+      },
+      { $sort: { _hasNoDueDate: 1, dueDate: 1, updatedAt: -1 } },
+      { $unset: "_hasNoDueDate" },
+    ]).exec();
+  }
+
   const sort: Record<string, mongoose.SortOrder> = filters.sort === "updated-asc"
     ? { updatedAt: 1 }
-    : filters.sort === "created-desc" ? { createdAt: -1 } : { updatedAt: -1 };
+    : filters.sort === "created-desc" ? { createdAt: -1 }
+      : { updatedAt: -1 };
   return TaskModel.find(query).sort(sort).lean<TaskRecord[]>().exec();
 }
 
