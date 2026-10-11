@@ -2,6 +2,8 @@
 
 ## Completed
 
+- **T-112 - Create the `trashTask` Server Action** (2026-10-11): Added validated, authenticated soft deletion scoped to the current owner and active task, with safe results and route revalidation. Verified with TypeScript.
+
 - **Inline task priority editing** (2026-10-11): Added Figma-aligned Low, Medium, and High selection in the task table, with owner-scoped persistence, pending/success/error feedback, stable row order, and synchronized task caches. Verified with TypeScript.
 
 - **T-107 - Create the `changeTaskStatus` Server Action** (2026-10-11): Added strict task ID/status validation and authenticated, owner-scoped status updates for non-deleted tasks, with safe results and route revalidation.
