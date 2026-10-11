@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { updateGroup } from "@/features/groups/actions/update-group.action";
@@ -14,6 +15,7 @@ export function GroupEditDialog({ group, open, onOpenChange }: {
   onOpenChange: (open: boolean) => void;
 }) {
   const client = useQueryClient();
+  const router = useRouter();
   const [error, setError] = useState<string>();
   const mutation = useMutation({
     mutationFn: (values: CreateGroupInput) => group ? updateGroup({ groupId: group.id, ...values }) : Promise.resolve({ success: false as const, error: "Group not found." }),
@@ -23,9 +25,11 @@ export function GroupEditDialog({ group, open, onOpenChange }: {
       onOpenChange(false);
       void client.invalidateQueries({ queryKey: ["groups"] });
       if (group) void client.invalidateQueries({ queryKey: ["group", group.id] });
+      router.refresh();
     },
     onError: () => setError("Unable to update this group. Please try again."),
   });
-  useEffect(() => { if (open) { setError(undefined); mutation.reset(); } }, [open]);
+  const reset = mutation.reset;
+  useEffect(() => { if (open) { setError(undefined); reset(); } }, [open, reset]);
   return <GroupFormDialog open={open} onOpenChange={onOpenChange} group={group} isPending={mutation.isPending} error={error} onSubmit={(values) => mutation.mutate(values)} />;
 }

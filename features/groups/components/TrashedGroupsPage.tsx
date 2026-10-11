@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ import type { ActionResult } from "@/types";
 export function TrashedGroupsPage({ result }: { result: ActionResult<GroupListItem[]> }) {
   const [error, setError] = useState<string>();
   const [deleteTarget, setDeleteTarget] = useState<GroupListItem | null>(null);
+  const router = useRouter();
   const client = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (groupId: string) => {
@@ -25,7 +27,7 @@ export function TrashedGroupsPage({ result }: { result: ActionResult<GroupListIt
       if (!response.success) throw new Error(response.error);
       return response.data;
     },
-    onSuccess: (data) => { toast.success(data.message); void client.invalidateQueries({ queryKey: ["groups"] }); window.location.reload(); },
+    onSuccess: (data) => { toast.success(data.message); void client.invalidateQueries({ queryKey: ["groups"] }); router.refresh(); },
     onError: (cause) => setError(cause instanceof Error ? cause.message : "Unable to restore group."),
   });
   const deleteMutation = useMutation({
@@ -34,7 +36,7 @@ export function TrashedGroupsPage({ result }: { result: ActionResult<GroupListIt
       if (!response.success) throw new Error(response.error);
       return response.data;
     },
-    onSuccess: (data) => { toast.success(data.message); window.location.reload(); },
+    onSuccess: (data) => { toast.success(data.message); router.refresh(); },
     onError: (cause) => setError(cause instanceof Error ? cause.message : "Unable to delete group."),
   });
   return <main className="space-y-6 p-5 sm:p-7">

@@ -104,7 +104,9 @@ async function listGroupsForUser(userId: string, deleted: boolean, filters: Grou
                   { $eq: ["$groupId", "$$groupId"] },
                   { $eq: ["$userId", "$$groupOwnerId"] },
                   { $eq: ["$workspaceId", null] },
-                  { $eq: [{ $ifNull: ["$deletedAt", null] }, null] },
+                  deleted
+                    ? { $and: [{ $ne: [{ $ifNull: ["$deletedAt", null] }, null] }, { $eq: ["$trashedByGroupId", "$$groupId"] }] }
+                    : { $eq: [{ $ifNull: ["$deletedAt", null] }, null] },
                   { $eq: [{ $ifNull: ["$archivedAt", null] }, null] },
                 ],
               },

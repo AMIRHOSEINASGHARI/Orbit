@@ -25,6 +25,7 @@ export function GroupCard({ group, onEdit, onTrash }: {
         {(onEdit || onTrash) && <DropdownMenu>
           <DropdownMenuTrigger render={<Button variant="ghost" size="icon" aria-label={`Actions for ${group.name}`} />}><EllipsisIcon /></DropdownMenuTrigger>
           <DropdownMenuContent align="end">
+            <DropdownMenuItem render={<Link href={`/groups/${group.id}`} />}>Open group</DropdownMenuItem>
             {onEdit && <DropdownMenuItem onClick={() => onEdit(group)}><PencilIcon />Edit group</DropdownMenuItem>}
             {onTrash && <DropdownMenuItem variant="destructive" onClick={() => onTrash(group)}><Trash2Icon />Move to Trash</DropdownMenuItem>}
           </DropdownMenuContent>
