@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useDebounce } from "use-debounce";
+import { usePathname, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { ErrorState } from "@/components/shared/ErrorState";
@@ -396,13 +397,17 @@ export function TasksPage({
   result,
   userId,
   groups,
+  initialSearch,
 }: {
   result: ActionResult<TaskListItem[]>;
   userId: string;
   groups: TaskGroupOption[];
+  initialSearch: string;
 }) {
-  const [filters, setFilters] = useState<TaskListFilters>({});
-  const [searchQuery, setSearchQuery] = useState("");
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const [filters, setFilters] = useState<TaskListFilters>(() => ({ search: initialSearch || undefined }));
+  const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
   const [page, setPage] = useState(0);
   const [openTaskId, setOpenTaskId] = useState<string | null>(null);
@@ -491,11 +496,23 @@ export function TasksPage({
   const hasFilters = Object.values(filters).some(Boolean);
 
   useEffect(() => {
+    if (searchQuery !== debouncedSearchQuery) return;
     setFilters((current) => {
       const search = debouncedSearchQuery || undefined;
       return current.search === search ? current : { ...current, search };
     });
-  }, [debouncedSearchQuery]);
+    const params = new URLSearchParams(searchParams.toString());
+    if (debouncedSearchQuery) params.set("search", debouncedSearchQuery);
+    else params.delete("search");
+    const query = params.toString();
+    if (query !== searchParams.toString()) {
+      window.history.pushState(null, "", `${pathname}${query ? `?${query}` : ""}`);
+    }
+  }, [debouncedSearchQuery, pathname, searchParams, searchQuery]);
+
+  useEffect(() => {
+    setSearchQuery(searchParams.get("search") ?? "");
+  }, [searchParams]);
 
   const content =
     tasksQuery.isError || !taskResult.success ? (

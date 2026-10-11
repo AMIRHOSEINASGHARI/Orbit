@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-122 Synchronize Task search with URL search parameters
+- Restored search from the URL on initial load and browser navigation, and wrote debounced searches to browser history while preserving other parameters.
+- Deviations: None recorded.
+
 ## 2026-10-11 — T-121 Add server-side Task search
 - Confirmed `getTasks` validates and trims search input, and `listTasks` applies escaped, case-insensitive matching to title and description.
 - Deviations: Server-side search already existed, so no runtime code change was needed.
