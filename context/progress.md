@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-12 — T-170 Create the Task Group Mongoose model
+- Added the `taskgroups` model with user/workspace references, group fields, soft deletion, timestamps, and the documented indexes.
+- Deviations: TypeScript typing and validation schemas are added in T-171 and T-172.
+
 ## 2026-10-12 — T-150 Add task selection checkbox to List View
 - Reused the accessible task checkbox already rendered through `TaskListView` and confirmed it labels each task and marks selected rows.
 - Deviations: Selection state is currently local to the table component; shared selection state is addressed in T-152.
