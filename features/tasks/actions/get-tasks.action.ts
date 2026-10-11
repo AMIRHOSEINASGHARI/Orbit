@@ -36,7 +36,7 @@ export async function getTasks(filters: unknown = {}): Promise<ActionResult<Task
       success: true,
       data: {
         ...result,
-        tasks: result.tasks.map(({ _id, userId: _ownerId, groupId, ...task }) => ({
+        tasks: result.tasks.map(({ _id, userId: _ownerId, groupId, trashedByGroupId: _groupTrashMarker, ...task }) => ({
           ...task,
           id: _id.toString(),
           groupId: groupId?.toString() ?? null,

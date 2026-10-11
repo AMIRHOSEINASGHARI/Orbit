@@ -22,7 +22,7 @@ export async function getTaskById(taskId: unknown): Promise<ActionResult<TaskLis
     const task = await findTaskById(user.id, parsedTaskId.data);
     if (!task) return { success: false, error: "Task not found." };
 
-    const { _id, userId: _ownerId, groupId, ...fields } = task;
+    const { _id, userId: _ownerId, groupId, trashedByGroupId: _groupTrashMarker, ...fields } = task;
     return {
       success: true,
       data: { ...fields, id: _id.toString(), groupId: groupId?.toString() ?? null },

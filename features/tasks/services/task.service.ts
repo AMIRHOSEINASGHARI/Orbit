@@ -277,7 +277,7 @@ export async function trashTaskForUser(userId: string, taskId: string): Promise<
       userId: requireObjectId(userId, "user ID"),
       deletedAt: null,
     },
-    { deletedAt: new Date() },
+    { deletedAt: new Date(), trashedByGroupId: null },
     { runValidators: true },
   ).select({ _id: 1 }).lean().exec();
   return Boolean(task);
@@ -290,7 +290,7 @@ export async function trashTasksForUser(userId: string, taskIds: string[]): Prom
       userId: requireObjectId(userId, "user ID"),
       deletedAt: null,
     },
-    { deletedAt: new Date() },
+    { deletedAt: new Date(), trashedByGroupId: null },
     { runValidators: true },
   ).exec();
   return result.modifiedCount;
@@ -303,7 +303,7 @@ export async function restoreTaskForUser(userId: string, taskId: string): Promis
       userId: requireObjectId(userId, "user ID"),
       deletedAt: { $ne: null },
     },
-    { deletedAt: null },
+    { deletedAt: null, trashedByGroupId: null },
     { runValidators: true },
   ).select({ _id: 1 }).lean().exec();
   return Boolean(task);

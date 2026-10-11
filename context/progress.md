@@ -18,6 +18,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - Added the persisted group schema and creation schema with trimmed, bounded fields, defaults, nullable color, and ObjectId validation.
 - Deviations: Color is bounded to 32 characters; the source contract does not prescribe a palette or syntax.
 
+## 2026-10-12 — T-173 Track automatic Task Group trash attribution
+- Added the indexed `trashedByGroupId` task reference and kept it out of client task responses; individual and bulk manual trash/restore clear the marker.
+- Deviations: Group cascade operations will set and clear this marker in T-186 and T-189.
+
 ## 2026-10-12 — T-150 Add task selection checkbox to List View
 - Reused the accessible task checkbox already rendered through `TaskListView` and confirmed it labels each task and marks selected rows.
 - Deviations: Selection state is currently local to the table component; shared selection state is addressed in T-152.

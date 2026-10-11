@@ -11,6 +11,7 @@ const taskModelSchema = new Schema<TaskRecord>(
     status: { type: String, enum: ["todo", "in-progress", "done"], default: "todo", index: true },
     priority: { type: String, enum: ["low", "medium", "high"], default: "medium", index: true },
     dueDate: { type: Date, default: null, index: true },
+    trashedByGroupId: { type: Schema.Types.ObjectId, ref: "TaskGroup", default: null, index: true },
     deletedAt: { type: Date, default: null, index: true },
     archivedAt: { type: Date, default: null, index: true },
   },

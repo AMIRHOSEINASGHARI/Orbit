@@ -42,6 +42,7 @@ export type TaskRecord = Omit<Task, "id" | "userId" | "groupId"> & {
   _id: Types.ObjectId;
   userId: Types.ObjectId;
   groupId: Types.ObjectId | null;
+  trashedByGroupId?: Types.ObjectId | null;
 };
 
 export type TaskListFilters = {

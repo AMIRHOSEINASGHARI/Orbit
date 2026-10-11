@@ -11,6 +11,7 @@ export const taskSchema = z.object({
   status: z.enum(TASK_STATUSES).default("todo"),
   priority: z.enum(TASK_PRIORITIES).default("medium"),
   dueDate: z.coerce.date().nullable().default(null),
+  trashedByGroupId: objectIdSchema.nullable().default(null),
   deletedAt: z.coerce.date().nullable().default(null),
   archivedAt: z.coerce.date().nullable().default(null),
   createdAt: z.coerce.date().optional(),
