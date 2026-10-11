@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-118 Create the Task search input
+- Extracted the existing accessible search control into a reusable task search input without changing its appearance or filtering behavior.
+- Deviations: None recorded.
+
 ## 2026-10-11 — T-112 Create the `trashTask` Server Action
 - Added validated, authenticated soft deletion scoped to the current owner and active task, with safe results and route revalidation. Verified with TypeScript.
 - Deviations: None recorded.
