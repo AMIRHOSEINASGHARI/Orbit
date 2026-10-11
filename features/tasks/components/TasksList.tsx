@@ -27,6 +27,7 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
   onPageChange: (page: number) => void;
   view: TaskViewMode;
 }) {
+  const [selectedTaskIds, setSelectedTaskIds] = useState<Set<string>>(() => new Set());
   const [openTaskId, setOpenTaskId] = useState<string | null>(null);
   const [editingTask, setEditingTask] = useState<TaskListItem | null>(null);
   const [createTaskStatus, setCreateTaskStatus] = useState<TaskStatus | null>(null);
@@ -90,6 +91,8 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
               onTrash={setTaskToTrash}
               trashMutationPending={trashMutation.isPending}
               pendingTrashTaskId={trashMutation.variables}
+              selectedTaskIds={selectedTaskIds}
+              onSelectedTaskIdsChange={setSelectedTaskIds}
             />
           ) : (
             <EmptyState

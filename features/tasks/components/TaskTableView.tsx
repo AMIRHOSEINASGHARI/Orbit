@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { CalendarIcon } from "@/components/icons";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -34,34 +33,29 @@ export type TaskTableViewProps = {
   onTrash: (task: TaskListItem) => void;
   trashMutationPending: boolean;
   pendingTrashTaskId?: string;
+  selectedTaskIds: Set<string>;
+  onSelectedTaskIdsChange: (taskIds: Set<string>) => void;
 };
 
-export function TaskTableView({ tasks, totalTasks, pageSize, groups, page, onPageChange, onView, onEdit, onStatusChange, statusMutationPending, pendingStatusTaskId, onPriorityChange, priorityMutationPending, pendingPriorityTaskId, onTrash, trashMutationPending, pendingTrashTaskId }: TaskTableViewProps) {
-  const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set());
+export function TaskTableView({ tasks, totalTasks, pageSize, groups, page, onPageChange, onView, onEdit, onStatusChange, statusMutationPending, pendingStatusTaskId, onPriorityChange, priorityMutationPending, pendingPriorityTaskId, onTrash, trashMutationPending, pendingTrashTaskId, selectedTaskIds, onSelectedTaskIdsChange }: TaskTableViewProps) {
   const pageTasks = tasks;
   const selectedOnPage = pageTasks.filter((task) =>
-    selectedIds.has(task.id),
+    selectedTaskIds.has(task.id),
   ).length;
   const allSelected =
     pageTasks.length > 0 && selectedOnPage === pageTasks.length;
 
   function toggleTask(taskId: string, selected: boolean) {
-    setSelectedIds((current) => {
-      const next = new Set(current);
-      if (selected) next.add(taskId);
-      else next.delete(taskId);
-      return next;
-    });
+    const next = new Set(selectedTaskIds);
+    if (selected) next.add(taskId);
+    else next.delete(taskId);
+    onSelectedTaskIdsChange(next);
   }
 
   function togglePage(selected: boolean) {
-    setSelectedIds((current) => {
-      const next = new Set(current);
-      pageTasks.forEach(({ id }) =>
-        selected ? next.add(id) : next.delete(id),
-      );
-      return next;
-    });
+    const next = new Set(selectedTaskIds);
+    pageTasks.forEach(({ id }) => selected ? next.add(id) : next.delete(id));
+    onSelectedTaskIdsChange(next);
   }
 
   return (
@@ -93,12 +87,12 @@ export function TaskTableView({ tasks, totalTasks, pageSize, groups, page, onPag
           return (
             <TableRow
               key={task.id}
-              data-state={selectedIds.has(task.id) ? "selected" : undefined}
+              data-state={selectedTaskIds.has(task.id) ? "selected" : undefined}
             >
               <TableCell className="px-3">
                 <Checkbox
                   aria-label={`Select ${task.title}`}
-                  checked={selectedIds.has(task.id)}
+                  checked={selectedTaskIds.has(task.id)}
                   onCheckedChange={(checked) =>
                     toggleTask(task.id, checked === true)
                   }
@@ -182,7 +176,7 @@ export function TaskTableView({ tasks, totalTasks, pageSize, groups, page, onPag
       </TableBody>
       <TaskTablePagination
         totalTasks={totalTasks}
-        selectedCount={selectedIds.size}
+        selectedCount={selectedTaskIds.size}
         page={page}
         pageSize={pageSize}
         onPageChange={onPageChange}
