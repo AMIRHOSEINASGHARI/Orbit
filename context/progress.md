@@ -6,6 +6,11 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-145 Persist Drag & Drop status changes using a Server Action
+- Reused the existing authenticated, ownership-checked status Server Action and only move board data after its successful cache update.
+- Added live success and failure announcements; failed updates leave the task in its source column.
+- Deviations: No new Server Action was needed because the existing status action already validates ownership and status.
+
 ## 2026-10-11 — T-144 Enable task dragging between columns
 - Added pointer drag/drop and keyboard pickup, left/right status selection, drop, and cancel interactions with visible and screen-reader feedback.
 - Deviations: Status persistence is connected in T-145/T-149; this step emits the requested status change callback.

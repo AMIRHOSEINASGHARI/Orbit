@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { TaskGroupOption, TaskListItem, TaskStatus } from "@/features/tasks/types/task.types";
+import type { ActionResult } from "@/types";
 import { TaskBoardView } from "./TaskBoardView";
 import { TaskBoardColumn } from "./TaskBoardColumn";
 
@@ -14,7 +15,7 @@ export function TaskBoard({ tasks, groups, onAddTask, onView, onEdit, onTrash, o
   onView: (taskId: string) => void;
   onEdit: (task: TaskListItem) => void;
   onTrash: (task: TaskListItem) => void;
-  onStatusChange: (taskId: string, status: TaskStatus) => void;
+  onStatusChange: (taskId: string, status: TaskStatus) => Promise<ActionResult<{ message: string }>>;
 }) {
   const [draggedTaskId, setDraggedTaskId] = useState<string | null>(null);
   const [keyboardTaskId, setKeyboardTaskId] = useState<string | null>(null);
@@ -38,14 +39,22 @@ export function TaskBoard({ tasks, groups, onAddTask, onView, onEdit, onTrash, o
     onDropTask: moveTask,
   };
 
-  function moveTask(taskId: string, status: TaskStatus) {
+  async function moveTask(taskId: string, status: TaskStatus) {
     const task = tasks.find(({ id }) => id === taskId);
     if (!task || task.status === status) return;
-    setAnnouncement(`Moving ${task.title} to ${status === "todo" ? "Todo" : status === "done" ? "Done" : "In Progress"}.`);
-    onStatusChange(taskId, status);
     setDraggedTaskId(null);
     setKeyboardTaskId(null);
     setKeyboardTargetStatus(null);
+    const destination = status === "todo" ? "Todo" : status === "done" ? "Done" : "In Progress";
+    setAnnouncement(`Saving ${task.title} in ${destination}.`);
+    try {
+      const result = await onStatusChange(taskId, status);
+      setAnnouncement(result.success
+        ? `${task.title} moved to ${destination}.`
+        : `Could not move ${task.title}. ${result.error}`);
+    } catch {
+      setAnnouncement(`Could not move ${task.title}. Please try again.`);
+    }
   }
 
   function handleKeyboardAction(taskId: string, action: "pickup" | "drop" | "cancel" | "left" | "right") {
@@ -60,7 +69,7 @@ export function TaskBoard({ tasks, groups, onAddTask, onView, onEdit, onTrash, o
       setKeyboardTargetStatus(null);
       setAnnouncement(`Canceled moving ${task.title}.`);
     } else if (action === "drop" && keyboardTargetStatus) {
-      moveTask(taskId, keyboardTargetStatus);
+      void moveTask(taskId, keyboardTargetStatus);
     } else if ((action === "left" || action === "right") && keyboardTargetStatus) {
       const index = statuses.indexOf(keyboardTargetStatus);
       const nextStatus = statuses[index + (action === "left" ? -1 : 1)];
