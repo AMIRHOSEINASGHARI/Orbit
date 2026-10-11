@@ -3,12 +3,12 @@
 import { z } from "zod";
 import type { ActionResult } from "@/types";
 import { getGroupsForUser } from "@/features/groups/services/group.service";
-import type { GroupListItem } from "@/features/groups/types/group.types";
+import { GROUP_SORT_OPTIONS, type GroupListItem } from "@/features/groups/types/group.types";
 import { getCurrentUser } from "@/lib/auth/current-user";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { handleActionError } from "@/utils/actionError";
 
-const groupQuerySchema = z.object({ search: z.string().trim().max(200).optional() }).strict();
+const groupQuerySchema = z.object({ search: z.string().trim().max(200).optional(), sort: z.enum(GROUP_SORT_OPTIONS).optional() }).strict();
 
 export async function getGroups(input: unknown = {}): Promise<ActionResult<GroupListItem[]>> {
   const user = await getCurrentUser();

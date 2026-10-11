@@ -141,7 +141,11 @@ async function listGroupsForUser(userId: string, deleted: boolean, filters: Grou
         },
       },
     },
-    { $sort: { updatedAt: -1, _id: 1 } },
+    { $sort: filters.sort === "updated-asc" ? { updatedAt: 1, _id: 1 }
+      : filters.sort === "created-desc" ? { createdAt: -1, _id: 1 }
+        : filters.sort === "name-asc" ? { name: 1, _id: 1 }
+          : filters.sort === "task-count-desc" ? { "taskCounts.taskCount": -1, name: 1, _id: 1 }
+            : { updatedAt: -1, _id: 1 } },
   ]).exec();
 
   return groups.map(({ _id, taskCounts, ...group }) => ({

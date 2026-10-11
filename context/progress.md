@@ -1,4 +1,8 @@
-﻿## 2026-10-12 - T-191 Add Group search
+﻿## 2026-10-12 - T-192 Add Group sorting
+- Added accessible sort selection for updated date, creation date, name, and task count, applied on the server after task summaries are calculated.
+- Deviations: Search and sort state remains local to the Groups page rather than URL-backed.
+
+## 2026-10-12 - T-191 Add Group search
 - Added validated case-insensitive name and description search on the server query and an accessible Groups page search field with empty-match feedback.
 - Deviations: Search state is held on the page and is not encoded in the URL.
 

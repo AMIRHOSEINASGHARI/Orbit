@@ -26,4 +26,6 @@ export type GroupListItem = Omit<TaskGroup, "userId"> & {
   completionPercent: number;
 };
 
-export type GroupListFilters = { search?: string };
+export const GROUP_SORT_OPTIONS = ["updated-desc", "updated-asc", "created-desc", "name-asc", "task-count-desc"] as const;
+export type GroupSortOption = (typeof GROUP_SORT_OPTIONS)[number];
+export type GroupListFilters = { search?: string; sort?: GroupSortOption };

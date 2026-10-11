@@ -18,6 +18,7 @@ import { GroupEditDialog } from "@/features/groups/components/GroupEditDialog";
 import { ConfirmationDialog } from "@/components/shared/ConfirmationDialog";
 import { trashGroup } from "@/features/groups/actions/trash-group.action";
 import type { GroupListItem } from "@/features/groups/types/group.types";
+import { GROUP_SORT_OPTIONS, type GroupSortOption } from "@/features/groups/types/group.types";
 import type { ActionResult } from "@/types";
 
 export function GroupsPage({ initialResult, userId }: {
@@ -26,6 +27,7 @@ export function GroupsPage({ initialResult, userId }: {
 }) {
   const [createOpen, setCreateOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const [sort, setSort] = useState<GroupSortOption>("updated-desc");
   const [editing, setEditing] = useState<GroupListItem | null>(null);
   const [trashTarget, setTrashTarget] = useState<GroupListItem | null>(null);
   const queryClient = useQueryClient();
@@ -41,9 +43,9 @@ export function GroupsPage({ initialResult, userId }: {
     },
   });
   const query = useQuery({
-    queryKey: ["groups", userId, search],
-    queryFn: () => getGroups({ search }),
-    initialData: search ? undefined : initialResult,
+    queryKey: ["groups", userId, search, sort],
+    queryFn: () => getGroups({ search, sort }),
+    initialData: search || sort !== "updated-desc" ? undefined : initialResult,
   });
   const groups = query.data?.success ? query.data.data : [];
   const errorDescription = query.isError
@@ -58,10 +60,17 @@ export function GroupsPage({ initialResult, userId }: {
         breadcrumbs="WORKSPACE / GROUPS"
         actions={<div className="flex gap-2"><Button variant="outline" render={<Link href="/groups/trash" />}>Group Trash</Button><Button onClick={() => setCreateOpen(true)}><PlusIcon aria-hidden="true" />Create group</Button></div>}
       />
-      <label className="relative block max-w-md">
-        <SearchIcon aria-hidden="true" className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-        <Input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search groups" aria-label="Search groups" className="pl-9" />
-      </label>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
+        <label className="relative block w-full max-w-md">
+          <SearchIcon aria-hidden="true" className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search groups" aria-label="Search groups" className="pl-9" />
+        </label>
+        <label className="grid gap-1 text-xs font-medium text-muted-foreground">Sort by
+          <select value={sort} onChange={(event) => setSort(event.target.value as GroupSortOption)} aria-label="Sort groups" className="h-9 min-w-44 rounded-lg border border-input bg-background px-3 text-sm text-foreground focus-visible:outline-2 focus-visible:outline-ring">
+            {GROUP_SORT_OPTIONS.map((option) => <option key={option} value={option}>{option === "updated-desc" ? "Last updated" : option === "updated-asc" ? "Least recently updated" : option === "created-desc" ? "Recently created" : option === "name-asc" ? "Name A–Z" : "Most tasks"}</option>)}
+          </select>
+        </label>
+      </div>
 
       {query.isPending ? <LoadingState label="Loading groups…" /> : query.isError || !query.data?.success ? (
         <ErrorState description={errorDescription} action={<Button variant="outline" onClick={() => void query.refetch()}>Try again</Button>} />
