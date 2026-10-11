@@ -42,6 +42,7 @@ export function TaskBoard({ tasks, groups, onAddTask, onView, onEdit, onTrash, o
   async function moveTask(taskId: string, status: TaskStatus) {
     const task = tasks.find(({ id }) => id === taskId);
     if (!task || task.status === status) return;
+    const keyboardMove = keyboardTaskId === taskId;
     setDraggedTaskId(null);
     setKeyboardTaskId(null);
     setKeyboardTargetStatus(null);
@@ -52,6 +53,9 @@ export function TaskBoard({ tasks, groups, onAddTask, onView, onEdit, onTrash, o
       setAnnouncement(result.success
         ? `${task.title} moved to ${destination}.`
         : `Could not move ${task.title}. ${result.error}`);
+      if (keyboardMove && result.success) {
+        requestAnimationFrame(() => document.getElementById(`task-board-card-${taskId}`)?.focus());
+      }
     } catch {
       setAnnouncement(`Could not move ${task.title}. Please try again.`);
     }

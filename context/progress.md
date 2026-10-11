@@ -6,6 +6,11 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-149 Connect Drag & Drop View to the Task View switcher
+- Connected the three-column board to the shared query, task details/edit/trash flows, and existing status Server Action mutation.
+- Kept both modes mounted so switching preserves table selection and filters; column Add task opens the existing form with that status selected.
+- Deviations: Cards omit assignees, comment counts, and subtask counts because the current task model has no such data.
+
 ## 2026-10-11 — T-148 Connect Table View to the Task View switcher
 - Named the Figma table presentation as an accessible region/table and retained it mounted while hidden, preserving selection and pagination state across view changes.
 - Deviations: None recorded.

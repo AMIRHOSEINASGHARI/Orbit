@@ -36,6 +36,7 @@ export function TaskBoardCard({ task, group, dragging, keyboardDragging, onView,
 
   return (
     <article
+      id={`task-board-card-${task.id}`}
       draggable
       tabIndex={0}
       aria-label={`${task.title}, ${status.label}, ${priority.label} priority`}

@@ -8,9 +8,10 @@ import { Button } from "@/components/ui/button";
 import { getTasks } from "@/features/tasks/actions/get-tasks.action";
 import { taskKeys } from "@/features/tasks/queries/task-keys";
 import { useTaskMutations } from "@/features/tasks/hooks/use-task-mutations";
-import { TASK_PAGE_SIZE, type TaskListItem, type TaskListPage, type TaskListFilters, type TaskGroupOption } from "@/features/tasks/types/task.types";
+import { TASK_PAGE_SIZE, type TaskListItem, type TaskListPage, type TaskListFilters, type TaskGroupOption, type TaskStatus } from "@/features/tasks/types/task.types";
 import type { ActionResult } from "@/types";
 import { TaskListView } from "./TaskListView";
+import { TaskBoard } from "./TaskBoard";
 import { TaskDetailsDrawer } from "./task-details-drawer";
 import { TaskCreationDialog } from "./task-creation-dialog";
 import { TaskTrashDialog } from "./TaskTrashDialog";
@@ -28,6 +29,7 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
 }) {
   const [openTaskId, setOpenTaskId] = useState<string | null>(null);
   const [editingTask, setEditingTask] = useState<TaskListItem | null>(null);
+  const [createTaskStatus, setCreateTaskStatus] = useState<TaskStatus | null>(null);
   const [taskToTrash, setTaskToTrash] = useState<TaskListItem | null>(null);
   const queryFilters = { ...filters, page: page + 1, pageSize: filters.pageSize ?? TASK_PAGE_SIZE };
   const { statusMutation, priorityMutation, trashMutation } = useTaskMutations(userId, queryFilters);
@@ -65,52 +67,64 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
           </Button>
         }
       />
-    ) : taskResult.data.tasks.length ? (
-      <TaskListView
-          hidden={view !== "table"}
-          key={JSON.stringify(filters)}
-          tasks={taskResult.data.tasks}
-          totalTasks={taskResult.data.total}
-          pageSize={taskResult.data.pageSize}
-          groups={groups}
-          page={page}
-          onPageChange={onPageChange}
-          onView={setOpenTaskId}
-          onEdit={setEditingTask}
-          onStatusChange={(taskId, status) =>
-            statusMutation.mutate({ taskId, status })
-          }
-          statusMutationPending={statusMutation.isPending}
-          pendingStatusTaskId={statusMutation.variables?.taskId}
-          onPriorityChange={(taskId, priority) =>
-            priorityMutation.mutate({ taskId, priority })
-          }
-          priorityMutationPending={priorityMutation.isPending}
-          pendingPriorityTaskId={priorityMutation.variables?.taskId}
-          onTrash={setTaskToTrash}
-          trashMutationPending={trashMutation.isPending}
-          pendingTrashTaskId={trashMutation.variables}
-        />
     ) : (
-      <EmptyState
-        title={hasFilters ? "No matching tasks" : "No tasks yet"}
-        description={
-          hasFilters
-            ? "Try changing or clearing your filters."
-            : "Create a task and it will appear here."
-        }
-      />
+      <>
+        <div hidden={view !== "table"}>
+          {taskResult.data.tasks.length ? (
+            <TaskListView
+              key={JSON.stringify(filters)}
+              tasks={taskResult.data.tasks}
+              totalTasks={taskResult.data.total}
+              pageSize={taskResult.data.pageSize}
+              groups={groups}
+              page={page}
+              onPageChange={onPageChange}
+              onView={setOpenTaskId}
+              onEdit={setEditingTask}
+              onStatusChange={(taskId, status) => statusMutation.mutate({ taskId, status })}
+              statusMutationPending={statusMutation.isPending}
+              pendingStatusTaskId={statusMutation.variables?.taskId}
+              onPriorityChange={(taskId, priority) => priorityMutation.mutate({ taskId, priority })}
+              priorityMutationPending={priorityMutation.isPending}
+              pendingPriorityTaskId={priorityMutation.variables?.taskId}
+              onTrash={setTaskToTrash}
+              trashMutationPending={trashMutation.isPending}
+              pendingTrashTaskId={trashMutation.variables}
+            />
+          ) : (
+            <EmptyState
+              title={hasFilters ? "No matching tasks" : "No tasks yet"}
+              description={hasFilters ? "Try changing or clearing your filters." : "Create a task and it will appear here."}
+            />
+          )}
+        </div>
+        <div hidden={view !== "board"}>
+          <TaskBoard
+            tasks={taskResult.data.tasks}
+            groups={groups}
+            onAddTask={setCreateTaskStatus}
+            onView={setOpenTaskId}
+            onEdit={setEditingTask}
+            onTrash={setTaskToTrash}
+            onStatusChange={(taskId, status) => statusMutation.mutateAsync({ taskId, status })}
+          />
+        </div>
+      </>
     );
 
   return (
     <>
       {content}
       <TaskCreationDialog
-        open={editingTask !== null}
+        open={editingTask !== null || createTaskStatus !== null}
         onOpenChange={(open) => {
-          if (!open) setEditingTask(null);
+          if (!open) {
+            setEditingTask(null);
+            setCreateTaskStatus(null);
+          }
         }}
         task={editingTask}
+        defaultStatus={createTaskStatus ?? "todo"}
       />
       <TaskDetailsDrawer
         userId={userId}

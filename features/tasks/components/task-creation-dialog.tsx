@@ -22,7 +22,7 @@ import { createTaskAction, getTaskGroupOptions } from "@/features/tasks/actions/
 import { updateTaskAction } from "@/features/tasks/actions/update-task.action";
 import { createTaskSchema, type TaskInput } from "@/features/tasks/schemas/task.schema";
 import { TASK_PRIORITIES, TASK_STATUSES } from "@/features/tasks/types/task.types";
-import type { TaskGroupOption, TaskListItem } from "@/features/tasks/types/task.types";
+import type { TaskGroupOption, TaskListItem, TaskStatus } from "@/features/tasks/types/task.types";
 import { z } from "zod";
 
 const statusLabels = { todo: "Todo", "in-progress": "In progress", done: "Done" } as const;
@@ -35,10 +35,11 @@ function fieldError(state: ActionResult<unknown> | undefined, field: string) {
   return state && !state.success ? state.fieldErrors?.[field]?.[0] : undefined;
 }
 
-export function TaskCreationDialog({ open, onOpenChange, task = null }: {
+export function TaskCreationDialog({ open, onOpenChange, task = null, defaultStatus = "todo" }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   task?: TaskListItem | null;
+  defaultStatus?: TaskStatus;
 }) {
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -59,7 +60,7 @@ export function TaskCreationDialog({ open, onOpenChange, task = null }: {
   const [groupsError, setGroupsError] = useState<string>();
   const form = useForm<TaskFormValues, unknown, TaskInput>({
     resolver: zodResolver(createTaskSchema),
-    defaultValues: { title: "", description: "", status: "todo", priority: "medium", groupId: "personal", dueDate: "" },
+    defaultValues: { title: "", description: "", status: defaultStatus, priority: "medium", groupId: "personal", dueDate: "" },
   });
   const dueDate = form.watch("dueDate");
   const status = form.watch("status") ?? "todo";
@@ -75,7 +76,7 @@ export function TaskCreationDialog({ open, onOpenChange, task = null }: {
       priority: task.priority,
       groupId: task.groupId ?? "personal",
       dueDate: task.dueDate ? format(task.dueDate, "yyyy-MM-dd") : "",
-    } : { title: "", description: "", status: "todo", priority: "medium", groupId: "personal", dueDate: "" });
+    } : { title: "", description: "", status: defaultStatus, priority: "medium", groupId: "personal", dueDate: "" });
     resetMutation();
     let active = true;
     setGroupsPending(true);
@@ -96,7 +97,7 @@ export function TaskCreationDialog({ open, onOpenChange, task = null }: {
       if (active) setGroupsPending(false);
     });
     return () => { active = false; };
-  }, [form, open, resetMutation, task]);
+  }, [defaultStatus, form, open, resetMutation, task]);
 
   function submit(values: TaskInput) {
     const data = new FormData();
