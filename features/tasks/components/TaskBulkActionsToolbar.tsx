@@ -12,12 +12,15 @@ import {
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import type { TaskStatus } from "@/features/tasks/types/task.types";
 import type { TaskPriority } from "@/features/tasks/types/task.types";
+import type { TaskGroupOption } from "@/features/tasks/types/task.types";
 
 export function TaskBulkActionsToolbar({
   selectedCount,
   onClearSelection,
   onMoveToTrash,
   onMoveToGroup,
+  groups = [],
+  groupPending = false,
   onRemoveFromGroup,
   onChangeStatus,
   onChangePriority,
@@ -28,7 +31,9 @@ export function TaskBulkActionsToolbar({
   selectedCount: number;
   onClearSelection: () => void;
   onMoveToTrash?: () => void;
-  onMoveToGroup?: () => void;
+  onMoveToGroup?: (groupId: string) => void;
+  groups?: TaskGroupOption[];
+  groupPending?: boolean;
   onRemoveFromGroup?: () => void;
   onChangeStatus?: (status: TaskStatus) => void;
   onChangePriority?: (priority: TaskPriority) => void;
@@ -58,17 +63,21 @@ export function TaskBulkActionsToolbar({
         <Trash2Icon className="text-destructive" />
         {trashPending ? "Moving…" : "Move to Trash"}
       </Button>
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        className="h-7 bg-card text-[11px]"
-        disabled={pending || !onMoveToGroup}
-        onClick={onMoveToGroup}
-      >
-        <FolderInputIcon />
-        Move to Group
-      </Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          render={<Button type="button" variant="outline" size="sm" className="h-7 bg-card text-[11px]" disabled={pending || groupPending || !onMoveToGroup || !groups.length} />}
+        >
+          <FolderInputIcon />Move to Group
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start">
+          {groups.map((group) => (
+            <DropdownMenuItem key={group.id} onClick={() => onMoveToGroup?.(group.id)}>
+              <span aria-hidden="true" className="size-2 rounded-full" style={{ backgroundColor: group.color ?? "var(--muted-foreground)" }} />
+              {group.name}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
       <Button
         type="button"
         variant="outline"

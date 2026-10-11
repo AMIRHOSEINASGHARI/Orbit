@@ -34,7 +34,7 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
   const [createTaskStatus, setCreateTaskStatus] = useState<TaskStatus | null>(null);
   const [taskToTrash, setTaskToTrash] = useState<TaskListItem | null>(null);
   const queryFilters = { ...filters, page: page + 1, pageSize: filters.pageSize ?? TASK_PAGE_SIZE };
-  const { statusMutation, priorityMutation, trashMutation, bulkTrashMutation, bulkStatusMutation, bulkPriorityMutation } = useTaskMutations(userId, queryFilters);
+  const { statusMutation, priorityMutation, trashMutation, bulkTrashMutation, bulkStatusMutation, bulkPriorityMutation, bulkGroupMutation } = useTaskMutations(userId, queryFilters);
   const tasksQuery = useQuery({
     queryKey: taskKeys.list(userId, queryFilters),
     queryFn: () => getTasks(queryFilters),
@@ -77,7 +77,13 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
               {selectedTaskIds.size > 0 && (
                 <TaskBulkActionsToolbar
                   selectedCount={selectedTaskIds.size}
+                  groups={groups}
                   onClearSelection={() => setSelectedTaskIds(new Set())}
+                  onMoveToGroup={(groupId) => bulkGroupMutation.mutate({ taskIds: [...selectedTaskIds], groupId }, {
+                    onSuccess: (actionResult) => {
+                      if (actionResult.success) setSelectedTaskIds(new Set());
+                    },
+                  })}
                   onMoveToTrash={() => bulkTrashMutation.mutate([...selectedTaskIds], {
                     onSuccess: (actionResult) => {
                       if (actionResult.success) setSelectedTaskIds(new Set());
@@ -94,7 +100,8 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
                     },
                   })}
                   trashPending={bulkTrashMutation.isPending}
-                  pending={bulkTrashMutation.isPending || bulkStatusMutation.isPending || bulkPriorityMutation.isPending}
+                  pending={bulkTrashMutation.isPending || bulkStatusMutation.isPending || bulkPriorityMutation.isPending || bulkGroupMutation.isPending}
+                  groupPending={bulkGroupMutation.isPending}
                   priorityPending={bulkPriorityMutation.isPending}
                 />
               )}
