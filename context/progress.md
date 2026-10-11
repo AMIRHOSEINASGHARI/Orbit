@@ -14,6 +14,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - Connected dialog submission to the authenticated `createGroup` action, surfaced validation/network errors, closed on success, and invalidated Group queries.
 - Deviations: The Groups page entry point is added in T-178.
 
+## 2026-10-12 — T-177 Create the `getGroups` Server Action
+- Added authenticated, validated group listing with caller scope and per-group active task/status counts for the Figma card summaries.
+- Deviations: Search and sort parameters are added in T-191 and T-192.
+
 ## 2026-10-12 — T-170 Create the Task Group Mongoose model
 - Added the `taskgroups` model with user/workspace references, group fields, soft deletion, timestamps, and the documented indexes.
 - Deviations: TypeScript typing and validation schemas are added in T-171 and T-172.

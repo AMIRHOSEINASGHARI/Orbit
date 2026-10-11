@@ -17,3 +17,11 @@ export type TaskGroupRecord = Omit<TaskGroup, "id" | "userId" | "workspaceId"> &
   userId: Types.ObjectId;
   workspaceId: Types.ObjectId | null;
 };
+
+export type GroupListItem = Omit<TaskGroup, "userId"> & {
+  taskCount: number;
+  todoCount: number;
+  inProgressCount: number;
+  doneCount: number;
+  completionPercent: number;
+};
