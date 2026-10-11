@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useDebounce } from "use-debounce";
 import { toast } from "sonner";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { ErrorState } from "@/components/shared/ErrorState";
@@ -402,6 +403,7 @@ export function TasksPage({
 }) {
   const [filters, setFilters] = useState<TaskListFilters>({});
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
   const [page, setPage] = useState(0);
   const [openTaskId, setOpenTaskId] = useState<string | null>(null);
   const [editingTask, setEditingTask] = useState<TaskListItem | null>(null);
@@ -488,6 +490,13 @@ export function TasksPage({
   const taskResult = tasksQuery.data;
   const hasFilters = Object.values(filters).some(Boolean);
 
+  useEffect(() => {
+    setFilters((current) => {
+      const search = debouncedSearchQuery || undefined;
+      return current.search === search ? current : { ...current, search };
+    });
+  }, [debouncedSearchQuery]);
+
   const content =
     tasksQuery.isError || !taskResult.success ? (
       <ErrorState
@@ -555,7 +564,6 @@ export function TasksPage({
         searchQuery={searchQuery}
         onSearchChange={(query) => {
           setSearchQuery(query);
-          setFilters((current) => ({ ...current, search: query || undefined }));
           setPage(0);
         }}
         onChange={(nextFilters) => {
