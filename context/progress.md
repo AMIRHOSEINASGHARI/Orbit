@@ -1,4 +1,8 @@
-﻿## 2026-10-12 - T-181 Create the getGroupById Server Action
+﻿## 2026-10-12 - T-182 Create the Group Details page
+- Added a responsive group detail route with summary metrics, loading state, and a safe unavailable state.
+- Deviations: Edit action is connected in T-185.
+
+## 2026-10-12 - T-181 Create the getGroupById Server Action
 - Added authenticated ID validation and an owner-scoped group lookup returning the same safe summary contract as the group list.
 - Deviations: Lookup reuses the existing summary query so status counts stay consistent.
 
