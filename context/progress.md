@@ -14,6 +14,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - Added the public TaskGroup and MongoDB TaskGroupRecord contracts and typed the model against its persisted record.
 - Deviations: None.
 
+## 2026-10-12 — T-172 Create Task Group Zod schemas
+- Added the persisted group schema and creation schema with trimmed, bounded fields, defaults, nullable color, and ObjectId validation.
+- Deviations: Color is bounded to 32 characters; the source contract does not prescribe a palette or syntax.
+
 ## 2026-10-12 — T-150 Add task selection checkbox to List View
 - Reused the accessible task checkbox already rendered through `TaskListView` and confirmed it labels each task and marks selected rows.
 - Deviations: Selection state is currently local to the table component; shared selection state is addressed in T-152.
