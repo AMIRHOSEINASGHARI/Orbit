@@ -189,6 +189,18 @@ export function TasksToolbar({
           <SelectItem value="created-desc">Recently created</SelectItem>
         </SelectContent>
       </Select>
+
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        aria-label="Clear task filters"
+        disabled={!filters.status && !filters.priority && !filters.groupId && !filters.dueDate}
+        onClick={() => onChange({ search: filters.search, sort: filters.sort })}
+      >
+        <SlidersHorizontalIcon aria-hidden="true" className="size-4" />
+        Clear filters
+      </Button>
     </div>
   );
 }

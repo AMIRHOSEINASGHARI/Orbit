@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-129 Add Clear Filters functionality
+- Added an accessible Clear filters button that removes status, priority, group, and due-date criteria while preserving search and sort.
+- Deviations: None recorded.
+
 ## 2026-10-11 — T-128 Synchronize Task filters with URL search parameters
 - Restored status, priority, group, and due-date filters from validated URL parameters and synchronized filter changes with browser history navigation.
 - Deviations: None recorded.
