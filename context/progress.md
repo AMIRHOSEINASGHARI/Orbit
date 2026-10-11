@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-124 Add filtering by status
+- Verified the accessible status selector is connected to the status query filter, which is validated server-side and applied to the task query.
+- Deviations: The status control and server filtering were already implemented.
+
 ## 2026-10-11 — T-118 Follow-up: Add a clear search button
 - Added an accessible clear button to the search input; clearing uses the existing query flow to refresh results and remove the URL parameter.
 - Deviations: None recorded.
