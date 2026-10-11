@@ -1,17 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { PlusIcon } from "@/components/icons";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { getGroups } from "@/features/groups/actions/get-groups.action";
 import { GroupCreationDialog } from "@/features/groups/components/GroupCreationDialog";
-import { groupColorClass } from "@/features/groups/constants/group-colors";
+import { GroupCard } from "@/features/groups/components/GroupCard";
 import type { GroupListItem } from "@/features/groups/types/group.types";
 import type { ActionResult } from "@/types";
 
@@ -49,14 +47,7 @@ export function GroupsPage({ initialResult, userId }: {
         />
       ) : (
         <section aria-label="Groups" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {groups.map((group) => (
-            <Card key={group.id} className="min-h-[89px] p-5">
-              <Link href={`/groups/${group.id}`} className="flex min-w-0 items-center gap-2.5 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-                <span aria-hidden="true" className={`size-2.5 shrink-0 rounded-full ${groupColorClass(group.color)}`} />
-                <span className="truncate font-semibold">{group.name}</span>
-              </Link>
-            </Card>
-          ))}
+          {groups.map((group) => <GroupCard key={group.id} group={group} />)}
         </section>
       )}
 

@@ -11,8 +11,8 @@ import type { GroupListItem } from "@/features/groups/types/group.types";
 
 export function GroupCard({ group, onEdit, onTrash }: {
   group: GroupListItem;
-  onEdit: (group: GroupListItem) => void;
-  onTrash: (group: GroupListItem) => void;
+  onEdit?: (group: GroupListItem) => void;
+  onTrash?: (group: GroupListItem) => void;
 }) {
   const updated = group.updatedAt ? new Intl.DateTimeFormat(undefined, { dateStyle: "medium" }).format(new Date(group.updatedAt)) : "Recently";
   return (
@@ -22,13 +22,13 @@ export function GroupCard({ group, onEdit, onTrash }: {
           <span aria-hidden="true" className={`size-3 shrink-0 rounded-full ${groupColorClass(group.color)}`} />
           <h2 className="truncate text-lg font-semibold">{group.name}</h2>
         </div>
-        <DropdownMenu>
+        {(onEdit || onTrash) && <DropdownMenu>
           <DropdownMenuTrigger render={<Button variant="ghost" size="icon" aria-label={`Actions for ${group.name}`} />}><EllipsisIcon /></DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => onEdit(group)}><PencilIcon />Edit group</DropdownMenuItem>
-            <DropdownMenuItem variant="destructive" onClick={() => onTrash(group)}><Trash2Icon />Move to Trash</DropdownMenuItem>
+            {onEdit && <DropdownMenuItem onClick={() => onEdit(group)}><PencilIcon />Edit group</DropdownMenuItem>}
+            {onTrash && <DropdownMenuItem variant="destructive" onClick={() => onTrash(group)}><Trash2Icon />Move to Trash</DropdownMenuItem>}
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu>}
       </div>
       <p className="line-clamp-2 min-h-10 text-sm text-muted-foreground">{group.description || "No description"}</p>
       <div className="space-y-2">

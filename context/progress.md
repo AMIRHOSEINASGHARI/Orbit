@@ -1,4 +1,8 @@
-﻿## 2026-10-12 - T-179 Create the Group Card component
+﻿## 2026-10-12 - T-180 Display Groups on the Groups page
+- Replaced the placeholder group list with persisted summary cards, retaining the existing query loading, error, empty, and retry states.
+- Deviations: Edit/trash menu callbacks are connected in their dedicated tasks.
+
+## 2026-10-12 - T-179 Create the Group Card component
 - Added a responsive group card with task status counts, completion progress, update date, open link, and accessible edit/trash menu actions.
 - Deviations: Actions are callback props for the Groups page to connect in subsequent tasks.
 
