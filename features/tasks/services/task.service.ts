@@ -256,6 +256,20 @@ export async function moveTasksToGroupForUser(
   return result.modifiedCount;
 }
 
+export async function removeTasksFromGroupForUser(userId: string, taskIds: string[]): Promise<number> {
+  const result = await TaskModel.updateMany(
+    {
+      _id: { $in: taskIds.map((taskId) => requireObjectId(taskId, "task ID")) },
+      userId: requireObjectId(userId, "user ID"),
+      deletedAt: null,
+      groupId: { $ne: null },
+    },
+    { groupId: null },
+    { runValidators: true },
+  ).exec();
+  return result.modifiedCount;
+}
+
 export async function trashTaskForUser(userId: string, taskId: string): Promise<boolean> {
   const task = await TaskModel.findOneAndUpdate(
     {

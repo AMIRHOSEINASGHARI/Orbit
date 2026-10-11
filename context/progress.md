@@ -62,6 +62,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - Added an accessible destination menu from existing group options and connected group moves with pending/result feedback, cache invalidation, and success-only selection clearing.
 - Deviations: The action is unavailable when the user has no active groups.
 
+## 2026-10-12 — T-164 Create Bulk Remove from Group Server Action
+- Added authenticated bulk removal with unique bounded task IDs and owner-scoped updates that clear only non-null group assignments.
+- Deviations: Already Personal tasks and stale or inaccessible IDs are excluded from the result count.
+
 ## 2026-10-11 — T-149 Connect Drag & Drop View to the Task View switcher
 - Connected the three-column board to the shared query, task details/edit/trash flows, and existing status Server Action mutation.
 - Kept both modes mounted so switching preserves table selection and filters; column Add task opens the existing form with that status selected.
