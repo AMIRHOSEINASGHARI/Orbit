@@ -207,6 +207,19 @@ export async function trashTaskForUser(userId: string, taskId: string): Promise<
   return Boolean(task);
 }
 
+export async function trashTasksForUser(userId: string, taskIds: string[]): Promise<number> {
+  const result = await TaskModel.updateMany(
+    {
+      _id: { $in: taskIds.map((taskId) => requireObjectId(taskId, "task ID")) },
+      userId: requireObjectId(userId, "user ID"),
+      deletedAt: null,
+    },
+    { deletedAt: new Date() },
+    { runValidators: true },
+  ).exec();
+  return result.modifiedCount;
+}
+
 export async function restoreTaskForUser(userId: string, taskId: string): Promise<boolean> {
   const task = await TaskModel.findOneAndUpdate(
     {

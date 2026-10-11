@@ -30,6 +30,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - Added a responsive, accessible toolbar matching the selected-task Figma frame, including selected count, action controls, and Clear selection.
 - Action controls remain disabled until their corresponding mutation is connected in the following tasks.
 
+## 2026-10-12 — T-156 Create Bulk Move to Trash Server Action
+- Added authenticated, Zod-validated bulk trash with unique bounded IDs, owner-scoped active-task updates, safe result messages, and route revalidation.
+- Deviations: Stale or inaccessible IDs are ignored; the result reports only how many selected tasks were moved.
+
 ## 2026-10-11 — T-149 Connect Drag & Drop View to the Task View switcher
 - Connected the three-column board to the shared query, task details/edit/trash flows, and existing status Server Action mutation.
 - Kept both modes mounted so switching preserves table selection and filters; column Add task opens the existing form with that status selected.
