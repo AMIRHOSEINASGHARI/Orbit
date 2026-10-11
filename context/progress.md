@@ -1,4 +1,8 @@
-﻿## 2026-10-12 - T-182 Create the Group Details page
+﻿## 2026-10-12 - T-183 Display tasks belonging to a Group
+- Added an accessible responsive task table to group details using the authenticated task query filtered by group ID.
+- Deviations: The existing query page-size limit applies to this initial table.
+
+## 2026-10-12 - T-182 Create the Group Details page
 - Added a responsive group detail route with summary metrics, loading state, and a safe unavailable state.
 - Deviations: Edit action is connected in T-185.
 
