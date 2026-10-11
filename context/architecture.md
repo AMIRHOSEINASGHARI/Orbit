@@ -457,7 +457,7 @@ features/
     │   ├── task-card.tsx
     │   ├── task-list.tsx
     │   ├── task-details-drawer.tsx
-    │   ├── task-form.tsx
+    │   ├── task-creation-dialog.tsx
     │   └── task-filters.tsx
     │
     ├── hooks/
@@ -469,8 +469,7 @@ features/
     │   └── task.model.ts
     │
     ├── pages/
-    │   ├── tasks-page.tsx
-    │   └── edit-task-page.tsx
+    │   └── tasks-page.tsx
     │
     ├── schemas/
     │   └── task.schema.ts
@@ -507,6 +506,8 @@ TaskDetailsDrawer
 ```
 
 Task details open from a task row or card in the shared components/ui/drawer.tsx component, following the approved Figma Tasks Details drawer frame (8:2169). Do not create a standalone task details route or page. Load the selected task with getTaskById() and enforce the usual ownership checks.
+
+Task editing reuses the task creation dialog in edit mode, prefilled from the selected task and submitted through the authorized update action. Do not create a separate `/edit` route or page.
 
 ---
 
@@ -1000,7 +1001,7 @@ Keep responsibilities explicit.
 Example:
 
 ```text
-task-form.tsx
+task-creation-dialog.tsx
 → UI
 
 create-task.action.ts

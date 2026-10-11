@@ -2,6 +2,18 @@
 
 ## Completed
 
+- **T-101 - Create the `updateTask` Server Action** (2026-10-11): Added authenticated, validated updates with owner and group checks, a shared action result, and route revalidation. Verified with TypeScript.
+
+- **T-102 - Open the shared task dialog in edit mode** (2026-10-11): Connected the task table Edit action to the existing task dialog and removed the planned standalone `/edit` page from the architecture and task plan.
+
+- **T-103 - Load selected task data into the shared dialog** (2026-10-11): Prefilled the dialog with the selected task’s title, description, status, priority, group, and due date.
+
+- **T-104 - Connect the shared task dialog to the update action** (2026-10-11): Submits edits through the authenticated update action, disables submission while pending, and refreshes task queries after a successful update.
+
+- **T-105 - Add task update success feedback** (2026-10-11): Shows the server success message and closes/resets the dialog after saving.
+
+- **T-106 - Add task update error feedback** (2026-10-11): Displays server validation and global errors in the dialog and reports request failures with an error toast.
+
 - **T-100 - Display task group information** (2026-10-11): Added the selected task’s group marker and name using the authenticated group options, with a neutral Personal state and an unavailable-group fallback. Verified with TypeScript.
 
 - **T-99 - Display task due date** (2026-10-11): Refined the drawer due-date value to match the Figma calendar-clock treatment, format dates consistently, and clearly label tasks without a due date. The shared loading skeleton also covers this field. Verified with TypeScript.
@@ -16,7 +28,7 @@
 
 - **T-94 - Create the `getTaskById` Server Action** (2026-10-11): Added an authenticated task read action that validates the task ID, loads only a non-deleted task owned by the current user, returns a typed task result, and uses safe errors for invalid, missing, and failed reads. Verified with TypeScript.
 
-- **T-93 - Display tasks in the Figma table view** (2026-10-11): Expanded the shared, owner-authorized task list with the designed task, created, priority, group, due date, status, assignees, and action columns; added accessible page selection, selected-row styling, and client-side pagination. Optional group and due-date values have safe fallbacks, and the shared table keeps horizontal scrolling on narrow screens. View, edit, and delete controls remain disabled until their dependent detail, update, and delete flows are implemented.
+- **T-93 - Display tasks in the Figma table view** (2026-10-11): Expanded the shared, owner-authorized task list with the designed task, created, priority, group, due date, status, assignees, and action columns; added accessible page selection, selected-row styling, and client-side pagination. Optional group and due-date values have safe fallbacks, and the shared table keeps horizontal scrolling on narrow screens. View opens the details drawer; edit opens the shared task dialog; delete remains disabled until its flow is implemented.
 
 - **T-92 - Build the Tasks search and filter toolbar** (2026-10-09): Added the Figma toolbar with live search, combined status/priority/group/due-date filters, last-updated sorting, status presets, and a clear control. Extended the authenticated task query with strict validation and owner-scoped filtering. Verified with TypeScript.
 

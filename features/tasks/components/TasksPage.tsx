@@ -37,6 +37,7 @@ import { TasksToolbar } from "@/features/tasks/components/TasksToolbar";
 import { getTasks } from "@/features/tasks/actions/get-tasks.action";
 import { taskKeys } from "@/features/tasks/queries/task-keys";
 import { TaskDetailsDrawer } from "@/features/tasks/components/task-details-drawer";
+import { TaskCreationDialog } from "@/features/tasks/components/task-creation-dialog";
 
 const PAGE_SIZE = 10;
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
@@ -67,12 +68,14 @@ function TaskTable({
   page,
   onPageChange,
   onView,
+  onEdit,
 }: {
   tasks: TaskListItem[];
   groups: TaskGroupOption[];
   page: number;
   onPageChange: (page: number) => void;
   onView: (taskId: string) => void;
+  onEdit: (task: TaskListItem) => void;
 }) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set());
   const pageCount = Math.max(1, Math.ceil(tasks.length / PAGE_SIZE));
@@ -215,10 +218,10 @@ function TaskTable({
                     type="button"
                     variant="ghost"
                     size="icon"
-                    disabled
                     aria-label={`Edit ${task.title}`}
-                    title="Task editing is being implemented"
-                    className="rounded-lg text-muted-foreground disabled:opacity-100"
+                    title="Edit task"
+                    className="rounded-lg text-muted-foreground"
+                    onClick={() => onEdit(task)}
                   >
                     <PencilIcon />
                   </Button>
@@ -297,6 +300,7 @@ export function TasksPage({
   const [filters, setFilters] = useState<TaskListFilters>({});
   const [page, setPage] = useState(0);
   const [openTaskId, setOpenTaskId] = useState<string | null>(null);
+  const [editingTask, setEditingTask] = useState<TaskListItem | null>(null);
   const tasksQuery = useQuery({
     queryKey: taskKeys.list(userId, filters),
     queryFn: () => getTasks(filters),
@@ -332,6 +336,7 @@ export function TasksPage({
           page={page}
           onPageChange={setPage}
           onView={setOpenTaskId}
+          onEdit={setEditingTask}
         />
       </Card>
     ) : (
@@ -362,6 +367,13 @@ export function TasksPage({
         }}
       />
       {content}
+      <TaskCreationDialog
+        open={editingTask !== null}
+        onOpenChange={(open) => {
+          if (!open) setEditingTask(null);
+        }}
+        task={editingTask}
+      />
       <TaskDetailsDrawer
         userId={userId}
         taskId={openTaskId}

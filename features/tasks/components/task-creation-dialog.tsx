@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { differenceInCalendarDays, format, parseISO, startOfToday } from "date-fns";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { CalendarDaysIcon, Loader2Icon, PlusIcon, XIcon } from "@/components/icons";
+import { CalendarDaysIcon, Loader2Icon, PencilIcon, PlusIcon, XIcon } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -19,9 +19,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import type { ActionResult } from "@/types";
 import { createTaskAction, getTaskGroupOptions } from "@/features/tasks/actions/create-task.action";
+import { updateTaskAction } from "@/features/tasks/actions/update-task.action";
 import { createTaskSchema, type TaskInput } from "@/features/tasks/schemas/task.schema";
 import { TASK_PRIORITIES, TASK_STATUSES } from "@/features/tasks/types/task.types";
-import type { TaskGroupOption } from "@/features/tasks/types/task.types";
+import type { TaskGroupOption, TaskListItem } from "@/features/tasks/types/task.types";
 import { z } from "zod";
 
 const statusLabels = { todo: "Todo", "in-progress": "In progress", done: "Done" } as const;
@@ -34,13 +35,14 @@ function fieldError(state: ActionResult<unknown> | undefined, field: string) {
   return state && !state.success ? state.fieldErrors?.[field]?.[0] : undefined;
 }
 
-export function TaskCreationDialog({ open, onOpenChange }: {
+export function TaskCreationDialog({ open, onOpenChange, task = null }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  task?: TaskListItem | null;
 }) {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: createTaskAction,
+    mutationFn: (formData: FormData) => task ? updateTaskAction(formData) : createTaskAction(formData),
     onSuccess: async (result) => {
       if (!result.success) return;
       toast.success(result.data.message);
@@ -48,8 +50,9 @@ export function TaskCreationDialog({ open, onOpenChange }: {
       onOpenChange(false);
       await queryClient.invalidateQueries({ queryKey: ["tasks"] });
     },
-    onError: () => toast.error("Unable to create the task. Please try again."),
+    onError: () => toast.error(`Unable to ${task ? "update" : "create"} the task. Please try again.`),
   });
+  const resetMutation = mutation.reset;
   const state = mutation.data;
   const [groups, setGroups] = useState<TaskGroupOption[]>([]);
   const [groupsPending, setGroupsPending] = useState(false);
@@ -65,6 +68,15 @@ export function TaskCreationDialog({ open, onOpenChange }: {
 
   useEffect(() => {
     if (!open) return;
+    form.reset(task ? {
+      title: task.title,
+      description: task.description,
+      status: task.status,
+      priority: task.priority,
+      groupId: task.groupId ?? "personal",
+      dueDate: task.dueDate ? format(task.dueDate, "yyyy-MM-dd") : "",
+    } : { title: "", description: "", status: "todo", priority: "medium", groupId: "personal", dueDate: "" });
+    resetMutation();
     let active = true;
     setGroupsPending(true);
     setGroupsError(undefined);
@@ -72,7 +84,7 @@ export function TaskCreationDialog({ open, onOpenChange }: {
       if (!active) return;
       if (result.success) {
         setGroups(result.data);
-        if (result.data.length && form.getValues("groupId") === "personal") {
+        if (!task && result.data.length && form.getValues("groupId") === "personal") {
           form.setValue("groupId", result.data[0].id);
         }
       } else {
@@ -84,10 +96,11 @@ export function TaskCreationDialog({ open, onOpenChange }: {
       if (active) setGroupsPending(false);
     });
     return () => { active = false; };
-  }, [form, open]);
+  }, [form, open, resetMutation, task]);
 
   function submit(values: TaskInput) {
     const data = new FormData();
+    if (task) data.set("taskId", task.id);
     data.set("title", values.title);
     data.set("description", values.description);
     data.set("status", values.status);
@@ -109,8 +122,8 @@ export function TaskCreationDialog({ open, onOpenChange }: {
       <DialogContent showCloseButton={false} className="flex max-h-[calc(100dvh-2rem)] max-w-[calc(100%-1rem)] flex-col gap-0 overflow-hidden rounded-task-dialog p-0 shadow-task-dialog sm:max-w-[760px]">
         <header className="flex shrink-0 items-start justify-between gap-4 border-b border-border px-5 pb-5 pt-6 sm:pl-7 sm:pr-6">
           <div className="space-y-1.5">
-            <DialogTitle className="text-2xl font-bold leading-tight">Create new task</DialogTitle>
-            <DialogDescription className="text-ui-body">Add the details your team needs to understand, own, and complete this work.</DialogDescription>
+            <DialogTitle className="text-2xl font-bold leading-tight">{task ? "Edit task" : "Create new task"}</DialogTitle>
+            <DialogDescription className="text-ui-body">{task ? "Update the details for this task." : "Add the details your team needs to understand, own, and complete this work."}</DialogDescription>
           </div>
           <Button type="button" variant="outline" size="icon" aria-label="Close dialog" onClick={() => onOpenChange(false)} className="size-9 shrink-0 bg-table-header">
             <XIcon className="size-[17px]" />
@@ -202,12 +215,12 @@ export function TaskCreationDialog({ open, onOpenChange }: {
           </div>
 
           <footer className="flex shrink-0 flex-col-reverse gap-3 border-t border-border bg-table-header px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-7">
-            <span className="hidden text-ui-caption text-subtle-foreground sm:inline">⌘ Enter to create</span>
+            <span className="hidden text-ui-caption text-subtle-foreground sm:inline">⌘ Enter to {task ? "update" : "create"}</span>
             <div className="flex justify-end gap-2">
               <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="h-[42px] rounded-lg px-4">Cancel</Button>
               <Button type="submit" disabled={mutation.isPending || groupsPending} className="h-[42px] rounded-lg px-4">
-                {mutation.isPending ? <Loader2Icon aria-hidden="true" className="size-4 animate-spin" /> : <PlusIcon aria-hidden="true" className="size-4" />}
-                {mutation.isPending ? "Creating task…" : "Create task"}
+                {mutation.isPending ? <Loader2Icon aria-hidden="true" className="size-4 animate-spin" /> : task ? <PencilIcon aria-hidden="true" className="size-4" /> : <PlusIcon aria-hidden="true" className="size-4" />}
+                {mutation.isPending ? `${task ? "Updating" : "Creating"} task…` : task ? "Update task" : "Create task"}
               </Button>
             </div>
           </footer>

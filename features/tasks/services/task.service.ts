@@ -84,3 +84,31 @@ export async function createTaskForUser(userId: string, input: TaskInput): Promi
   const task = await TaskModel.create({ ...input, userId: ownerId, groupId });
   return task._id.toString();
 }
+
+export async function updateTaskForUser(
+  userId: string,
+  taskId: string,
+  input: TaskInput,
+): Promise<"updated" | "not-found" | "invalid-group"> {
+  const ownerId = requireObjectId(userId, "user ID");
+  const id = requireObjectId(taskId, "task ID");
+  const groupId = input.groupId ? requireObjectId(input.groupId, "group ID") : null;
+
+  if (groupId) {
+    const db = mongoose.connection.db;
+    if (!db) throw new Error("Database connection is unavailable.");
+    const group = await db.collection("taskgroups").findOne({
+      _id: groupId,
+      userId: ownerId,
+      deletedAt: null,
+    }, { projection: { _id: 1 } });
+    if (!group) return "invalid-group";
+  }
+
+  const task = await TaskModel.findOneAndUpdate(
+    { _id: id, userId: ownerId, deletedAt: null },
+    { ...input, groupId },
+    { new: true, runValidators: true },
+  ).select({ _id: 1 }).lean().exec();
+  return task ? "updated" : "not-found";
+}

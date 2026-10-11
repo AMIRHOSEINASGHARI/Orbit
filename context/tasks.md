@@ -754,7 +754,7 @@ Build the Tasks search and filter toolbar.
 
 Display tasks in the Figma table view.
 
-**Description:** Implement the Tasks table from Figma node `2:35705` and its selected-row state `2:35996` with persisted, authorized task data. Match the designed columns for task, created date, priority, group, due date, status, assignees, and row actions; include row selection, the table footer and pagination, and connect view/edit/delete actions to their task flows. Use the shared Table component, handle missing optional values, and keep the table accessible and usable on narrow screens.
+**Description:** Implement the Tasks table from Figma node `2:35705` and its selected-row state `2:35996` with persisted, authorized task data. Match the designed columns for task, created date, priority, group, due date, status, assignees, and row actions; include row selection, the table footer and pagination, and connect view to the details drawer, edit to the shared task dialog, and delete to its task flow. Use the shared Table component, handle missing optional values, and keep the table accessible and usable on narrow screens.
 
 ---
 
@@ -826,25 +826,25 @@ Create the `updateTask` Server Action.
 
 ## T-102
 
-Create the Edit Task page.
+Open the shared task dialog in edit mode.
 
-**Description:** Build the Edit Task page for Task Updating with the shared application layout, the required data and actions, and clear loading, empty, and error states. Ensure the route is accessible and responsive.
+**Description:** Open the existing task creation dialog from the selected task's Edit action. Keep editing in the current Tasks page and do not add a standalone `/edit` route.
 
 ---
 
 ## T-103
 
-Load existing task data into the Edit form.
+Load selected task data into the shared dialog.
 
-**Description:** Load existing task data into the Edit form through the specified data source, validate the result, and provide clear loading, empty, and failure states.
+**Description:** Prefill the shared task dialog from the selected task record, retaining its current field values and showing the same form validation used during creation.
 
 ---
 
 ## T-104
 
-Connect the Edit form to the `updateTask` Server Action.
+Connect the shared task dialog to the `updateTask` Server Action.
 
-**Description:** Connect the Edit form to the `updateTask` Server Action end to end within Task Updating. Pass the right inputs and state, handle pending and error results, provide accessible feedback, and refresh affected data after success.
+**Description:** Submit edits from the shared task dialog through the owner-authorized `updateTask` Server Action. Handle pending and error results, provide accessible feedback, and refresh affected data after success.
 
 ---
 
@@ -900,9 +900,9 @@ Add Done status action.
 
 ## T-111
 
-Update task status without opening the Edit page.
+Update task status without opening the task edit dialog.
 
-**Description:** Update task status without opening the Edit page in the current interface and persist the change through the authorized data flow, with pending and error feedback.
+**Description:** Update task status without opening the task edit dialog in the current interface and persist the change through the authorized data flow, with pending and error feedback.
 
 ---
 
