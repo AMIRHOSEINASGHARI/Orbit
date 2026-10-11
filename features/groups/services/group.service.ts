@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import { TaskGroupModel } from "@/features/groups/models/task-group.model";
 import { TaskModel } from "@/features/tasks/models/task.model";
 import type { CreateGroupInput } from "@/features/groups/schemas/group.schema";
-import type { GroupListItem } from "@/features/groups/types/group.types";
+import type { GroupListFilters, GroupListItem } from "@/features/groups/types/group.types";
 
 type GroupAggregateResult = Omit<GroupListItem, "id" | "workspaceId" | "taskCount" | "todoCount" | "inProgressCount" | "doneCount" | "completionPercent"> & {
   _id: mongoose.Types.ObjectId;
@@ -86,10 +86,12 @@ export async function permanentlyDeleteGroupForUser(userId: string, groupId: str
   });
 }
 
-async function listGroupsForUser(userId: string, deleted: boolean): Promise<GroupListItem[]> {
+async function listGroupsForUser(userId: string, deleted: boolean, filters: GroupListFilters = {}): Promise<GroupListItem[]> {
   const ownerId = new mongoose.Types.ObjectId(userId);
+  const escapedSearch = filters.search?.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const groups = await TaskGroupModel.aggregate<GroupAggregateResult>([
     { $match: { userId: ownerId, workspaceId: null, deletedAt: deleted ? { $ne: null } : null } },
+    ...(escapedSearch ? [{ $match: { $or: [{ name: { $regex: escapedSearch, $options: "i" } }, { description: { $regex: escapedSearch, $options: "i" } }] } }] : []),
     {
       $lookup: {
         from: TaskModel.collection.name,
@@ -151,8 +153,8 @@ async function listGroupsForUser(userId: string, deleted: boolean): Promise<Grou
   }));
 }
 
-export async function getGroupsForUser(userId: string): Promise<GroupListItem[]> {
-  return listGroupsForUser(userId, false);
+export async function getGroupsForUser(userId: string, filters: GroupListFilters = {}): Promise<GroupListItem[]> {
+  return listGroupsForUser(userId, false, filters);
 }
 
 export async function getTrashedGroupsForUser(userId: string): Promise<GroupListItem[]> {

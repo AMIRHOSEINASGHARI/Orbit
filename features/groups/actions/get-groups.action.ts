@@ -8,7 +8,7 @@ import { getCurrentUser } from "@/lib/auth/current-user";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { handleActionError } from "@/utils/actionError";
 
-const groupQuerySchema = z.object({}).strict();
+const groupQuerySchema = z.object({ search: z.string().trim().max(200).optional() }).strict();
 
 export async function getGroups(input: unknown = {}): Promise<ActionResult<GroupListItem[]>> {
   const user = await getCurrentUser();
@@ -19,7 +19,7 @@ export async function getGroups(input: unknown = {}): Promise<ActionResult<Group
 
   try {
     await connectToDatabase();
-    return { success: true, data: await getGroupsForUser(user.id) };
+    return { success: true, data: await getGroupsForUser(user.id, parsed.data) };
   } catch (error) {
     return handleActionError(error);
   }

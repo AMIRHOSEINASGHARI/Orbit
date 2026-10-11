@@ -25,3 +25,5 @@ export type GroupListItem = Omit<TaskGroup, "userId"> & {
   doneCount: number;
   completionPercent: number;
 };
+
+export type GroupListFilters = { search?: string };

@@ -1,4 +1,8 @@
-﻿## 2026-10-12 - T-190 Create permanent group deletion and cascade
+﻿## 2026-10-12 - T-191 Add Group search
+- Added validated case-insensitive name and description search on the server query and an accessible Groups page search field with empty-match feedback.
+- Deviations: Search state is held on the page and is not encoded in the URL.
+
+## 2026-10-12 - T-190 Create permanent group deletion and cascade
 - Added a Trash-only owner-scoped transaction to permanently delete a group and every task in it, with a confirmation UI.
 - Deviations: Permanent deletion is restricted to groups already in Trash.
 

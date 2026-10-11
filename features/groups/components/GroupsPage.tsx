@@ -4,11 +4,13 @@ import { useState } from "react";
 import Link from "next/link";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { PlusIcon } from "@/components/icons";
+import { PlusIcon, SearchIcon } from "@/components/icons";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { ErrorState } from "@/components/shared/ErrorState";
+import { LoadingState } from "@/components/shared/LoadingState";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { getGroups } from "@/features/groups/actions/get-groups.action";
 import { GroupCreationDialog } from "@/features/groups/components/GroupCreationDialog";
 import { GroupCard } from "@/features/groups/components/GroupCard";
@@ -23,6 +25,7 @@ export function GroupsPage({ initialResult, userId }: {
   userId: string;
 }) {
   const [createOpen, setCreateOpen] = useState(false);
+  const [search, setSearch] = useState("");
   const [editing, setEditing] = useState<GroupListItem | null>(null);
   const [trashTarget, setTrashTarget] = useState<GroupListItem | null>(null);
   const queryClient = useQueryClient();
@@ -38,14 +41,14 @@ export function GroupsPage({ initialResult, userId }: {
     },
   });
   const query = useQuery({
-    queryKey: ["groups", userId],
-    queryFn: () => getGroups(),
-    initialData: initialResult,
+    queryKey: ["groups", userId, search],
+    queryFn: () => getGroups({ search }),
+    initialData: search ? undefined : initialResult,
   });
-  const groups = query.data.success ? query.data.data : [];
+  const groups = query.data?.success ? query.data.data : [];
   const errorDescription = query.isError
     ? "Groups could not be loaded. Please try again."
-    : query.data.success ? undefined : query.data.error;
+    : query.data && !query.data.success ? query.data.error : undefined;
 
   return (
     <main className="space-y-6 p-5 sm:p-7">
@@ -55,9 +58,15 @@ export function GroupsPage({ initialResult, userId }: {
         breadcrumbs="WORKSPACE / GROUPS"
         actions={<div className="flex gap-2"><Button variant="outline" render={<Link href="/groups/trash" />}>Group Trash</Button><Button onClick={() => setCreateOpen(true)}><PlusIcon aria-hidden="true" />Create group</Button></div>}
       />
+      <label className="relative block max-w-md">
+        <SearchIcon aria-hidden="true" className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+        <Input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search groups" aria-label="Search groups" className="pl-9" />
+      </label>
 
-      {query.isError || !query.data.success ? (
+      {query.isPending ? <LoadingState label="Loading groups…" /> : query.isError || !query.data?.success ? (
         <ErrorState description={errorDescription} action={<Button variant="outline" onClick={() => void query.refetch()}>Try again</Button>} />
+      ) : groups.length === 0 && search ? (
+        <EmptyState title="No matching groups" description={`No groups match “${search}”. Try a different search.`} />
       ) : groups.length === 0 ? (
         <EmptyState
           title="No groups yet"
