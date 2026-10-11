@@ -2,6 +2,8 @@
 
 ## Completed
 
+- **Inline task priority editing** (2026-10-11): Added Figma-aligned Low, Medium, and High selection in the task table, with owner-scoped persistence, pending/success/error feedback, stable row order, and synchronized task caches. Verified with TypeScript.
+
 - **T-107 - Create the `changeTaskStatus` Server Action** (2026-10-11): Added strict task ID/status validation and authenticated, owner-scoped status updates for non-deleted tasks, with safe results and route revalidation.
 
 - **T-108 - Add Todo status action** (2026-10-11): Added the To do choice to the task row’s inline status selector.

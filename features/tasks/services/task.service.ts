@@ -2,7 +2,7 @@ import "server-only";
 import mongoose from "mongoose";
 import { TaskModel } from "@/features/tasks/models/task.model";
 import type { TaskInput } from "@/features/tasks/schemas/task.schema";
-import type { TaskGroupOption, TaskListFilters, TaskRecord, TaskStatus } from "@/features/tasks/types/task.types";
+import type { TaskGroupOption, TaskListFilters, TaskPriority, TaskRecord, TaskStatus } from "@/features/tasks/types/task.types";
 
 function requireObjectId(value: string, field: string): mongoose.Types.ObjectId {
   if (!mongoose.isValidObjectId(value)) throw new Error(`Invalid ${field}.`);
@@ -125,6 +125,23 @@ export async function changeTaskStatusForUser(
       deletedAt: null,
     },
     { status },
+    { runValidators: true, timestamps: false },
+  ).select({ _id: 1 }).lean().exec();
+  return Boolean(task);
+}
+
+export async function changeTaskPriorityForUser(
+  userId: string,
+  taskId: string,
+  priority: TaskPriority,
+): Promise<boolean> {
+  const task = await TaskModel.findOneAndUpdate(
+    {
+      _id: requireObjectId(taskId, "task ID"),
+      userId: requireObjectId(userId, "user ID"),
+      deletedAt: null,
+    },
+    { priority },
     { runValidators: true, timestamps: false },
   ).select({ _id: 1 }).lean().exec();
   return Boolean(task);

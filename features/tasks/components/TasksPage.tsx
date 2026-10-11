@@ -36,11 +36,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { changeTaskStatusAction } from "@/features/tasks/actions/change-task-status.action";
+import { changeTaskPriorityAction } from "@/features/tasks/actions/change-task-priority.action";
 import type { ActionResult } from "@/types";
 import type {
   TaskListItem,
   TaskListFilters,
   TaskGroupOption,
+  TaskPriority,
   TaskStatus,
 } from "@/features/tasks/types/task.types";
 import { TasksViewSwitcher } from "@/features/tasks/components/TasksViewSwitcher";
@@ -62,13 +64,14 @@ const statusLabels = {
   "in-progress": "In progress",
   done: "Done",
 } as const;
+const priorityLabels = { low: "Low", medium: "Medium", high: "High" } as const;
 const statusVariants = {
   todo: "todo",
   "in-progress": "info",
   done: "success",
 } as const;
 const priorityVariants = {
-  low: "info",
+  low: "success",
   medium: "warning",
   high: "danger",
 } as const;
@@ -83,6 +86,9 @@ function TaskTable({
   onStatusChange,
   statusMutationPending,
   pendingStatusTaskId,
+  onPriorityChange,
+  priorityMutationPending,
+  pendingPriorityTaskId,
 }: {
   tasks: TaskListItem[];
   groups: TaskGroupOption[];
@@ -93,6 +99,9 @@ function TaskTable({
   onStatusChange: (taskId: string, status: TaskStatus) => void;
   statusMutationPending: boolean;
   pendingStatusTaskId?: string;
+  onPriorityChange: (taskId: string, priority: TaskPriority) => void;
+  priorityMutationPending: boolean;
+  pendingPriorityTaskId?: string;
 }) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set());
   const pageCount = Math.max(1, Math.ceil(tasks.length / PAGE_SIZE));
@@ -179,9 +188,39 @@ function TaskTable({
                 {dateFormatter.format(task.createdAt)}
               </TableCell>
               <TableCell>
-                <Badge variant={priorityVariants[task.priority]}>
-                  {task.priority}
-                </Badge>
+                <span className="inline-flex items-center gap-2">
+                  <Select
+                    value={task.priority}
+                    onValueChange={(value) => {
+                      if (value) onPriorityChange(task.id, value as TaskPriority);
+                    }}
+                    disabled={priorityMutationPending}
+                  >
+                    <SelectTrigger
+                      aria-label={`Change priority for ${task.title}`}
+                      aria-busy={pendingPriorityTaskId === task.id}
+                      className="h-auto gap-[5px] rounded-full border-0 bg-transparent p-0 shadow-none hover:bg-transparent focus-visible:ring-0 disabled:opacity-60 [&>svg]:size-3 [&>svg]:text-muted-foreground"
+                    >
+                      <SelectValue>
+                        <Badge
+                          variant={priorityVariants[task.priority]}
+                          className="gap-1.5 px-[9px] py-[5px]"
+                        >
+                          <span aria-hidden="true" className="size-1.5 rounded-full bg-current" />
+                          {priorityLabels[task.priority]}
+                        </Badge>
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent align="start">
+                      <SelectItem value="low">Low</SelectItem>
+                      <SelectItem value="medium">Medium</SelectItem>
+                      <SelectItem value="high">High</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {pendingPriorityTaskId === task.id && priorityMutationPending && (
+                    <Loader2Icon aria-label="Saving priority" className="size-3.5 animate-spin text-muted-foreground" />
+                  )}
+                </span>
               </TableCell>
               <TableCell>
                 {group ? (
@@ -387,6 +426,38 @@ export function TasksPage({
     onError: () =>
       toast.error("Unable to update task status. Please try again."),
   });
+  const priorityMutation = useMutation({
+    mutationFn: (input: { taskId: string; priority: TaskPriority }) =>
+      changeTaskPriorityAction(input),
+    onSuccess: (result, { taskId, priority }) => {
+      if (!result.success) {
+        toast.error(result.error);
+        return;
+      }
+      toast.success(result.data.message);
+      queryClient.setQueryData<ActionResult<TaskListItem[]>>(
+        taskKeys.list(userId, filters),
+        (current) => current?.success
+          ? {
+              ...current,
+              data: current.data.flatMap((task) => {
+                if (task.id !== taskId) return [task];
+                if (filters.priority && filters.priority !== priority) return [];
+                return [{ ...task, priority }];
+              }),
+            }
+          : current,
+      );
+      queryClient.setQueryData<ActionResult<TaskListItem>>(
+        taskKeys.detail(userId, taskId),
+        (current) => current?.success
+          ? { ...current, data: { ...current.data, priority } }
+          : current,
+      );
+    },
+    onError: () =>
+      toast.error("Unable to update task priority. Please try again."),
+  });
   const tasksQuery = useQuery({
     queryKey: taskKeys.list(userId, filters),
     queryFn: () => getTasks(filters),
@@ -428,6 +499,11 @@ export function TasksPage({
           }
           statusMutationPending={statusMutation.isPending}
           pendingStatusTaskId={statusMutation.variables?.taskId}
+          onPriorityChange={(taskId, priority) =>
+            priorityMutation.mutate({ taskId, priority })
+          }
+          priorityMutationPending={priorityMutation.isPending}
+          pendingPriorityTaskId={priorityMutation.variables?.taskId}
         />
       </Card>
     ) : (
