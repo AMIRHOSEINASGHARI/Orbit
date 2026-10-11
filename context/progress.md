@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-12 — T-150 Add task selection checkbox to List View
+- Reused the accessible task checkbox already rendered through `TaskListView` and confirmed it labels each task and marks selected rows.
+- Deviations: Selection state is currently local to the table component; shared selection state is addressed in T-152.
+
 ## 2026-10-11 — T-149 Connect Drag & Drop View to the Task View switcher
 - Connected the three-column board to the shared query, task details/edit/trash flows, and existing status Server Action mutation.
 - Kept both modes mounted so switching preserves table selection and filters; column Add task opens the existing form with that status selected.
