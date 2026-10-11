@@ -18,7 +18,7 @@ import { TaskTrashDialog } from "./TaskTrashDialog";
 import { TaskBulkActionsToolbar } from "./TaskBulkActionsToolbar";
 import type { TaskViewMode } from "./TasksViewSwitcher";
 
-export function TasksList({ result, userId, groups, initialFilters, filters, page, onPageChange, view }: {
+export function TasksList({ result, userId, groups, initialFilters, filters, page, onPageChange, view, hideGroupColumn = false, defaultGroupId }: {
   result: ActionResult<TaskListPage>;
   userId: string;
   groups: TaskGroupOption[];
@@ -27,6 +27,8 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
   page: number;
   onPageChange: (page: number) => void;
   view: TaskViewMode;
+  hideGroupColumn?: boolean;
+  defaultGroupId?: string;
 }) {
   const [selectedTaskIds, setSelectedTaskIds] = useState<Set<string>>(() => new Set());
   const [openTaskId, setOpenTaskId] = useState<string | null>(null);
@@ -131,6 +133,7 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
                 pendingTrashTaskId={trashMutation.variables}
                 selectedTaskIds={selectedTaskIds}
                 onSelectedTaskIdsChange={setSelectedTaskIds}
+                hideGroupColumn={hideGroupColumn}
               />
             </>
           ) : (
@@ -167,6 +170,7 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
         }}
         task={editingTask}
         defaultStatus={createTaskStatus ?? "todo"}
+        defaultGroupId={defaultGroupId}
       />
       <TaskDetailsDrawer
         userId={userId}

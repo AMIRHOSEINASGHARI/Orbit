@@ -49,12 +49,18 @@ export function TasksToolbar({
   searchQuery,
   onSearchChange,
   onChange,
+  hideGroupFilter = false,
+  searchPlaceholder,
+  clearLabel = "Clear filters & sort",
 }: {
   filters: TaskListFilters;
   groups: TaskGroupOption[];
   searchQuery: string;
   onSearchChange: (query: string) => void;
   onChange: (filters: TaskListFilters) => void;
+  hideGroupFilter?: boolean;
+  searchPlaceholder?: string;
+  clearLabel?: string;
 }) {
   const [dueDateOpen, setDueDateOpen] = useState(false);
   const update = <K extends keyof TaskListFilters>(
@@ -69,7 +75,7 @@ export function TasksToolbar({
       aria-label="Task search and filters"
       className="flex flex-wrap items-center gap-2"
     >
-      <TaskSearchInput value={searchQuery} onChange={onSearchChange} />
+      <TaskSearchInput value={searchQuery} onChange={onSearchChange} placeholder={searchPlaceholder} />
 
       <Select
         value={filters.status}
@@ -113,7 +119,7 @@ export function TasksToolbar({
         </SelectContent>
       </Select>
 
-      <Select
+      {!hideGroupFilter && <Select
         value={filters.groupId}
         onValueChange={(value) => update("groupId", value ?? undefined)}
       >
@@ -131,7 +137,7 @@ export function TasksToolbar({
             </SelectItem>
           ))}
         </SelectContent>
-      </Select>
+      </Select>}
 
       <Popover open={dueDateOpen} onOpenChange={setDueDateOpen}>
         <PopoverTrigger
@@ -176,11 +182,11 @@ export function TasksToolbar({
         variant="ghost"
         size="sm"
         aria-label="Clear task filters and sorting"
-        disabled={!filters.status && !filters.priority && !filters.groupId && !filters.dueDate && !filters.sort}
+        disabled={!filters.status && !filters.priority && (hideGroupFilter || !filters.groupId) && !filters.dueDate && !filters.sort}
         onClick={() => onChange({ search: filters.search })}
       >
         <SlidersHorizontalIcon aria-hidden="true" className="size-4" />
-        Clear filters & sort
+        {clearLabel}
       </Button>
     </div>
   );

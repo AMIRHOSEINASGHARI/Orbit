@@ -4,12 +4,13 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/icons";
 import { TableFooter, TableRow, TableCell } from "@/components/ui/table";
 
-export function TaskTablePagination({ totalTasks, selectedCount, page, pageSize, onPageChange }: {
+export function TaskTablePagination({ totalTasks, selectedCount, page, pageSize, onPageChange, columnCount = 9 }: {
   totalTasks: number;
   selectedCount: number;
   page: number;
   pageSize: number;
   onPageChange: (page: number) => void;
+  columnCount?: number;
 }) {
   const pageCount = Math.max(1, Math.ceil(totalTasks / pageSize));
   const firstPage = Math.min(Math.max(page - 1, 0), Math.max(pageCount - 3, 0));
@@ -18,7 +19,7 @@ export function TaskTablePagination({ totalTasks, selectedCount, page, pageSize,
   return (
     <TableFooter>
       <TableRow className="h-12 hover:bg-transparent">
-        <TableCell colSpan={9} className="px-4">
+        <TableCell colSpan={columnCount} className="px-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <span aria-live="polite" className="text-ui-caption text-muted-foreground">
               Showing {totalTasks ? page * pageSize + 1 : 0}–

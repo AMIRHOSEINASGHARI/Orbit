@@ -16,6 +16,11 @@ import type { TaskListItem, TaskListPage, TaskListFilters, TaskStatus, TaskPrior
 
 export function useTaskMutations(userId: string, filters: TaskListFilters) {
   const queryClient = useQueryClient();
+  const refreshGroupSummary = () => {
+    if (filters.groupId && filters.groupId !== "personal") {
+      void queryClient.invalidateQueries({ queryKey: ["group", filters.groupId] });
+    }
+  };
   const statusMutation = useMutation({
     mutationFn: (input: { taskId: string; status: TaskStatus }) =>
       changeTaskStatusAction(input),
@@ -25,6 +30,7 @@ export function useTaskMutations(userId: string, filters: TaskListFilters) {
         return;
       }
       toast.success(result.data.message);
+      refreshGroupSummary();
       queryClient.setQueryData<ActionResult<TaskListPage>>(
         taskKeys.list(userId, filters),
         (current) => current?.success
@@ -53,6 +59,7 @@ export function useTaskMutations(userId: string, filters: TaskListFilters) {
         return;
       }
       toast.success(result.data.message);
+      refreshGroupSummary();
       queryClient.setQueryData<ActionResult<TaskListPage>>(
         taskKeys.list(userId, filters),
         (current) => current?.success
@@ -81,6 +88,7 @@ export function useTaskMutations(userId: string, filters: TaskListFilters) {
     onSuccess: async (result) => {
       if (!result.success) return;
       toast.success(result.data.message);
+      refreshGroupSummary();
       await queryClient.invalidateQueries({ queryKey: taskKeys.lists(userId) });
     },
   });
@@ -92,6 +100,7 @@ export function useTaskMutations(userId: string, filters: TaskListFilters) {
         return;
       }
       toast.success(result.data.message);
+      refreshGroupSummary();
       await queryClient.invalidateQueries({ queryKey: taskKeys.lists(userId) });
     },
     onError: () => toast.error("Unable to move selected tasks to trash. Please try again."),
@@ -104,6 +113,7 @@ export function useTaskMutations(userId: string, filters: TaskListFilters) {
         return;
       }
       toast.success(result.data.message);
+      refreshGroupSummary();
       await queryClient.invalidateQueries({ queryKey: taskKeys.lists(userId) });
     },
     onError: () => toast.error("Unable to update selected task statuses. Please try again."),
@@ -116,6 +126,7 @@ export function useTaskMutations(userId: string, filters: TaskListFilters) {
         return;
       }
       toast.success(result.data.message);
+      refreshGroupSummary();
       await queryClient.invalidateQueries({ queryKey: taskKeys.lists(userId) });
     },
     onError: () => toast.error("Unable to update selected task priorities. Please try again."),
@@ -128,6 +139,7 @@ export function useTaskMutations(userId: string, filters: TaskListFilters) {
         return;
       }
       toast.success(result.data.message);
+      refreshGroupSummary();
       await queryClient.invalidateQueries({ queryKey: taskKeys.lists(userId) });
     },
     onError: () => toast.error("Unable to move selected tasks to the group. Please try again."),
@@ -140,6 +152,7 @@ export function useTaskMutations(userId: string, filters: TaskListFilters) {
         return;
       }
       toast.success(result.data.message);
+      refreshGroupSummary();
       await queryClient.invalidateQueries({ queryKey: taskKeys.lists(userId) });
     },
     onError: () => toast.error("Unable to move selected tasks to Personal. Please try again."),

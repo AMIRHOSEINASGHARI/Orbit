@@ -36,11 +36,12 @@ function fieldError(state: ActionResult<unknown> | undefined, field: string) {
   return state && !state.success ? state.fieldErrors?.[field]?.[0] : undefined;
 }
 
-export function TaskCreationDialog({ open, onOpenChange, task = null, defaultStatus = "todo" }: {
+export function TaskCreationDialog({ open, onOpenChange, task = null, defaultStatus = "todo", defaultGroupId }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   task?: TaskListItem | null;
   defaultStatus?: TaskStatus;
+  defaultGroupId?: string;
 }) {
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -51,6 +52,7 @@ export function TaskCreationDialog({ open, onOpenChange, task = null, defaultSta
       form.reset();
       onOpenChange(false);
       await queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      if (defaultGroupId) await queryClient.invalidateQueries({ queryKey: ["group", defaultGroupId] });
     },
     onError: () => toast.error(`Unable to ${task ? "update" : "create"} the task. Please try again.`),
   });
@@ -61,7 +63,7 @@ export function TaskCreationDialog({ open, onOpenChange, task = null, defaultSta
   const [groupsError, setGroupsError] = useState<string>();
   const form = useForm<TaskFormValues, unknown, TaskInput>({
     resolver: zodResolver(createTaskSchema),
-    defaultValues: { title: "", description: "", status: defaultStatus, priority: "medium", groupId: "personal", dueDate: "", checklist: [] },
+    defaultValues: { title: "", description: "", status: defaultStatus, priority: "medium", groupId: defaultGroupId ?? "personal", dueDate: "", checklist: [] },
   });
   const dueDate = form.watch("dueDate");
   const status = form.watch("status") ?? "todo";
@@ -79,7 +81,7 @@ export function TaskCreationDialog({ open, onOpenChange, task = null, defaultSta
       groupId: task.groupId ?? "personal",
       dueDate: task.dueDate ? format(task.dueDate, "yyyy-MM-dd") : "",
       checklist: task.checklist.map(({ text, isCompleted }) => ({ text, isCompleted })),
-    } : { title: "", description: "", status: defaultStatus, priority: "medium", groupId: "personal", dueDate: "", checklist: [] });
+    } : { title: "", description: "", status: defaultStatus, priority: "medium", groupId: defaultGroupId ?? "personal", dueDate: "", checklist: [] });
     resetMutation();
     let active = true;
     setGroupsPending(true);
@@ -88,7 +90,7 @@ export function TaskCreationDialog({ open, onOpenChange, task = null, defaultSta
       if (!active) return;
       if (result.success) {
         setGroups(result.data);
-        if (!task && result.data.length && form.getValues("groupId") === "personal") {
+        if (!task && !defaultGroupId && result.data.length && form.getValues("groupId") === "personal") {
           form.setValue("groupId", result.data[0].id);
         }
       } else {
@@ -100,7 +102,7 @@ export function TaskCreationDialog({ open, onOpenChange, task = null, defaultSta
       if (active) setGroupsPending(false);
     });
     return () => { active = false; };
-  }, [defaultStatus, form, open, resetMutation, task]);
+  }, [defaultGroupId, defaultStatus, form, open, resetMutation, task]);
 
   function submit(values: TaskInput) {
     const data = new FormData();

@@ -35,9 +35,10 @@ export type TaskTableViewProps = {
   pendingTrashTaskId?: string;
   selectedTaskIds: Set<string>;
   onSelectedTaskIdsChange: (taskIds: Set<string>) => void;
+  hideGroupColumn?: boolean;
 };
 
-export function TaskTableView({ tasks, totalTasks, pageSize, groups, page, onPageChange, onView, onEdit, onStatusChange, statusMutationPending, pendingStatusTaskId, onPriorityChange, priorityMutationPending, pendingPriorityTaskId, onTrash, trashMutationPending, pendingTrashTaskId, selectedTaskIds, onSelectedTaskIdsChange }: TaskTableViewProps) {
+export function TaskTableView({ tasks, totalTasks, pageSize, groups, page, onPageChange, onView, onEdit, onStatusChange, statusMutationPending, pendingStatusTaskId, onPriorityChange, priorityMutationPending, pendingPriorityTaskId, onTrash, trashMutationPending, pendingTrashTaskId, selectedTaskIds, onSelectedTaskIdsChange, hideGroupColumn = false }: TaskTableViewProps) {
   const pageTasks = tasks;
   const selectedOnPage = pageTasks.filter((task) =>
     selectedTaskIds.has(task.id),
@@ -73,7 +74,7 @@ export function TaskTableView({ tasks, totalTasks, pageSize, groups, page, onPag
           <TableHead className="min-w-52 px-3">Task</TableHead>
           <TableHead>Created</TableHead>
           <TableHead>Priority</TableHead>
-          <TableHead>Group</TableHead>
+          {!hideGroupColumn && <TableHead>Group</TableHead>}
           <TableHead>Due date</TableHead>
           <TableHead>Status</TableHead>
           <TableHead>Assignees</TableHead>
@@ -116,14 +117,14 @@ export function TaskTableView({ tasks, totalTasks, pageSize, groups, page, onPag
               <TableCell className="text-muted-foreground">
                 {dateFormatter.format(task.createdAt)}
               </TableCell>
-              <TableCell>
+              {!hideGroupColumn && <TableCell>
                 <TaskPrioritySelect
                   task={task}
                   onPriorityChange={onPriorityChange}
                   priorityMutationPending={priorityMutationPending}
                   pendingPriorityTaskId={pendingPriorityTaskId}
                 />
-              </TableCell>
+              </TableCell>}
               <TableCell>
                 {group ? (
                   <span className="inline-flex items-center gap-2">
@@ -182,6 +183,7 @@ export function TaskTableView({ tasks, totalTasks, pageSize, groups, page, onPag
         page={page}
         pageSize={pageSize}
         onPageChange={onPageChange}
+        columnCount={hideGroupColumn ? 8 : 9}
       />
     </Table>
   );
