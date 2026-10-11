@@ -1126,11 +1126,13 @@ Synchronize Task pagination with URL search parameters.
 
 # Task Views
 
+**Design reference:** [Tasks — Drag & Drop View · Light](https://www.figma.com/design/laiZSESHpTPjtjhrWSU4aK/Orbit?node-id=2-36433). The Figma switcher exposes two modes: **Table View** and **Drag & Drop View**. “List View” below refers to the row-based task collection used by Table View; do not add a third view mode.
+
 ## T-138
 
 Create the List View component.
 
-**Description:** Build the List View interface for Task Views using shared components and design tokens. Support the required interactions, accessible keyboard behavior, responsive layout, and applicable loading or error states.
+**Description:** Create the data-driven, row-based task collection used by the Figma Table View. Render the current filtered and paginated task results without changing their order; expose task and action callbacks to the table presentation. This is a composition/data responsibility, not a separate third option in the view switcher. Keep loading, error, and empty states consistent with the Tasks page.
 
 ---
 
@@ -1138,7 +1140,7 @@ Create the List View component.
 
 Create the Table View component.
 
-**Description:** Build the Table View interface for Task Views using shared components and design tokens. Support the required interactions, accessible keyboard behavior, responsive layout, and applicable loading or error states.
+**Description:** Present the List View collection as the Figma row-based table, with columns for task title and identifier, created date, priority, group, due date, status, assignees, and row actions. Match the existing Tasks table design and reuse its controls for selection, status/priority updates, view, edit, and trash. Keep the table horizontally usable on narrow screens and retain the shared search/filter/sort toolbar and pagination. Show assignee, comment, or subtask metadata only when supported by task data; do not invent values.
 
 ---
 
@@ -1146,7 +1148,7 @@ Create the Table View component.
 
 Create the Drag & Drop board structure.
 
-**Description:** Create the Drag & Drop board structure for Task Views. Define the required behavior and data contract, integrate it with related features, and handle validation, access control, and expected failure states where applicable.
+**Description:** Create the Figma Kanban board with three equal-width, independently scrollable columns in Todo, In Progress, Done order. Keep the board below the shared Tasks heading and search/filter/sort toolbar. Each column must accept its status-specific tasks, expose an accessible heading/count, and provide the column actions space. Allow horizontal board scrolling on narrow screens rather than collapsing the columns until unusable. Include loading, error, and empty-column states.
 
 ---
 
@@ -1154,7 +1156,7 @@ Create the Drag & Drop board structure.
 
 Create the Todo Drag & Drop column.
 
-**Description:** Create the Todo Drag & Drop column for Task Views. Define the required behavior and data contract, integrate it with related features, and handle validation, access control, and expected failure states where applicable.
+**Description:** Implement the Todo column in the board style: muted status indicator, “Todo” heading and task count, Add task action, overflow menu, and a vertically scrollable stack of task cards. Show only Todo tasks and provide an empty-column state. The Add task action must open the existing task creation form with Todo selected.
 
 ---
 
@@ -1162,7 +1164,7 @@ Create the Todo Drag & Drop column.
 
 Create the In Progress Drag & Drop column.
 
-**Description:** Create the In Progress Drag & Drop column for Task Views. Define the required behavior and data contract, integrate it with related features, and handle validation, access control, and expected failure states where applicable.
+**Description:** Implement the In Progress column in the board style: blue status indicator, heading and count, Add task action, overflow menu, and a vertically scrollable stack of matching task cards. The Add task action must open the existing task creation form with In Progress selected. Include an empty-column state.
 
 ---
 
@@ -1170,7 +1172,7 @@ Create the In Progress Drag & Drop column.
 
 Create the Done Drag & Drop column.
 
-**Description:** Create the Done Drag & Drop column for Task Views. Define the required behavior and data contract, integrate it with related features, and handle validation, access control, and expected failure states where applicable.
+**Description:** Implement the Done column in the board style: green status indicator, heading and count, Add task action, overflow menu, and a vertically scrollable stack of matching task cards. The Add task action must open the existing task creation form with Done selected. Include an empty-column state.
 
 ---
 
@@ -1178,7 +1180,7 @@ Create the Done Drag & Drop column.
 
 Enable task dragging between columns.
 
-**Description:** Enable task dragging between columns with accessible pointer and keyboard interactions, and persist the resulting state through the authorized update flow.
+**Description:** Make the Figma task cards draggable between status columns using the visible grip affordance. Support pointer and keyboard movement with clear focus, drag, and drop feedback. A completed drop into another column changes the task status; canceling or dropping outside a valid column leaves it unchanged. Do not add manual within-column reordering because Tasks has no persisted ordering field.
 
 ---
 
@@ -1186,7 +1188,7 @@ Enable task dragging between columns.
 
 Persist Drag & Drop status changes using a Server Action.
 
-**Description:** Persist each Drag & Drop status change through the authorized Server Action. Validate the task and destination status, update the board after success, and restore the prior position with clear feedback if the save fails.
+**Description:** Persist a cross-column drop through the existing authenticated, ownership-checked task status update flow (reuse or extend the existing Server Action). Validate the task ID and destination status, update the board and affected task queries after success, and roll the card back to its original column with an accessible error message if saving fails. Avoid changing the table’s ordering behavior when a status is updated.
 
 ---
 
@@ -1194,7 +1196,7 @@ Persist Drag & Drop status changes using a Server Action.
 
 Create the Task View switcher.
 
-**Description:** Build the Task View interface for Task Views using shared components and design tokens. Support the required interactions, accessible keyboard behavior, responsive layout, and applicable loading or error states.
+**Description:** Build the Figma two-option switcher labeled “Table View” and “Drag & Drop View,” with matching list/table and columns icons, active selection styling, keyboard operation, and accessible selected-state semantics. Table View is the default. Keep the shared Tasks heading and toolbar visible when switching views.
 
 ---
 
@@ -1202,7 +1204,7 @@ Create the Task View switcher.
 
 Connect List View to the Task View switcher.
 
-**Description:** Connect List View to the Task View switcher end to end within Task Views. Pass the right inputs and state, handle pending and error results, provide accessible feedback, and refresh affected data after success.
+**Description:** Connect the row-based List View collection to the Table View option. Pass the current filtered, sorted, and paginated task data and existing row callbacks without reordering results or duplicating fetching and mutation state.
 
 ---
 
@@ -1210,7 +1212,7 @@ Connect List View to the Task View switcher.
 
 Connect Table View to the Task View switcher.
 
-**Description:** Connect Table View to the Task View switcher end to end within Task Views. Pass the right inputs and state, handle pending and error results, provide accessible feedback, and refresh affected data after success.
+**Description:** Render the Figma Table View when the Table View option is selected, using the shared List View collection and preserving its current filters, sort, pagination, selection, and task actions when changing modes.
 
 ---
 
@@ -1218,7 +1220,7 @@ Connect Table View to the Task View switcher.
 
 Connect Drag & Drop View to the Task View switcher.
 
-**Description:** Connect Drag & Drop View to the Task View switcher end to end within Task Views. Pass the right inputs and state, handle pending and error results, provide accessible feedback, and refresh affected data after success.
+**Description:** Render the three-column board when Drag & Drop View is selected. Reuse the current task query and shared toolbar state, preserve filter and sort behavior, and connect cross-column drops to the status update flow. Switching views must not reset task data or trigger duplicate requests.
 
 ---
 

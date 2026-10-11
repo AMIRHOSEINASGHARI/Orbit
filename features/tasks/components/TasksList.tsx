@@ -5,13 +5,12 @@ import { useQuery } from "@tanstack/react-query";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { getTasks } from "@/features/tasks/actions/get-tasks.action";
 import { taskKeys } from "@/features/tasks/queries/task-keys";
 import { useTaskMutations } from "@/features/tasks/hooks/use-task-mutations";
 import { TASK_PAGE_SIZE, type TaskListItem, type TaskListPage, type TaskListFilters, type TaskGroupOption } from "@/features/tasks/types/task.types";
 import type { ActionResult } from "@/types";
-import { TaskTable } from "./TaskTable";
+import { TaskListView } from "./TaskListView";
 import { TaskDetailsDrawer } from "./task-details-drawer";
 import { TaskCreationDialog } from "./task-creation-dialog";
 import { TaskTrashDialog } from "./TaskTrashDialog";
@@ -65,8 +64,7 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
         }
       />
     ) : taskResult.data.tasks.length ? (
-      <Card role="region" aria-label="Task list" className="gap-0 p-0">
-        <TaskTable
+      <TaskListView
           key={JSON.stringify(filters)}
           tasks={taskResult.data.tasks}
           totalTasks={taskResult.data.total}
@@ -90,7 +88,6 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
           trashMutationPending={trashMutation.isPending}
           pendingTrashTaskId={trashMutation.variables}
         />
-      </Card>
     ) : (
       <EmptyState
         title={hasFilters ? "No matching tasks" : "No tasks yet"}

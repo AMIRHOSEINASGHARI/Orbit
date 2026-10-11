@@ -16,25 +16,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
 });
 
-export function TaskTable({
-  tasks,
-  totalTasks,
-  pageSize,
-  groups,
-  page,
-  onPageChange,
-  onView,
-  onEdit,
-  onStatusChange,
-  statusMutationPending,
-  pendingStatusTaskId,
-  onPriorityChange,
-  priorityMutationPending,
-  pendingPriorityTaskId,
-  onTrash,
-  trashMutationPending,
-  pendingTrashTaskId,
-}: {
+export type TaskTableProps = {
   tasks: TaskListItem[];
   totalTasks: number;
   pageSize: number;
@@ -52,7 +34,9 @@ export function TaskTable({
   onTrash: (task: TaskListItem) => void;
   trashMutationPending: boolean;
   pendingTrashTaskId?: string;
-}) {
+};
+
+export function TaskTable({ tasks, totalTasks, pageSize, groups, page, onPageChange, onView, onEdit, onStatusChange, statusMutationPending, pendingStatusTaskId, onPriorityChange, priorityMutationPending, pendingPriorityTaskId, onTrash, trashMutationPending, pendingTrashTaskId }: TaskTableProps) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set());
   const pageTasks = tasks;
   const selectedOnPage = pageTasks.filter((task) =>
