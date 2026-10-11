@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { cn } from "cn";
 
+export type TaskViewMode = "table" | "board";
+
 const optionClassName = (selected: boolean) => cn(
   "h-[30px] gap-[7px] rounded-[6px] px-[11px]",
   selected
@@ -13,8 +15,8 @@ const optionClassName = (selected: boolean) => cn(
 );
 
 export function TasksViewSwitcher({ view, onChange }: {
-  view: "table" | "board";
-  onChange: (view: "table" | "board") => void;
+  view: TaskViewMode;
+  onChange: (view: TaskViewMode) => void;
 }) {
   return (
     <ButtonGroup

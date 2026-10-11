@@ -5,7 +5,7 @@ import { PageHeader } from "@/components/shared/PageHeader";
 import { useTaskFilters } from "@/features/tasks/hooks/use-task-filters";
 import type { ActionResult } from "@/types";
 import type { TaskListPage, TaskListFilters, TaskGroupOption } from "@/features/tasks/types/task.types";
-import { TasksViewSwitcher } from "./TasksViewSwitcher";
+import { TasksViewSwitcher, type TaskViewMode } from "./TasksViewSwitcher";
 import { TasksToolbar } from "./TasksToolbar";
 import { TasksList } from "./TasksList";
 
@@ -15,7 +15,7 @@ export function TasksPage({ result, userId, groups, initialFilters }: {
   groups: TaskGroupOption[];
   initialFilters: TaskListFilters;
 }) {
-  const [view, setView] = useState<"table" | "board">("table");
+  const [view, setView] = useState<TaskViewMode>("table");
   const { filters, searchQuery, page, setPage, onSearchChange, onFiltersChange } = useTaskFilters(initialFilters);
 
   return (
@@ -35,6 +35,7 @@ export function TasksPage({ result, userId, groups, initialFilters }: {
       />
       <TasksList
         result={result}
+        view={view}
         userId={userId}
         groups={groups}
         initialFilters={initialFilters}

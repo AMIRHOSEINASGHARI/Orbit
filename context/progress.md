@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-147 Connect List View to the Task View switcher
+- Passed the selected Figma mode from `TasksPage` to the list view and kept the row collection mounted when it is hidden.
+- Deviations: Board rendering is connected separately in T-149.
+
 ## 2026-10-11 — T-146 Create the Task View switcher
 - Matched the switcher to the Figma’s two modes and lifted selected-view state to `TasksPage`; Table View remains the default.
 - Deviations: None recorded.

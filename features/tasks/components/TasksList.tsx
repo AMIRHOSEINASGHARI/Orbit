@@ -14,8 +14,9 @@ import { TaskListView } from "./TaskListView";
 import { TaskDetailsDrawer } from "./task-details-drawer";
 import { TaskCreationDialog } from "./task-creation-dialog";
 import { TaskTrashDialog } from "./TaskTrashDialog";
+import type { TaskViewMode } from "./TasksViewSwitcher";
 
-export function TasksList({ result, userId, groups, initialFilters, filters, page, onPageChange }: {
+export function TasksList({ result, userId, groups, initialFilters, filters, page, onPageChange, view }: {
   result: ActionResult<TaskListPage>;
   userId: string;
   groups: TaskGroupOption[];
@@ -23,6 +24,7 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
   filters: TaskListFilters;
   page: number;
   onPageChange: (page: number) => void;
+  view: TaskViewMode;
 }) {
   const [openTaskId, setOpenTaskId] = useState<string | null>(null);
   const [editingTask, setEditingTask] = useState<TaskListItem | null>(null);
@@ -65,6 +67,7 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
       />
     ) : taskResult.data.tasks.length ? (
       <TaskListView
+          hidden={view !== "table"}
           key={JSON.stringify(filters)}
           tasks={taskResult.data.tasks}
           totalTasks={taskResult.data.total}
