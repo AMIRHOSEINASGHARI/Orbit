@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-142 Create the In Progress Drag & Drop column
+- Added the In Progress column using the shared column component, status count, add-task callback, empty state, and task-card actions.
+- Deviations: None recorded.
+
 ## 2026-10-11 — T-141 Create the Todo Drag & Drop column
 - Added an independently scrollable Todo column and reusable task cards with priority/status, group, due date, and task actions.
 - Deviations: Task IDs use the available database ID; assignee, comment, and subtask data is not present in the task model and is omitted.
