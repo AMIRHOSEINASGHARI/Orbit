@@ -22,6 +22,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - Added the indexed `trashedByGroupId` task reference and kept it out of client task responses; individual and bulk manual trash/restore clear the marker.
 - Deviations: Group cascade operations will set and clear this marker in T-186 and T-189.
 
+## 2026-10-12 — T-174 Create the `createGroup` Server Action
+- Added authenticated, validated group creation through the server-only service with caller-derived ownership and cache revalidation for groups, tasks, and dashboard.
+- Deviations: Group workspace ownership is initialized to `null` because the current application has no workspace context.
+
 ## 2026-10-12 — T-150 Add task selection checkbox to List View
 - Reused the accessible task checkbox already rendered through `TaskListView` and confirmed it labels each task and marks selected rows.
 - Deviations: Selection state is currently local to the table component; shared selection state is addressed in T-152.
