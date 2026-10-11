@@ -70,6 +70,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - Connected the toolbar action to selected IDs with pending/result feedback, task-list invalidation, and success-only selection clearing.
 - Deviations: None.
 
+## 2026-10-12 — T-166 Create the Bulk Permanently Delete Tasks Server Action
+- Added authenticated permanent deletion for unique bounded IDs, restricted to the caller's trashed tasks, with safe result messages and route revalidation.
+- Deviations: Stale, active, or inaccessible IDs are excluded from the deleted count.
+
 ## 2026-10-11 — T-149 Connect Drag & Drop View to the Task View switcher
 - Connected the three-column board to the shared query, task details/edit/trash flows, and existing status Server Action mutation.
 - Kept both modes mounted so switching preserves table selection and filters; column Add task opens the existing form with that status selected.

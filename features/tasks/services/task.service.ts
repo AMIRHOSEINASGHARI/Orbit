@@ -317,3 +317,12 @@ export async function permanentlyDeleteTaskForUser(userId: string, taskId: strin
   }).exec();
   return result.deletedCount > 0;
 }
+
+export async function permanentlyDeleteTasksForUser(userId: string, taskIds: string[]): Promise<number> {
+  const result = await TaskModel.deleteMany({
+    _id: { $in: taskIds.map((taskId) => requireObjectId(taskId, "task ID")) },
+    userId: requireObjectId(userId, "user ID"),
+    deletedAt: { $ne: null },
+  }).exec();
+  return result.deletedCount;
+}
