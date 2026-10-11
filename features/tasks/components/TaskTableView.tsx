@@ -65,7 +65,7 @@ export function TaskTableView({ tasks, totalTasks, pageSize, groups, page, onPag
   }
 
   return (
-    <Table aria-label="Tasks">
+    <Table aria-label="Task table">
       <TableHeader>
         <TableRow className="h-11 hover:bg-transparent">
           <TableHead className="w-10 px-3">

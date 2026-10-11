@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-148 Connect Table View to the Task View switcher
+- Named the Figma table presentation as an accessible region/table and retained it mounted while hidden, preserving selection and pagination state across view changes.
+- Deviations: None recorded.
+
 ## 2026-10-11 — T-147 Connect List View to the Task View switcher
 - Passed the selected Figma mode from `TasksPage` to the list view and kept the row collection mounted when it is hidden.
 - Deviations: Board rendering is connected separately in T-149.
