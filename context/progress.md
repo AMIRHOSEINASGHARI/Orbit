@@ -1,4 +1,8 @@
-﻿## 2026-10-12 - T-186 Create the trashGroup Server Action
+﻿## 2026-10-12 - T-187 Add Move Group to Trash functionality
+- Connected group card trash actions to a confirmation dialog, transactional server action, success feedback, and query refresh.
+- Deviations: None.
+
+## 2026-10-12 - T-186 Create the trashGroup Server Action
 - Added a validated owner-scoped group soft-delete transaction that marks only active group tasks and records their originating group.
 - Deviations: Transaction support requires MongoDB replica-set deployment configuration.
 

@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 import { PlusIcon } from "@/components/icons";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { ErrorState } from "@/components/shared/ErrorState";
@@ -11,6 +12,8 @@ import { getGroups } from "@/features/groups/actions/get-groups.action";
 import { GroupCreationDialog } from "@/features/groups/components/GroupCreationDialog";
 import { GroupCard } from "@/features/groups/components/GroupCard";
 import { GroupEditDialog } from "@/features/groups/components/GroupEditDialog";
+import { ConfirmationDialog } from "@/components/shared/ConfirmationDialog";
+import { trashGroup } from "@/features/groups/actions/trash-group.action";
 import type { GroupListItem } from "@/features/groups/types/group.types";
 import type { ActionResult } from "@/types";
 
@@ -20,6 +23,19 @@ export function GroupsPage({ initialResult, userId }: {
 }) {
   const [createOpen, setCreateOpen] = useState(false);
   const [editing, setEditing] = useState<GroupListItem | null>(null);
+  const [trashTarget, setTrashTarget] = useState<GroupListItem | null>(null);
+  const queryClient = useQueryClient();
+  const trashMutation = useMutation({
+    mutationFn: async (groupId: string) => {
+      const result = await trashGroup({ groupId });
+      if (!result.success) throw new Error(result.error);
+      return result.data;
+    },
+    onSuccess: (result) => {
+      toast.success(result.message);
+      void queryClient.invalidateQueries({ queryKey: ["groups"] });
+    },
+  });
   const query = useQuery({
     queryKey: ["groups", userId],
     queryFn: () => getGroups(),
@@ -49,12 +65,13 @@ export function GroupsPage({ initialResult, userId }: {
         />
       ) : (
         <section aria-label="Groups" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {groups.map((group) => <GroupCard key={group.id} group={group} onEdit={setEditing} />)}
+          {groups.map((group) => <GroupCard key={group.id} group={group} onEdit={setEditing} onTrash={setTrashTarget} />)}
         </section>
       )}
 
       <GroupCreationDialog open={createOpen} onOpenChange={setCreateOpen} />
       <GroupEditDialog group={editing} open={Boolean(editing)} onOpenChange={(open) => !open && setEditing(null)} />
+      <ConfirmationDialog open={Boolean(trashTarget)} onOpenChange={(open) => !open && setTrashTarget(null)} title={`Move “${trashTarget?.name ?? "group"}” to Trash?`} description="Its active tasks will move to Trash with it. You can restore them together later." confirmLabel="Move to Trash" onConfirm={async () => { if (!trashTarget) return; await trashMutation.mutateAsync(trashTarget.id); setTrashTarget(null); }} />
     </main>
   );
 }
