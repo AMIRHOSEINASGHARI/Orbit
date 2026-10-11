@@ -15,10 +15,10 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
-import { XIcon } from "@/components/icons";
+import { CalendarClockIcon, XIcon } from "@/components/icons";
 import type { TaskGroupOption } from "@/features/tasks/types/task.types";
 
-const dateFormatter = new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" });
+const dateFormatter = new Intl.DateTimeFormat("en-US", { month: "short", day: "2-digit", year: "numeric" });
 const statusLabels = { todo: "To do", "in-progress": "In progress", done: "Done" } as const;
 const statusVariants = { todo: "todo", "in-progress": "info", done: "success" } as const;
 const priorityLabels = { low: "Low", medium: "Medium", high: "High" } as const;
@@ -92,7 +92,9 @@ export function TaskDetailsDrawer({
                   <div>
                     <dt className="text-ui-caption font-medium text-muted-foreground">Due date</dt>
                     <dd className="mt-1 text-ui-small text-foreground">
-                      {taskResult.data.dueDate ? dateFormatter.format(taskResult.data.dueDate) : "No due date"}
+                      {taskResult.data.dueDate ? (
+                        <span className="inline-flex items-center gap-2"><CalendarClockIcon aria-hidden="true" className="size-4 text-muted-foreground" />{dateFormatter.format(taskResult.data.dueDate)}</span>
+                      ) : "No due date"}
                     </dd>
                   </div>
                   <div>

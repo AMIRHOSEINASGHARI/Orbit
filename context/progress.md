@@ -2,6 +2,8 @@
 
 ## Completed
 
+- **T-99 - Display task due date** (2026-10-11): Refined the drawer due-date value to match the Figma calendar-clock treatment, format dates consistently, and clearly label tasks without a due date. The shared loading skeleton also covers this field. Verified with TypeScript.
+
 - **T-98 - Display task priority** (2026-10-11): Added the persisted priority to drawer metadata using the shared priority badge variants and title-cased labels. Verified with TypeScript.
 
 - **T-97 - Display task status** (2026-10-11): Added the persisted task status to drawer metadata with the shared status badge treatment, a visual indicator, and readable labels for assistive technology. Verified with TypeScript.
