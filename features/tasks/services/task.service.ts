@@ -159,3 +159,16 @@ export async function trashTaskForUser(userId: string, taskId: string): Promise<
   ).select({ _id: 1 }).lean().exec();
   return Boolean(task);
 }
+
+export async function restoreTaskForUser(userId: string, taskId: string): Promise<boolean> {
+  const task = await TaskModel.findOneAndUpdate(
+    {
+      _id: requireObjectId(taskId, "task ID"),
+      userId: requireObjectId(userId, "user ID"),
+      deletedAt: { $ne: null },
+    },
+    { deletedAt: null },
+    { runValidators: true },
+  ).select({ _id: 1 }).lean().exec();
+  return Boolean(task);
+}
