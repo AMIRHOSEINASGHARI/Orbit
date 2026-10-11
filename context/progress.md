@@ -6,6 +6,11 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-136 Create the Task pagination UI
+- Replaced the text-only page indicator with Figma-style numbered buttons, active-page styling, and previous/next controls.
+- Added accessible page labels and live result-range updates.
+- Deviations: None recorded.
+
 ## 2026-10-11 — T-135 Add server-side Task pagination
 - Added validated page and page-size parameters with a default of 100 tasks, plus total-count metadata.
 - Updated task queries and cache mutations to use server-paginated result data.
