@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-128 Synchronize Task filters with URL search parameters
+- Restored status, priority, group, and due-date filters from validated URL parameters and synchronized filter changes with browser history navigation.
+- Deviations: None recorded.
+
 ## 2026-10-11 — T-127 Add filtering by due date
 - Verified the calendar selector supplies an ISO date and the server query matches tasks whose due date falls within that UTC day.
 - Deviations: The date control and server filtering were already implemented.
