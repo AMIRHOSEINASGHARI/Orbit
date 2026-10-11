@@ -54,6 +54,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - Connected High, Medium, and Low menu choices with pending and result feedback, list invalidation, and success-only selection clearing.
 - Deviations: None.
 
+## 2026-10-12 — T-162 Create Bulk Move to Group Server Action
+- Added authenticated, validated group moves with owner-scoped active-task updates and a destination-group ownership/lifecycle check.
+- Deviations: Stale or inaccessible task IDs are skipped and excluded from the updated count.
+
 ## 2026-10-11 — T-149 Connect Drag & Drop View to the Task View switcher
 - Connected the three-column board to the shared query, task details/edit/trash flows, and existing status Server Action mutation.
 - Kept both modes mounted so switching preserves table selection and filters; column Add task opens the existing form with that status selected.

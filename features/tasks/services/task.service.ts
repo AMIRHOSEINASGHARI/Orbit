@@ -228,6 +228,34 @@ export async function changeTasksPriorityForUser(
   return result.modifiedCount;
 }
 
+export async function moveTasksToGroupForUser(
+  userId: string,
+  taskIds: string[],
+  groupId: string,
+): Promise<number | null> {
+  const ownerId = requireObjectId(userId, "user ID");
+  const targetGroupId = requireObjectId(groupId, "group ID");
+  const db = mongoose.connection.db;
+  if (!db) throw new Error("Database connection is unavailable.");
+  const group = await db.collection("taskgroups").findOne({
+    _id: targetGroupId,
+    userId: ownerId,
+    deletedAt: null,
+  }, { projection: { _id: 1 } });
+  if (!group) return null;
+
+  const result = await TaskModel.updateMany(
+    {
+      _id: { $in: taskIds.map((taskId) => requireObjectId(taskId, "task ID")) },
+      userId: ownerId,
+      deletedAt: null,
+    },
+    { groupId: targetGroupId },
+    { runValidators: true },
+  ).exec();
+  return result.modifiedCount;
+}
+
 export async function trashTaskForUser(userId: string, taskId: string): Promise<boolean> {
   const task = await TaskModel.findOneAndUpdate(
     {
