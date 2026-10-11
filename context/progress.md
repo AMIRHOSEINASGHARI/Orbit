@@ -2,6 +2,8 @@
 
 ## Completed
 
+- **T-93 - Display tasks in the Figma table view** (2026-10-11): Expanded the shared, owner-authorized task list with the designed task, created, priority, group, due date, status, assignees, and action columns; added accessible page selection, selected-row styling, and client-side pagination. Optional group and due-date values have safe fallbacks, and the shared table keeps horizontal scrolling on narrow screens. View, edit, and delete controls remain disabled until their dependent detail, update, and delete flows are implemented.
+
 - **T-92 - Build the Tasks search and filter toolbar** (2026-10-09): Added the Figma toolbar with live search, combined status/priority/group/due-date filters, last-updated sorting, status presets, and a clear control. Extended the authenticated task query with strict validation and owner-scoped filtering. Verified with TypeScript.
 
 - **T-91 - Build the Tasks page header and view switcher** (2026-10-09): Added the Figma-aligned page header options with a keyboard-operable, accessible selected state for Table View and Drag & Drop View. Verified with TypeScript.
