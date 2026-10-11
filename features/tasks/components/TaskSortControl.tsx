@@ -15,7 +15,7 @@ export function TaskSortControl({ value, onChange }: {
   onChange: (value?: TaskSortOption) => void;
 }) {
   return (
-    <Select value={value} onValueChange={(nextValue) => onChange(nextValue as TaskSortOption | undefined)}>
+    <Select value={value ?? ""} onValueChange={(nextValue) => onChange(nextValue as TaskSortOption)}>
       <SelectTrigger aria-label="Sort tasks" className="h-[38px] w-[152px] text-xs">
         <ArrowUpDownIcon aria-hidden="true" className="size-[15px] text-muted-foreground" />
         <SelectValue placeholder="Last updated" />

@@ -175,12 +175,12 @@ export function TasksToolbar({
         type="button"
         variant="ghost"
         size="sm"
-        aria-label="Clear task filters"
-        disabled={!filters.status && !filters.priority && !filters.groupId && !filters.dueDate}
-        onClick={() => onChange({ search: filters.search, sort: filters.sort })}
+        aria-label="Clear task filters and sorting"
+        disabled={!filters.status && !filters.priority && !filters.groupId && !filters.dueDate && !filters.sort}
+        onClick={() => onChange({ search: filters.search })}
       >
         <SlidersHorizontalIcon aria-hidden="true" className="size-4" />
-        Clear filters
+        Clear filters & sort
       </Button>
     </div>
   );
