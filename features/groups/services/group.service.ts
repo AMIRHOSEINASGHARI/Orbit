@@ -84,3 +84,9 @@ export async function getGroupsForUser(userId: string): Promise<GroupListItem[]>
     completionPercent: taskCounts.taskCount ? Math.round((taskCounts.doneCount / taskCounts.taskCount) * 100) : 0,
   }));
 }
+
+export async function getGroupByIdForUser(userId: string, groupId: string): Promise<GroupListItem | null> {
+  if (!mongoose.isValidObjectId(groupId)) return null;
+  const groups = await getGroupsForUser(userId);
+  return groups.find((group) => group.id === groupId) ?? null;
+}

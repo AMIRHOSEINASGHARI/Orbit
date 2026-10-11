@@ -1,4 +1,8 @@
-﻿## 2026-10-12 - T-180 Display Groups on the Groups page
+﻿## 2026-10-12 - T-181 Create the getGroupById Server Action
+- Added authenticated ID validation and an owner-scoped group lookup returning the same safe summary contract as the group list.
+- Deviations: Lookup reuses the existing summary query so status counts stay consistent.
+
+## 2026-10-12 - T-180 Display Groups on the Groups page
 - Replaced the placeholder group list with persisted summary cards, retaining the existing query loading, error, empty, and retry states.
 - Deviations: Edit/trash menu callbacks are connected in their dedicated tasks.
 
