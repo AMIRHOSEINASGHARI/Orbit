@@ -220,7 +220,7 @@ export function TasksPage({
       />
       <TasksToolbar filters={filters} groups={groups} onChange={(nextFilters) => { setFilters(nextFilters); setPage(0); }} />
       {content}
-      <TaskDetailsDrawer userId={userId} taskId={openTaskId} open={openTaskId !== null} onOpenChange={(open) => { if (!open) setOpenTaskId(null); }} />
+      <TaskDetailsDrawer userId={userId} taskId={openTaskId} groups={groups} open={openTaskId !== null} onOpenChange={(open) => { if (!open) setOpenTaskId(null); }} />
     </main>
   );
 }
