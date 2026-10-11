@@ -66,6 +66,7 @@ export function TaskTableView({ tasks, totalTasks, pageSize, groups, page, onPag
             <Checkbox
               aria-label="Select all tasks on this page"
               checked={allSelected}
+              indeterminate={selectedOnPage > 0 && !allSelected}
               onCheckedChange={(checked) => togglePage(checked === true)}
             />
           </TableHead>
