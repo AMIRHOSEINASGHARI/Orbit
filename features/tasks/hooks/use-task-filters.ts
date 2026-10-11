@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { usePathname, useSearchParams } from "next/navigation";
-import { TASK_PRIORITIES, TASK_STATUSES, type TaskListFilters } from "@/features/tasks/types/task.types";
+import { TASK_PRIORITIES, TASK_SORT_OPTIONS, TASK_STATUSES, type TaskListFilters } from "@/features/tasks/types/task.types";
 
 export function useTaskFilters(initialFilters: TaskListFilters) {
   const searchParams = useSearchParams();
@@ -20,12 +20,13 @@ export function useTaskFilters(initialFilters: TaskListFilters) {
       return current.search === search ? current : { ...current, search };
     });
     const params = new URLSearchParams(window.location.search);
-    const urlFilters: [keyof Pick<TaskListFilters, "search" | "status" | "priority" | "groupId" | "dueDate">, string | undefined][] = [
+    const urlFilters: [keyof Pick<TaskListFilters, "search" | "status" | "priority" | "groupId" | "dueDate" | "sort">, string | undefined][] = [
       ["search", debouncedSearchQuery || undefined],
       ["status", filters.status],
       ["priority", filters.priority],
       ["groupId", filters.groupId],
       ["dueDate", filters.dueDate],
+      ["sort", filters.sort],
     ];
     for (const [key, value] of urlFilters) {
       if (value) params.set(key, value);
@@ -35,7 +36,7 @@ export function useTaskFilters(initialFilters: TaskListFilters) {
     if (query !== window.location.search.slice(1)) {
       window.history.pushState(null, "", `${pathname}${query ? `?${query}` : ""}`);
     }
-  }, [debouncedSearchQuery, filters.status, filters.priority, filters.groupId, filters.dueDate, pathname, searchQuery]);
+  }, [debouncedSearchQuery, filters.status, filters.priority, filters.groupId, filters.dueDate, filters.sort, pathname, searchQuery]);
 
   useEffect(() => {
     const search = searchParams.get("search") ?? "";
@@ -43,6 +44,7 @@ export function useTaskFilters(initialFilters: TaskListFilters) {
     const priority = searchParams.get("priority");
     const groupId = searchParams.get("groupId");
     const dueDate = searchParams.get("dueDate");
+    const sort = searchParams.get("sort");
     const parsedDueDate = dueDate ? new Date(`${dueDate}T00:00:00.000Z`) : null;
     const validDueDate = dueDate && /^\d{4}-\d{2}-\d{2}$/.test(dueDate) && parsedDueDate &&
       !Number.isNaN(parsedDueDate.getTime()) && parsedDueDate.toISOString().slice(0, 10) === dueDate
@@ -57,6 +59,7 @@ export function useTaskFilters(initialFilters: TaskListFilters) {
         priority: TASK_PRIORITIES.find((item) => item === priority),
         groupId: groupId === "personal" || (groupId && /^[\da-f]{24}$/i.test(groupId)) ? groupId : undefined,
         dueDate: validDueDate,
+        sort: TASK_SORT_OPTIONS.find((item) => item === sort),
       };
       return Object.keys({ ...current, ...nextFilters }).every((key) =>
         current[key as keyof TaskListFilters] === nextFilters[key as keyof TaskListFilters],
