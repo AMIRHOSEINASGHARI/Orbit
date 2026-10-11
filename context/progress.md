@@ -1,4 +1,8 @@
-﻿## 2026-10-12 - T-187 Add Move Group to Trash functionality
+﻿## 2026-10-12 - T-188 Exclude trashed Groups from normal Group queries
+- Confirmed normal group list/detail queries and task group selectors filter on deletedAt: null; cascade trash keeps tasks out of active task views.
+- Deviations: These filters were already in place and required no query changes.
+
+## 2026-10-12 - T-187 Add Move Group to Trash functionality
 - Connected group card trash actions to a confirmation dialog, transactional server action, success feedback, and query refresh.
 - Deviations: None.
 
