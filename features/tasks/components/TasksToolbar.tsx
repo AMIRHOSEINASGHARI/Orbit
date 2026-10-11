@@ -13,9 +13,11 @@ import { TaskSearchInput } from "@/features/tasks/components/TaskSearchInput";
 const statusLabels: Record<TaskStatus, string> = { todo: "To do", "in-progress": "In progress", done: "Done" };
 const priorityLabels: Record<TaskPriority, string> = { low: "Low", medium: "Medium", high: "High" };
 
-export function TasksToolbar({ filters, groups, onChange }: {
+export function TasksToolbar({ filters, groups, searchQuery, onSearchChange, onChange }: {
   filters: TaskListFilters;
   groups: TaskGroupOption[];
+  searchQuery: string;
+  onSearchChange: (query: string) => void;
   onChange: (filters: TaskListFilters) => void;
 }) {
   const [dueDateOpen, setDueDateOpen] = useState(false);
@@ -25,7 +27,7 @@ export function TasksToolbar({ filters, groups, onChange }: {
 
   return (
     <div role="group" aria-label="Task search and filters" className="flex flex-wrap items-center gap-2">
-      <TaskSearchInput value={filters.search ?? ""} onChange={(value) => update("search", value || undefined)} />
+      <TaskSearchInput value={searchQuery} onChange={onSearchChange} />
 
       <Select value={filters.status} onValueChange={(value) => update("status", value ? value as TaskStatus : undefined)}>
         <SelectTrigger aria-label="Filter by status" className="h-[38px] w-[102px] text-xs"><SelectValue placeholder="Status" /></SelectTrigger>

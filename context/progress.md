@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-119 Add search query state
+- Added explicit query state in TasksPage and connected it to the task search input and current result filters.
+- Deviations: None recorded.
+
 ## 2026-10-11 — T-118 Create the Task search input
 - Extracted the existing accessible search control into a reusable task search input without changing its appearance or filtering behavior.
 - Deviations: None recorded.

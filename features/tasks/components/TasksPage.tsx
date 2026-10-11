@@ -401,6 +401,7 @@ export function TasksPage({
   groups: TaskGroupOption[];
 }) {
   const [filters, setFilters] = useState<TaskListFilters>({});
+  const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(0);
   const [openTaskId, setOpenTaskId] = useState<string | null>(null);
   const [editingTask, setEditingTask] = useState<TaskListItem | null>(null);
@@ -551,8 +552,15 @@ export function TasksPage({
       <TasksToolbar
         filters={filters}
         groups={groups}
+        searchQuery={searchQuery}
+        onSearchChange={(query) => {
+          setSearchQuery(query);
+          setFilters((current) => ({ ...current, search: query || undefined }));
+          setPage(0);
+        }}
         onChange={(nextFilters) => {
           setFilters(nextFilters);
+          if (!nextFilters.search) setSearchQuery("");
           setPage(0);
         }}
       />
