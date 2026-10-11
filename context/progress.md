@@ -1,4 +1,8 @@
-﻿## 2026-10-12 - T-184 Create the updateGroup Server Action
+﻿## 2026-10-12 - T-185 Create the Edit Group dialog
+- Connected the shared form dialog in edit mode from group cards and detail pages; successful saves refresh group queries.
+- Deviations: None.
+
+## 2026-10-12 - T-184 Create the updateGroup Server Action
 - Added authenticated and validated group updates scoped to the current user's active personal group, with route revalidation.
 - Deviations: None.
 

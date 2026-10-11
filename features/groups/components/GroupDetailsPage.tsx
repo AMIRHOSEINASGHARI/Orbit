@@ -1,20 +1,25 @@
+"use client";
+
 import Link from "next/link";
-import { ChevronLeftIcon } from "@/components/icons";
+import { useState } from "react";
+import { ChevronLeftIcon, PencilIcon } from "@/components/icons";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { PageHeader } from "@/components/shared/PageHeader";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { groupColorClass } from "@/features/groups/constants/group-colors";
 import type { TaskListPage } from "@/features/tasks/types/task.types";
 import type { GroupListItem } from "@/features/groups/types/group.types";
 import type { ActionResult } from "@/types";
+import { GroupEditDialog } from "@/features/groups/components/GroupEditDialog";
 
 export function GroupDetailsPage({ result, tasksResult }: { result: ActionResult<GroupListItem>; tasksResult: ActionResult<TaskListPage> }) {
+  const [editing, setEditing] = useState(false);
   if (!result.success) return <main className="p-6"><EmptyState title="Group unavailable" description={result.error} action={<Button render={<Link href="/groups" />}><ChevronLeftIcon />Back to groups</Button>} /></main>;
   const group = result.data;
   return (
     <main className="space-y-6 p-5 sm:p-7">
-      <PageHeader title={group.name} description={group.description || "Group details and related tasks."} breadcrumbs="WORKSPACE / GROUPS / DETAILS" actions={<Button variant="outline" render={<Link href="/groups" />}><ChevronLeftIcon />All groups</Button>} />
+      <PageHeader title={group.name} description={group.description || "Group details and related tasks."} breadcrumbs="WORKSPACE / GROUPS / DETAILS" actions={<div className="flex gap-2"><Button variant="outline" render={<Link href="/groups" />}><ChevronLeftIcon />All groups</Button><Button variant="outline" onClick={() => setEditing(true)}><PencilIcon />Edit group</Button></div>} />
       <Card className="space-y-4 p-5">
         <div className="flex items-center gap-3"><span aria-hidden="true" className={`size-3 rounded-full ${groupColorClass(group.color)}`} /><h2 className="text-lg font-semibold">Group overview</h2></div>
         <div className="grid gap-4 sm:grid-cols-4">
@@ -30,6 +35,7 @@ export function GroupDetailsPage({ result, tasksResult }: { result: ActionResult
           : tasksResult.data.tasks.length === 0 ? <Card className="p-5 text-sm text-muted-foreground">No tasks in this group yet.</Card>
             : <div className="overflow-x-auto rounded-lg border"><table className="w-full min-w-[520px] text-left text-sm"><thead className="bg-muted/50 text-muted-foreground"><tr><th className="p-3 font-medium">Task</th><th className="p-3 font-medium">Status</th><th className="p-3 font-medium">Priority</th><th className="p-3 font-medium">Due date</th></tr></thead><tbody>{tasksResult.data.tasks.map((task) => <tr key={task.id} className="border-t"><td className="p-3 font-medium">{task.title}</td><td className="p-3">{task.status}</td><td className="p-3">{task.priority}</td><td className="p-3">{task.dueDate ? new Intl.DateTimeFormat(undefined, { dateStyle: "medium" }).format(new Date(task.dueDate)) : "—"}</td></tr>)}</tbody></table></div>}
       </section>
+      <GroupEditDialog group={group} open={editing} onOpenChange={setEditing} />
     </main>
   );
 }

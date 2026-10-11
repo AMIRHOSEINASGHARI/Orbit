@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { getGroups } from "@/features/groups/actions/get-groups.action";
 import { GroupCreationDialog } from "@/features/groups/components/GroupCreationDialog";
 import { GroupCard } from "@/features/groups/components/GroupCard";
+import { GroupEditDialog } from "@/features/groups/components/GroupEditDialog";
 import type { GroupListItem } from "@/features/groups/types/group.types";
 import type { ActionResult } from "@/types";
 
@@ -18,6 +19,7 @@ export function GroupsPage({ initialResult, userId }: {
   userId: string;
 }) {
   const [createOpen, setCreateOpen] = useState(false);
+  const [editing, setEditing] = useState<GroupListItem | null>(null);
   const query = useQuery({
     queryKey: ["groups", userId],
     queryFn: () => getGroups(),
@@ -47,11 +49,12 @@ export function GroupsPage({ initialResult, userId }: {
         />
       ) : (
         <section aria-label="Groups" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {groups.map((group) => <GroupCard key={group.id} group={group} />)}
+          {groups.map((group) => <GroupCard key={group.id} group={group} onEdit={setEditing} />)}
         </section>
       )}
 
       <GroupCreationDialog open={createOpen} onOpenChange={setCreateOpen} />
+      <GroupEditDialog group={editing} open={Boolean(editing)} onOpenChange={(open) => !open && setEditing(null)} />
     </main>
   );
 }
