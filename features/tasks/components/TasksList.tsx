@@ -15,6 +15,7 @@ import { TaskBoard } from "./TaskBoard";
 import { TaskDetailsDrawer } from "./task-details-drawer";
 import { TaskCreationDialog } from "./task-creation-dialog";
 import { TaskTrashDialog } from "./TaskTrashDialog";
+import { TaskBulkActionsToolbar } from "./TaskBulkActionsToolbar";
 import type { TaskViewMode } from "./TasksViewSwitcher";
 
 export function TasksList({ result, userId, groups, initialFilters, filters, page, onPageChange, view }: {
@@ -74,16 +75,10 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
           {taskResult.data.tasks.length ? (
             <>
               {selectedTaskIds.size > 0 && (
-                <div className="mb-3 flex justify-end">
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setSelectedTaskIds(new Set())}
-                  >
-                    Clear selection ({selectedTaskIds.size})
-                  </Button>
-                </div>
+                <TaskBulkActionsToolbar
+                  selectedCount={selectedTaskIds.size}
+                  onClearSelection={() => setSelectedTaskIds(new Set())}
+                />
               )}
               <TaskListView
                 key={JSON.stringify(filters)}
