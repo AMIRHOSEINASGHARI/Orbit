@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { PageHeader } from "@/components/shared/PageHeader";
+import { ConfirmationDialog } from "@/components/shared/ConfirmationDialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -106,7 +107,7 @@ function TaskTable({
   onPriorityChange: (taskId: string, priority: TaskPriority) => void;
   priorityMutationPending: boolean;
   pendingPriorityTaskId?: string;
-  onTrash: (taskId: string) => void;
+  onTrash: (task: TaskListItem) => void;
   trashMutationPending: boolean;
   pendingTrashTaskId?: string;
 }) {
@@ -331,7 +332,7 @@ function TaskTable({
                     aria-label={`Move ${task.title} to trash`}
                     title="Move to trash"
                     disabled={trashMutationPending}
-                    onClick={() => onTrash(task.id)}
+                    onClick={() => onTrash(task)}
                     className="rounded-lg text-destructive disabled:opacity-100"
                   >
                     {pendingTrashTaskId === task.id && trashMutationPending
@@ -403,6 +404,7 @@ export function TasksPage({
   const [page, setPage] = useState(0);
   const [openTaskId, setOpenTaskId] = useState<string | null>(null);
   const [editingTask, setEditingTask] = useState<TaskListItem | null>(null);
+  const [taskToTrash, setTaskToTrash] = useState<TaskListItem | null>(null);
   const queryClient = useQueryClient();
   const statusMutation = useMutation({
     mutationFn: (input: { taskId: string; status: TaskStatus }) =>
@@ -471,14 +473,10 @@ export function TasksPage({
   const trashMutation = useMutation({
     mutationFn: (taskId: string) => trashTask(taskId),
     onSuccess: async (result) => {
-      if (!result.success) {
-        toast.error(result.error);
-        return;
-      }
+      if (!result.success) return;
       toast.success(result.data.message);
       await queryClient.invalidateQueries({ queryKey: taskKeys.lists(userId) });
     },
-    onError: () => toast.error("Unable to move the task to trash. Please try again."),
   });
   const tasksQuery = useQuery({
     queryKey: taskKeys.list(userId, filters),
@@ -526,7 +524,7 @@ export function TasksPage({
           }
           priorityMutationPending={priorityMutation.isPending}
           pendingPriorityTaskId={priorityMutation.variables?.taskId}
-          onTrash={(taskId) => trashMutation.mutate(taskId)}
+          onTrash={setTaskToTrash}
           trashMutationPending={trashMutation.isPending}
           pendingTrashTaskId={trashMutation.variables}
         />
@@ -573,6 +571,21 @@ export function TasksPage({
         open={openTaskId !== null}
         onOpenChange={(open) => {
           if (!open) setOpenTaskId(null);
+        }}
+      />
+      <ConfirmationDialog
+        open={taskToTrash !== null}
+        onOpenChange={(open) => {
+          if (!open) setTaskToTrash(null);
+        }}
+        title="Move task to trash?"
+        description={taskToTrash ? `“${taskToTrash.title}” will be moved to Trash. You can restore it later.` : "This task will be moved to Trash. You can restore it later."}
+        confirmLabel="Move to Trash"
+        onConfirm={async () => {
+          if (!taskToTrash) return;
+          const result = await trashMutation.mutateAsync(taskToTrash.id);
+          if (!result.success) throw new Error(result.error);
+          setTaskToTrash(null);
         }}
       />
     </main>

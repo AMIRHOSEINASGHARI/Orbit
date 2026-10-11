@@ -6,6 +6,8 @@
 
 - **T-113 - Add Move to Trash action to Task Card** (2026-10-11): Enabled the task table row’s Move to Trash control with accessible labeling, pending indication, error feedback, and refresh after success. Verified with TypeScript.
 
+- **T-114 - Add task trash confirmation dialog** (2026-10-11): Added an accessible confirmation naming the selected task, explaining it can be restored, and keeping the dialog open with retry feedback when the mutation fails. Verified with TypeScript.
+
 - **Inline task priority editing** (2026-10-11): Added Figma-aligned Low, Medium, and High selection in the task table, with owner-scoped persistence, pending/success/error feedback, stable row order, and synchronized task caches. Verified with TypeScript.
 
 - **T-107 - Create the `changeTaskStatus` Server Action** (2026-10-11): Added strict task ID/status validation and authenticated, owner-scoped status updates for non-deleted tasks, with safe results and route revalidation.
