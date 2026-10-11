@@ -72,28 +72,42 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
       <>
         <div hidden={view !== "table"}>
           {taskResult.data.tasks.length ? (
-            <TaskListView
-              key={JSON.stringify(filters)}
-              tasks={taskResult.data.tasks}
-              totalTasks={taskResult.data.total}
-              pageSize={taskResult.data.pageSize}
-              groups={groups}
-              page={page}
-              onPageChange={onPageChange}
-              onView={setOpenTaskId}
-              onEdit={setEditingTask}
-              onStatusChange={(taskId, status) => statusMutation.mutate({ taskId, status })}
-              statusMutationPending={statusMutation.isPending}
-              pendingStatusTaskId={statusMutation.variables?.taskId}
-              onPriorityChange={(taskId, priority) => priorityMutation.mutate({ taskId, priority })}
-              priorityMutationPending={priorityMutation.isPending}
-              pendingPriorityTaskId={priorityMutation.variables?.taskId}
-              onTrash={setTaskToTrash}
-              trashMutationPending={trashMutation.isPending}
-              pendingTrashTaskId={trashMutation.variables}
-              selectedTaskIds={selectedTaskIds}
-              onSelectedTaskIdsChange={setSelectedTaskIds}
-            />
+            <>
+              {selectedTaskIds.size > 0 && (
+                <div className="mb-3 flex justify-end">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setSelectedTaskIds(new Set())}
+                  >
+                    Clear selection ({selectedTaskIds.size})
+                  </Button>
+                </div>
+              )}
+              <TaskListView
+                key={JSON.stringify(filters)}
+                tasks={taskResult.data.tasks}
+                totalTasks={taskResult.data.total}
+                pageSize={taskResult.data.pageSize}
+                groups={groups}
+                page={page}
+                onPageChange={onPageChange}
+                onView={setOpenTaskId}
+                onEdit={setEditingTask}
+                onStatusChange={(taskId, status) => statusMutation.mutate({ taskId, status })}
+                statusMutationPending={statusMutation.isPending}
+                pendingStatusTaskId={statusMutation.variables?.taskId}
+                onPriorityChange={(taskId, priority) => priorityMutation.mutate({ taskId, priority })}
+                priorityMutationPending={priorityMutation.isPending}
+                pendingPriorityTaskId={priorityMutation.variables?.taskId}
+                onTrash={setTaskToTrash}
+                trashMutationPending={trashMutation.isPending}
+                pendingTrashTaskId={trashMutation.variables}
+                selectedTaskIds={selectedTaskIds}
+                onSelectedTaskIdsChange={setSelectedTaskIds}
+              />
+            </>
           ) : (
             <EmptyState
               title={hasFilters ? "No matching tasks" : "No tasks yet"}

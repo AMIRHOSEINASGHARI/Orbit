@@ -22,6 +22,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - Kept Select All scoped to the current page and added the Figma-matched indeterminate header state when only some visible rows are selected.
 - Deviations: The table checkbox selects the current page, consistent with its label and pagination.
 
+## 2026-10-12 — T-154 Add Clear Selection functionality
+- Added a visible, keyboard-accessible Clear selection control when one or more tasks are selected.
+- Deviations: The control will move into the shared bulk toolbar in T-155.
+
 ## 2026-10-11 — T-149 Connect Drag & Drop View to the Task View switcher
 - Connected the three-column board to the shared query, task details/edit/trash flows, and existing status Server Action mutation.
 - Kept both modes mounted so switching preserves table selection and filters; column Add task opens the existing form with that status selected.
