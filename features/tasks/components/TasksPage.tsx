@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { PageHeader } from "@/components/shared/PageHeader";
@@ -14,6 +15,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   EyeIcon,
+  Loader2Icon,
   PencilIcon,
   Trash2Icon,
 } from "@/components/icons";
@@ -26,11 +28,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { changeTaskStatusAction } from "@/features/tasks/actions/change-task-status.action";
 import type { ActionResult } from "@/types";
 import type {
   TaskListItem,
   TaskListFilters,
   TaskGroupOption,
+  TaskStatus,
 } from "@/features/tasks/types/task.types";
 import { TasksViewSwitcher } from "@/features/tasks/components/TasksViewSwitcher";
 import { TasksToolbar } from "@/features/tasks/components/TasksToolbar";
@@ -69,6 +80,9 @@ function TaskTable({
   onPageChange,
   onView,
   onEdit,
+  onStatusChange,
+  statusMutationPending,
+  pendingStatusTaskId,
 }: {
   tasks: TaskListItem[];
   groups: TaskGroupOption[];
@@ -76,6 +90,9 @@ function TaskTable({
   onPageChange: (page: number) => void;
   onView: (taskId: string) => void;
   onEdit: (task: TaskListItem) => void;
+  onStatusChange: (taskId: string, status: TaskStatus) => void;
+  statusMutationPending: boolean;
+  pendingStatusTaskId?: string;
 }) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set());
   const pageCount = Math.max(1, Math.ceil(tasks.length / PAGE_SIZE));
@@ -196,9 +213,45 @@ function TaskTable({
                 )}
               </TableCell>
               <TableCell>
-                <Badge variant={statusVariants[task.status]}>
-                  {statusLabels[task.status]}
-                </Badge>
+                <span className="inline-flex items-center gap-2">
+                  <Select
+                    value={task.status}
+                    onValueChange={(value) => {
+                      if (value) onStatusChange(task.id, value as TaskStatus);
+                    }}
+                    disabled={statusMutationPending}
+                  >
+                    <SelectTrigger
+                      aria-label={`Change status for ${task.title}`}
+                      aria-busy={pendingStatusTaskId === task.id}
+                      className="h-auto gap-[5px] rounded-full border-0 bg-transparent p-0 shadow-none hover:bg-transparent focus-visible:ring-0 disabled:opacity-60 [&>svg]:size-3 [&>svg]:text-muted-foreground"
+                    >
+                      <SelectValue>
+                        <Badge
+                          variant={statusVariants[task.status]}
+                          className="gap-1.5 px-[9px] py-[5px]"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className="size-1.5 rounded-full bg-current"
+                          />
+                          {statusLabels[task.status]}
+                        </Badge>
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent align="start">
+                      <SelectItem value="todo">To do</SelectItem>
+                      <SelectItem value="in-progress">In progress</SelectItem>
+                      <SelectItem value="done">Done</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {pendingStatusTaskId === task.id && statusMutationPending && (
+                    <Loader2Icon
+                      aria-label="Saving status"
+                      className="size-3.5 animate-spin text-muted-foreground"
+                    />
+                  )}
+                </span>
               </TableCell>
               <TableCell className="text-muted-foreground">—</TableCell>
               <TableCell>
@@ -301,6 +354,39 @@ export function TasksPage({
   const [page, setPage] = useState(0);
   const [openTaskId, setOpenTaskId] = useState<string | null>(null);
   const [editingTask, setEditingTask] = useState<TaskListItem | null>(null);
+  const queryClient = useQueryClient();
+  const statusMutation = useMutation({
+    mutationFn: (input: { taskId: string; status: TaskStatus }) =>
+      changeTaskStatusAction(input),
+    onSuccess: (result, { taskId, status }) => {
+      if (!result.success) {
+        toast.error(result.error);
+        return;
+      }
+      toast.success(result.data.message);
+      queryClient.setQueryData<ActionResult<TaskListItem[]>>(
+        taskKeys.list(userId, filters),
+        (current) => current?.success
+          ? {
+              ...current,
+              data: current.data.flatMap((task) => {
+                if (task.id !== taskId) return [task];
+                if (filters.status && filters.status !== status) return [];
+                return [{ ...task, status }];
+              }),
+            }
+          : current,
+      );
+      queryClient.setQueryData<ActionResult<TaskListItem>>(
+        taskKeys.detail(userId, taskId),
+        (current) => current?.success
+          ? { ...current, data: { ...current.data, status } }
+          : current,
+      );
+    },
+    onError: () =>
+      toast.error("Unable to update task status. Please try again."),
+  });
   const tasksQuery = useQuery({
     queryKey: taskKeys.list(userId, filters),
     queryFn: () => getTasks(filters),
@@ -337,6 +423,11 @@ export function TasksPage({
           onPageChange={setPage}
           onView={setOpenTaskId}
           onEdit={setEditingTask}
+          onStatusChange={(taskId, status) =>
+            statusMutation.mutate({ taskId, status })
+          }
+          statusMutationPending={statusMutation.isPending}
+          pendingStatusTaskId={statusMutation.variables?.taskId}
         />
       </Card>
     ) : (

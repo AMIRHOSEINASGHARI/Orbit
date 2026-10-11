@@ -2,17 +2,23 @@
 
 ## Completed
 
-- **T-101 - Create the `updateTask` Server Action** (2026-10-11): Added authenticated, validated updates with owner and group checks, a shared action result, and route revalidation. Verified with TypeScript.
+- **T-107 - Create the `changeTaskStatus` Server Action** (2026-10-11): Added strict task ID/status validation and authenticated, owner-scoped status updates for non-deleted tasks, with safe results and route revalidation.
 
-- **T-102 - Open the shared task dialog in edit mode** (2026-10-11): Connected the task table Edit action to the existing task dialog and removed the planned standalone `/edit` page from the architecture and task plan.
+- **T-108 - Add Todo status action** (2026-10-11): Added the To do choice to the task row’s inline status selector.
 
-- **T-103 - Load selected task data into the shared dialog** (2026-10-11): Prefilled the dialog with the selected task’s title, description, status, priority, group, and due date.
+- **T-109 - Add In Progress status action** (2026-10-11): Added the In progress choice to the task row’s inline status selector.
 
-- **T-104 - Connect the shared task dialog to the update action** (2026-10-11): Submits edits through the authenticated update action, disables submission while pending, and refreshes task queries after a successful update.
+- **T-110 - Add Done status action** (2026-10-11): Added the Done choice to the task row’s inline status selector.
 
-- **T-105 - Add task update success feedback** (2026-10-11): Shows the server success message and closes/resets the dialog after saving.
+- **T-111 - Update task status without opening the task edit dialog** (2026-10-11): Connected the Figma-style status pill and chevron directly to the status action, with pending indication, success/error toasts, and task query refresh.
 
 - **T-106 - Add task update error feedback** (2026-10-11): Displays server validation and global errors in the dialog and reports request failures with an error toast.
+
+- **T-105 - Add task update success feedback** (2026-10-11): Shows the server success message and closes/resets the dialog after saving.
+- **T-104 - Connect the shared task dialog to the update action** (2026-10-11): Submits edits through the authenticated update action, disables submission while pending, and refreshes task queries after a successful update.
+- **T-103 - Load selected task data into the shared dialog** (2026-10-11): Prefilled the dialog with the selected task’s title, description, status, priority, group, and due date.
+- **T-102 - Open the shared task dialog in edit mode** (2026-10-11): Connected the task table Edit action to the existing task dialog and removed the planned standalone `/edit` page from the architecture and task plan.
+- **T-101 - Create the `updateTask` Server Action** (2026-10-11): Added authenticated, validated updates with owner and group checks, a shared action result, and route revalidation. Verified with TypeScript.
 
 - **T-100 - Display task group information** (2026-10-11): Added the selected task’s group marker and name using the authenticated group options, with a neutral Personal state and an unavailable-group fallback. Verified with TypeScript.
 

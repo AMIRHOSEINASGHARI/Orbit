@@ -878,7 +878,7 @@ Create the `changeTaskStatus` Server Action.
 
 Add Todo status action.
 
-**Description:** Add Todo status action to Task Status. Integrate it with the relevant data and UI, validate input where applicable, and provide clear feedback for success, pending, and failure states.
+**Description:** Add the To do choice to the task table's inline status selector and persist it through the authorized status action with clear pending, success, and failure feedback.
 
 ---
 
@@ -886,7 +886,7 @@ Add Todo status action.
 
 Add In Progress status action.
 
-**Description:** Add In Progress status action to Task Status. Integrate it with the relevant data and UI, validate input where applicable, and provide clear feedback for success, pending, and failure states.
+**Description:** Add the In progress choice to the task table's inline status selector and persist it through the authorized status action with clear pending, success, and failure feedback.
 
 ---
 
@@ -894,7 +894,7 @@ Add In Progress status action.
 
 Add Done status action.
 
-**Description:** Add Done status action to Task Status. Integrate it with the relevant data and UI, validate input where applicable, and provide clear feedback for success, pending, and failure states.
+**Description:** Add the Done choice to the task table's inline status selector and persist it through the authorized status action with clear pending, success, and failure feedback.
 
 ---
 
