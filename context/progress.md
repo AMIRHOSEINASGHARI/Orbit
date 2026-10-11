@@ -1,4 +1,8 @@
-﻿## 2026-10-12 - T-189 Create the restoreGroup Server Action
+﻿## 2026-10-12 - T-190 Create permanent group deletion and cascade
+- Added a Trash-only owner-scoped transaction to permanently delete a group and every task in it, with a confirmation UI.
+- Deviations: Permanent deletion is restricted to groups already in Trash.
+
+## 2026-10-12 - T-189 Create the restoreGroup Server Action
 - Added transactional group recovery that restores only tasks tagged as automatically trashed by that same group, plus a group Trash view and restore action.
 - Deviations: Recovery is provided at /groups/trash pending a unified task and group Trash view.
 
