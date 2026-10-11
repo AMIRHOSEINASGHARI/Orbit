@@ -111,6 +111,7 @@ export function TaskTableView({ tasks, totalTasks, pageSize, groups, page, onPag
                     {task.description}
                   </p>
                 )}
+                {task.checklist.length > 0 && <p className="mt-0.5 text-ui-caption text-muted-foreground">{task.checklist.filter((item) => item.isCompleted).length}/{task.checklist.length} checklist</p>}
               </TableCell>
               <TableCell className="text-muted-foreground">
                 {dateFormatter.format(task.createdAt)}
@@ -160,7 +161,7 @@ export function TaskTableView({ tasks, totalTasks, pageSize, groups, page, onPag
                   pendingStatusTaskId={pendingStatusTaskId}
                 />
               </TableCell>
-              <TableCell className="text-muted-foreground">—</TableCell>
+              <TableCell className="text-muted-foreground">{task.assigneeCount ? `${task.assigneeCount} assigned` : "—"}</TableCell>
               <TableCell>
                 <TaskRowActions
                   task={task}

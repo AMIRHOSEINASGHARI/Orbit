@@ -1,8 +1,10 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 import { getTaskById } from "@/features/tasks/actions/get-task-by-id.action";
+import { changeTaskChecklistItemAction } from "@/features/tasks/actions/change-task-checklist-item.action";
 import { taskKeys } from "@/features/tasks/queries/task-keys";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -22,32 +24,23 @@ import {
   CircleDotIcon,
   FlagIcon,
   FolderIcon,
+  PencilIcon,
+  Trash2Icon,
   UsersIcon,
   XIcon,
 } from "@/components/icons";
-import type { TaskGroupOption } from "@/features/tasks/types/task.types";
+import type { TaskGroupOption, TaskListItem } from "@/features/tasks/types/task.types";
+import { TaskDetailsChecklist } from "./task-details-checklist";
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "short",
   day: "2-digit",
   year: "numeric",
 });
-const statusLabels = {
-  todo: "To do",
-  "in-progress": "In Progress",
-  done: "Done",
-} as const;
-const statusVariants = {
-  todo: "todo",
-  "in-progress": "info",
-  done: "success",
-} as const;
+const statusLabels = { todo: "To do", "in-progress": "In Progress", done: "Done" } as const;
+const statusVariants = { todo: "todo", "in-progress": "info", done: "success" } as const;
 const priorityLabels = { low: "Low", medium: "Medium", high: "High" } as const;
-const priorityVariants = {
-  low: "info",
-  medium: "warning",
-  high: "danger",
-} as const;
+const priorityVariants = { low: "info", medium: "warning", high: "danger" } as const;
 
 function MetadataItem({
   icon,
@@ -82,17 +75,40 @@ export function TaskDetailsDrawer({
   groups,
   open,
   onOpenChange,
+  onEdit,
+  onTrash,
+  onComplete,
 }: {
   userId: string;
   taskId: string | null;
   groups: TaskGroupOption[];
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onEdit: (task: TaskListItem) => void;
+  onTrash: (task: TaskListItem) => void;
+  onComplete: (taskId: string) => void;
 }) {
+  const queryClient = useQueryClient();
   const taskQuery = useQuery({
     queryKey: taskKeys.detail(userId, taskId ?? ""),
     queryFn: () => getTaskById(taskId),
     enabled: open && taskId !== null,
+  });
+  const checklistMutation = useMutation({
+    mutationFn: (input: { taskId: string; index: number; text: string; isCompleted: boolean }) => changeTaskChecklistItemAction(input),
+    onSuccess: (result, input) => {
+      if (!result.success) {
+        toast.error(result.error);
+        void queryClient.invalidateQueries({ queryKey: taskKeys.detail(userId, input.taskId) });
+        return;
+      }
+      queryClient.setQueryData(taskKeys.detail(userId, input.taskId), result);
+      void queryClient.invalidateQueries({ queryKey: taskKeys.lists(userId) });
+    },
+    onError: (_error, input) => {
+      toast.error("Unable to update the checklist. Please try again.");
+      void queryClient.invalidateQueries({ queryKey: taskKeys.detail(userId, input.taskId) });
+    },
   });
   const taskResult = taskQuery.data;
   const title = taskResult?.success ? taskResult.data.title : "Task details";
@@ -107,7 +123,7 @@ export function TaskDetailsDrawer({
         <DrawerHeader className="h-[116px] shrink-0 gap-3 border-b px-6 pt-[18px] pb-4 text-left">
           <div className="flex w-full items-center justify-between">
             <div className="flex min-w-0 items-center gap-[7px] text-[11px]">
-              <span className="font-semibold text-primary">TASK</span>
+              <span className="font-semibold text-primary">TASK {taskId?.slice(-6).toUpperCase()}</span>
               <span
                 aria-hidden="true"
                 className="size-[3px] rounded-full bg-border"
@@ -215,7 +231,7 @@ export function TaskDetailsDrawer({
                 </MetadataItem>
                 <MetadataItem icon={<UsersIcon />} label="Assignees">
                   <span className="text-[12px] font-semibold text-subtle-foreground">
-                    Unassigned
+                    {taskResult.data.assigneeCount ? `${taskResult.data.assigneeCount} assigned` : "Unassigned"}
                   </span>
                 </MetadataItem>
                 <MetadataItem icon={<CalendarPlusIcon />} label="Created">
@@ -232,6 +248,9 @@ export function TaskDetailsDrawer({
                       : "No due date"}
                   </span>
                 </MetadataItem>
+                {taskResult.data.completedAt && <MetadataItem icon={<CalendarClockIcon />} label="Completed">
+                  <span className="text-[12px] font-semibold text-foreground">{dateFormatter.format(taskResult.data.completedAt)}</span>
+                </MetadataItem>}
               </section>
               <section
                 aria-labelledby="task-description"
@@ -247,9 +266,25 @@ export function TaskDetailsDrawer({
                   {taskResult.data.description || "No description provided."}
                 </p>
               </section>
+              <TaskDetailsChecklist
+                items={taskResult.data.checklist}
+                pending={checklistMutation.isPending}
+                onToggle={(index, item, isCompleted) => checklistMutation.mutate({ taskId: taskResult.data.id, index, text: item.text, isCompleted })}
+              />
+              <section aria-labelledby="task-attachments" className="space-y-2 border-t border-border pt-4">
+                <h2 id="task-attachments" className="text-[11px] font-semibold uppercase text-subtle-foreground">Attachments</h2>
+                <p className="text-ui-small text-muted-foreground">{taskResult.data.attachmentCount ? `${taskResult.data.attachmentCount} attached files. File access is coming later.` : "No attachments yet. Uploads are coming later."}</p>
+              </section>
             </div>
           )}
         </div>
+        {taskResult?.success && <footer className="flex shrink-0 items-center justify-between gap-2 border-t border-border bg-table-header px-6 py-4">
+          <Button type="button" variant="ghost" onClick={() => { onOpenChange(false); onTrash(taskResult.data); }} className="text-destructive"><Trash2Icon aria-hidden="true" className="size-4" />Delete</Button>
+          <div className="flex gap-2">
+            <Button type="button" variant="outline" disabled={checklistMutation.isPending} onClick={() => { onOpenChange(false); onEdit(taskResult.data); }}><PencilIcon aria-hidden="true" className="size-4" />Edit task</Button>
+            {taskResult.data.status !== "done" && <Button type="button" onClick={() => onComplete(taskResult.data.id)}>Mark complete</Button>}
+          </div>
+        </footer>}
       </DrawerContent>
     </Drawer>
   );

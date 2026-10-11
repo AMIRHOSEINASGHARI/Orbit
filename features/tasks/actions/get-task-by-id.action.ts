@@ -4,7 +4,7 @@ import { z } from "zod";
 import type { ActionResult } from "@/types";
 import { getCurrentUser } from "@/lib/auth/current-user";
 import { connectToDatabase } from "@/lib/db/mongoose";
-import { getTaskById as findTaskById } from "@/features/tasks/services/task.service";
+import { getTaskById as findTaskById, toTaskListItem } from "@/features/tasks/services/task.service";
 import type { TaskListItem } from "@/features/tasks/types/task.types";
 import { handleActionError } from "@/utils/actionError";
 
@@ -22,10 +22,9 @@ export async function getTaskById(taskId: unknown): Promise<ActionResult<TaskLis
     const task = await findTaskById(user.id, parsedTaskId.data);
     if (!task) return { success: false, error: "Task not found." };
 
-    const { _id, userId: _ownerId, groupId, trashedByGroupId: _groupTrashMarker, ...fields } = task;
     return {
       success: true,
-      data: { ...fields, id: _id.toString(), groupId: groupId?.toString() ?? null },
+      data: toTaskListItem(task),
     };
   } catch (error) {
     return handleActionError(error);

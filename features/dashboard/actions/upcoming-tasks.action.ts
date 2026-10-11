@@ -30,6 +30,7 @@ export async function getUpcomingTasks(): Promise<ActionResult<RecentTask[]>> {
       .find<TaskDocument>(
         {
           userId: new mongoose.Types.ObjectId(user.id),
+          workspaceId: null,
           deletedAt: null,
           archivedAt: null,
           status: { $ne: "done" },

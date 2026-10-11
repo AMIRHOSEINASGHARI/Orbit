@@ -28,6 +28,7 @@ export async function getOverdueTasks(): Promise<ActionResult<OverdueTasks>> {
     today.setHours(0, 0, 0, 0);
     const filter = {
       userId: new mongoose.Types.ObjectId(user.id),
+      workspaceId: null,
       deletedAt: null,
       archivedAt: null,
       status: { $ne: "done" },

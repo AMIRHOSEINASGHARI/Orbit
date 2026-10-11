@@ -176,6 +176,9 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
         onOpenChange={(open) => {
           if (!open) setOpenTaskId(null);
         }}
+        onEdit={setEditingTask}
+        onTrash={setTaskToTrash}
+        onComplete={(taskId) => statusMutation.mutate({ taskId, status: "done" })}
       />
       <TaskTrashDialog
         taskToTrash={taskToTrash}

@@ -27,6 +27,7 @@ export async function getRecentTasks(): Promise<ActionResult<RecentTask[]>> {
       .find<TaskDocument>(
         {
           userId: new mongoose.Types.ObjectId(user.id),
+          workspaceId: null,
           deletedAt: null,
           archivedAt: null,
         },
@@ -54,6 +55,7 @@ export async function getRecentTasks(): Promise<ActionResult<RecentTask[]>> {
             {
               _id: { $in: groupIds },
               userId: new mongoose.Types.ObjectId(user.id),
+              workspaceId: null,
               deletedAt: null,
             },
             { projection: { name: 1 } },

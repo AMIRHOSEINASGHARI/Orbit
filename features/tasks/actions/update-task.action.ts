@@ -5,7 +5,7 @@ import { z } from "zod";
 import type { ActionResult } from "@/types";
 import { getCurrentUser } from "@/lib/auth/current-user";
 import { connectToDatabase } from "@/lib/db/mongoose";
-import { createTaskSchema } from "@/features/tasks/schemas/task.schema";
+import { parseTaskFormData } from "@/features/tasks/schemas/task.schema";
 import { updateTaskForUser } from "@/features/tasks/services/task.service";
 import { handleActionError } from "@/utils/actionError";
 
@@ -18,14 +18,7 @@ export async function updateTaskAction(formData: FormData): Promise<ActionResult
   const taskId = taskIdSchema.safeParse(formData.get("taskId"));
   if (!taskId.success) return handleActionError(taskId.error);
 
-  const input = createTaskSchema.safeParse({
-    title: formData.get("title"),
-    description: formData.get("description"),
-    status: formData.get("status"),
-    priority: formData.get("priority"),
-    groupId: formData.get("groupId"),
-    dueDate: formData.get("dueDate"),
-  });
+  const input = parseTaskFormData(formData);
   if (!input.success) return handleActionError(input.error);
 
   try {

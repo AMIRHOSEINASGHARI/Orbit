@@ -2,7 +2,7 @@
 
 import { format } from "date-fns";
 import type { DragEvent, KeyboardEvent } from "react";
-import { CalendarIcon, EllipsisIcon, EyeIcon, GripVerticalIcon, PencilIcon, Trash2Icon } from "@/components/icons";
+import { CalendarIcon, EllipsisIcon, EyeIcon, GripVerticalIcon, ListChecksIcon, PencilIcon, Trash2Icon } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -93,6 +93,7 @@ export function TaskBoardCard({ task, group, dragging, keyboardDragging, onView,
         </Badge>
       </div>
       <footer className="mt-auto flex min-w-0 items-center gap-2 text-[10px] text-muted-foreground">
+        {task.checklist.length > 0 && <span className="inline-flex shrink-0 items-center gap-1"><ListChecksIcon aria-hidden="true" className="size-3" />{task.checklist.filter((item) => item.isCompleted).length}/{task.checklist.length}</span>}
         {group && (
           <span className="inline-flex min-w-0 items-center gap-1.5">
             <span aria-hidden="true" className="size-2 shrink-0 rounded-full" style={{ backgroundColor: group.color ?? "var(--muted-foreground)" }} />

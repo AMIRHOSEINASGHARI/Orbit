@@ -92,7 +92,7 @@ export async function getDashboardAnalytics(): Promise<
         habits: HabitCounts[];
         activeDays: { _id: string }[];
       }>([
-        { $match: { userId, deletedAt: null, archivedAt: null } },
+        { $match: { userId, workspaceId: null, deletedAt: null, archivedAt: null } },
         {
           $facet: {
             summary: [
@@ -170,6 +170,7 @@ export async function getDashboardAnalytics(): Promise<
                           $and: [
                             { $eq: ["$_id", "$$groupId"] },
                             { $eq: ["$userId", userId] },
+                            { $eq: [{ $ifNull: ["$workspaceId", null] }, null] },
                             { $eq: ["$deletedAt", null] },
                           ],
                         },

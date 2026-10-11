@@ -4,9 +4,9 @@ import { z } from "zod";
 import type { ActionResult } from "@/types";
 import { getCurrentUser } from "@/lib/auth/current-user";
 import { connectToDatabase } from "@/lib/db/mongoose";
-import { listTasks } from "@/features/tasks/services/task.service";
+import { listTasks, toTaskListItem } from "@/features/tasks/services/task.service";
 import { TASK_PAGE_SIZE, TASK_PRIORITIES, TASK_SORT_OPTIONS, TASK_STATUSES } from "@/features/tasks/types/task.types";
-import type { TaskListItem, TaskListPage } from "@/features/tasks/types/task.types";
+import type { TaskListPage } from "@/features/tasks/types/task.types";
 import { handleActionError } from "@/utils/actionError";
 
 const taskFiltersSchema = z.object({
@@ -36,11 +36,7 @@ export async function getTasks(filters: unknown = {}): Promise<ActionResult<Task
       success: true,
       data: {
         ...result,
-        tasks: result.tasks.map(({ _id, userId: _ownerId, groupId, trashedByGroupId: _groupTrashMarker, ...task }) => ({
-          ...task,
-          id: _id.toString(),
-          groupId: groupId?.toString() ?? null,
-        })),
+        tasks: result.tasks.map(toTaskListItem),
       },
     };
   } catch (error) {

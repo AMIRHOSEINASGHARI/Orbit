@@ -5,6 +5,12 @@ export const TASK_PRIORITIES = ["low", "medium", "high"] as const;
 
 export type TaskStatus = (typeof TASK_STATUSES)[number];
 export type TaskPriority = (typeof TASK_PRIORITIES)[number];
+export type TaskChecklistItem = {
+  text: string;
+  isCompleted: boolean;
+  position: number;
+  completedAt: Date | null;
+};
 export const TASK_SORT_OPTIONS = [
   "updated-desc",
   "updated-asc",
@@ -24,6 +30,11 @@ export type Task = {
   status: TaskStatus;
   priority: TaskPriority;
   dueDate: Date | null;
+  completedAt: Date | null;
+  checklist: TaskChecklistItem[];
+  assigneeCount: number;
+  tagCount: number;
+  attachmentCount: number;
   deletedAt: Date | null;
   archivedAt: Date | null;
   createdAt: Date;
@@ -38,10 +49,30 @@ export type TaskListPage = {
   pageSize: number;
 };
 
-export type TaskRecord = Omit<Task, "id" | "userId" | "groupId"> & {
+export type TaskRecord = Omit<Task, "id" | "userId" | "groupId" | "completedAt" | "checklist" | "assigneeCount" | "tagCount" | "attachmentCount"> & {
   _id: Types.ObjectId;
   userId: Types.ObjectId;
   groupId: Types.ObjectId | null;
+  workspaceId?: Types.ObjectId | null;
+  assigneeIds?: Types.ObjectId[];
+  tagIds?: Types.ObjectId[];
+  completedAt?: Date | null;
+  checklist?: TaskChecklistItem[];
+  recurrence?: {
+    frequency: "daily" | "weekly" | "monthly" | "weekdays" | "custom" | null;
+    interval: number;
+    daysOfWeek: number[];
+    endAt: Date | null;
+    isPaused: boolean;
+  };
+  reminders?: {
+    remindAt: Date;
+    snoozedUntil: Date | null;
+    deliveredAt: Date | null;
+    dismissedAt: Date | null;
+  }[];
+  dependencyIds?: Types.ObjectId[];
+  attachmentIds?: Types.ObjectId[];
   trashedByGroupId?: Types.ObjectId | null;
 };
 

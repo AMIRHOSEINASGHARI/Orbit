@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { differenceInCalendarDays, format, parseISO, startOfToday } from "date-fns";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { CalendarDaysIcon, Loader2Icon, PencilIcon, PlusIcon, XIcon } from "@/components/icons";
+import { CalendarDaysIcon, CloudUploadIcon, Loader2Icon, PencilIcon, PlusIcon, TagsIcon, UsersIcon, XIcon } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -24,6 +24,7 @@ import { createTaskSchema, type TaskInput } from "@/features/tasks/schemas/task.
 import { TASK_PRIORITIES, TASK_STATUSES } from "@/features/tasks/types/task.types";
 import type { TaskGroupOption, TaskListItem, TaskStatus } from "@/features/tasks/types/task.types";
 import { z } from "zod";
+import { TaskChecklistEditor } from "./task-checklist-editor";
 
 const statusLabels = { todo: "Todo", "in-progress": "In progress", done: "Done" } as const;
 const priorityLabels = { low: "Low", medium: "Medium", high: "High" } as const;
@@ -60,11 +61,12 @@ export function TaskCreationDialog({ open, onOpenChange, task = null, defaultSta
   const [groupsError, setGroupsError] = useState<string>();
   const form = useForm<TaskFormValues, unknown, TaskInput>({
     resolver: zodResolver(createTaskSchema),
-    defaultValues: { title: "", description: "", status: defaultStatus, priority: "medium", groupId: "personal", dueDate: "" },
+    defaultValues: { title: "", description: "", status: defaultStatus, priority: "medium", groupId: "personal", dueDate: "", checklist: [] },
   });
   const dueDate = form.watch("dueDate");
   const status = form.watch("status") ?? "todo";
   const priority = form.watch("priority") ?? "medium";
+  const checklist = form.watch("checklist") ?? [];
   const daysUntilDue = dueDate ? differenceInCalendarDays(parseISO(dueDate), startOfToday()) : null;
 
   useEffect(() => {
@@ -76,7 +78,8 @@ export function TaskCreationDialog({ open, onOpenChange, task = null, defaultSta
       priority: task.priority,
       groupId: task.groupId ?? "personal",
       dueDate: task.dueDate ? format(task.dueDate, "yyyy-MM-dd") : "",
-    } : { title: "", description: "", status: defaultStatus, priority: "medium", groupId: "personal", dueDate: "" });
+      checklist: task.checklist.map(({ text, isCompleted }) => ({ text, isCompleted })),
+    } : { title: "", description: "", status: defaultStatus, priority: "medium", groupId: "personal", dueDate: "", checklist: [] });
     resetMutation();
     let active = true;
     setGroupsPending(true);
@@ -108,6 +111,7 @@ export function TaskCreationDialog({ open, onOpenChange, task = null, defaultSta
     data.set("priority", values.priority);
     data.set("groupId", values.groupId ?? "");
     data.set("dueDate", values.dueDate ? format(values.dueDate, "yyyy-MM-dd") : "");
+    data.set("checklist", JSON.stringify(values.checklist));
     mutation.mutate(data);
   }
 
@@ -117,6 +121,7 @@ export function TaskCreationDialog({ open, onOpenChange, task = null, defaultSta
   const priorityError = form.formState.errors.priority?.message ?? fieldError(state, "priority");
   const groupError = form.formState.errors.groupId?.message ?? fieldError(state, "groupId");
   const dueDateError = form.formState.errors.dueDate?.message ?? fieldError(state, "dueDate");
+  const checklistError = form.formState.errors.checklist?.message ?? fieldError(state, "checklist");
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -196,20 +201,43 @@ export function TaskCreationDialog({ open, onOpenChange, task = null, defaultSta
               </Field>
             </div>
 
-            <Field data-invalid={Boolean(dueDateError)} className="gap-2">
-              <FieldLabel htmlFor="task-due-date" className="gap-1.5 text-ui-label font-semibold">Due date <span className="text-ui-caption font-normal text-subtle-foreground">Optional</span></FieldLabel>
-              <Popover>
-                <PopoverTrigger render={<Button id="task-due-date" type="button" variant="outline" aria-invalid={Boolean(dueDateError)} aria-describedby={dueDateError ? "task-due-date-error" : undefined} className="h-[42px] w-full justify-start rounded-lg px-3 text-left font-medium" />}>
-                  <CalendarDaysIcon className="size-4 text-muted-foreground" />
-                  {dueDate ? format(parseISO(dueDate), "MMM d, yyyy") : <span className="text-muted-foreground">Choose a date</span>}
-                  {daysUntilDue !== null && <Badge variant="default" className="ml-auto border-0 bg-primary-tint text-primary">{daysUntilDue === 0 ? "TODAY" : daysUntilDue > 0 ? `IN ${daysUntilDue} DAY${daysUntilDue === 1 ? "" : "S"}` : `${Math.abs(daysUntilDue)} DAY${daysUntilDue === -1 ? "" : "S"} OVERDUE`}</Badge>}
-                </PopoverTrigger>
-                <PopoverContent align="start" className="w-auto border-0 bg-transparent p-0 shadow-none ring-0">
-                  <Calendar mode="single" selected={dueDate ? parseISO(dueDate) : undefined} onSelect={(date) => form.setValue("dueDate", date ? format(date, "yyyy-MM-dd") : "", { shouldDirty: true, shouldValidate: true })} />
-                </PopoverContent>
-              </Popover>
-              <FieldError id="task-due-date-error" errors={dueDateError ? [{ message: dueDateError }] : []} />
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field className="gap-2">
+                <FieldLabel className="text-ui-label font-semibold">Assignees <span className="text-ui-caption font-normal text-subtle-foreground">Available with shared workspaces</span></FieldLabel>
+                <div className="flex h-[42px] items-center gap-2 rounded-lg border border-border bg-table-header px-3 text-ui-small text-muted-foreground"><UsersIcon aria-hidden="true" className="size-4" />{task?.assigneeCount ? `${task.assigneeCount} assigned` : "Unassigned"}</div>
+              </Field>
+              <Field data-invalid={Boolean(dueDateError)} className="gap-2">
+                <FieldLabel htmlFor="task-due-date" className="gap-1.5 text-ui-label font-semibold">Due date <span className="text-ui-caption font-normal text-subtle-foreground">Optional</span></FieldLabel>
+                <Popover>
+                  <PopoverTrigger render={<Button id="task-due-date" type="button" variant="outline" aria-invalid={Boolean(dueDateError)} aria-describedby={dueDateError ? "task-due-date-error" : undefined} className="h-[42px] w-full justify-start rounded-lg px-3 text-left font-medium" />}>
+                    <CalendarDaysIcon className="size-4 text-muted-foreground" />
+                    {dueDate ? format(parseISO(dueDate), "MMM d, yyyy") : <span className="text-muted-foreground">Choose a date</span>}
+                    {daysUntilDue !== null && <Badge variant="default" className="ml-auto border-0 bg-primary-tint text-primary">{daysUntilDue === 0 ? "TODAY" : daysUntilDue > 0 ? `IN ${daysUntilDue} DAY${daysUntilDue === 1 ? "" : "S"}` : `${Math.abs(daysUntilDue)} DAY${daysUntilDue === -1 ? "" : "S"} OVERDUE`}</Badge>}
+                  </PopoverTrigger>
+                  <PopoverContent align="start" className="w-auto border-0 bg-transparent p-0 shadow-none ring-0">
+                    <Calendar mode="single" selected={dueDate ? parseISO(dueDate) : undefined} onSelect={(date) => form.setValue("dueDate", date ? format(date, "yyyy-MM-dd") : "", { shouldDirty: true, shouldValidate: true })} />
+                  </PopoverContent>
+                </Popover>
+                <FieldError id="task-due-date-error" errors={dueDateError ? [{ message: dueDateError }] : []} />
+              </Field>
+            </div>
+
+            <Field className="gap-2">
+              <FieldLabel className="text-ui-label font-semibold">Tags <span className="text-ui-caption font-normal text-subtle-foreground">Tag management coming later</span></FieldLabel>
+              <div className="flex h-[42px] items-center gap-2 rounded-lg border border-border bg-table-header px-3 text-ui-small text-muted-foreground"><TagsIcon aria-hidden="true" className="size-4" />{task?.tagCount ? `${task.tagCount} tags` : "No tags"}</div>
             </Field>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <p className="text-ui-label font-semibold">Attachments <span className="text-ui-caption font-normal text-subtle-foreground">Uploads coming later</span></p>
+                <div className="flex min-h-[128px] flex-col items-center justify-center gap-2 rounded-[10px] border border-dashed border-border bg-table-header p-3 text-center text-ui-small text-muted-foreground"><CloudUploadIcon aria-hidden="true" className="size-5" />{task?.attachmentCount ? `${task.attachmentCount} attached files` : "No attachments"}</div>
+              </div>
+              <div className="space-y-2">
+                <p className="text-ui-label font-semibold">Checklist</p>
+                <TaskChecklistEditor items={checklist} onChange={(items) => form.setValue("checklist", items, { shouldDirty: true, shouldValidate: true })} />
+                <FieldError errors={checklistError ? [{ message: checklistError }] : []} />
+              </div>
+            </div>
           </FieldGroup>
 
           {state && !state.success && <p role="alert" className="mt-5 rounded-lg border border-danger-foreground/20 bg-danger px-3 py-2 text-ui-small font-medium text-danger-foreground">{state.error}</p>}
@@ -221,7 +249,7 @@ export function TaskCreationDialog({ open, onOpenChange, task = null, defaultSta
               <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="h-[42px] rounded-lg px-4">Cancel</Button>
               <Button type="submit" disabled={mutation.isPending || groupsPending} className="h-[42px] rounded-lg px-4">
                 {mutation.isPending ? <Loader2Icon aria-hidden="true" className="size-4 animate-spin" /> : task ? <PencilIcon aria-hidden="true" className="size-4" /> : <PlusIcon aria-hidden="true" className="size-4" />}
-                {mutation.isPending ? `${task ? "Updating" : "Creating"} task…` : task ? "Update task" : "Create task"}
+                {mutation.isPending ? `${task ? "Updating" : "Creating"} task…` : task ? "Save changes" : "Create task"}
               </Button>
             </div>
           </footer>

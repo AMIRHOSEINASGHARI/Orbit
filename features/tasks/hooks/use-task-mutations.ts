@@ -38,12 +38,8 @@ export function useTaskMutations(userId: string, filters: TaskListFilters) {
             }
           : current,
       );
-      queryClient.setQueryData<ActionResult<TaskListItem>>(
-        taskKeys.detail(userId, taskId),
-        (current) => current?.success
-          ? { ...current, data: { ...current.data, status } }
-          : current,
-      );
+      void queryClient.invalidateQueries({ queryKey: taskKeys.detail(userId, taskId) });
+      void queryClient.invalidateQueries({ queryKey: taskKeys.lists(userId) });
     },
     onError: () =>
       toast.error("Unable to update task status. Please try again."),
