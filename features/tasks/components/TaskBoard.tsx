@@ -14,11 +14,13 @@ export function TaskBoard({ tasks, groups, onAddTask, onView, onEdit, onTrash }:
 }) {
   const todoTasks = tasks.filter(({ status }) => status === "todo");
   const inProgressTasks = tasks.filter(({ status }) => status === "in-progress");
+  const doneTasks = tasks.filter(({ status }) => status === "done");
 
   return (
     <TaskBoardView>
       <TaskBoardColumn status="todo" tasks={todoTasks} groups={groups} onAddTask={onAddTask} onView={onView} onEdit={onEdit} onTrash={onTrash} />
       <TaskBoardColumn status="in-progress" tasks={inProgressTasks} groups={groups} onAddTask={onAddTask} onView={onView} onEdit={onEdit} onTrash={onTrash} />
+      <TaskBoardColumn status="done" tasks={doneTasks} groups={groups} onAddTask={onAddTask} onView={onView} onEdit={onEdit} onTrash={onTrash} />
     </TaskBoardView>
   );
 }

@@ -24,7 +24,7 @@ export function TaskBoardColumn({ status, tasks, groups, onAddTask, onView, onEd
   const style = columnStyle[status];
 
   return (
-    <section aria-label={`${style.label}, ${tasks.length} tasks`} className="flex min-h-[340px] min-w-0 flex-col overflow-hidden rounded-[12px] border border-border bg-table-header/70">
+    <section aria-label={`${style.label}, ${tasks.length} tasks`} className="flex min-h-[340px] max-h-[calc(100dvh-20rem)] min-w-0 flex-col overflow-hidden rounded-[12px] border border-border bg-table-header/70">
       <header className="flex h-14 shrink-0 items-center justify-between gap-2 border-b border-border px-3">
         <h2 className="flex min-w-0 items-center gap-2 text-[13px] font-semibold text-foreground">
           <span aria-hidden="true" className={`size-2 rounded-full ${style.dot}`} />

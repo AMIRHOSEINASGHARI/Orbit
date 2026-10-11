@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-143 Create the Done Drag & Drop column
+- Added the Done column and completed the shared Todo, In Progress, and Done board layout.
+- Deviations: None recorded.
+
 ## 2026-10-11 — T-142 Create the In Progress Drag & Drop column
 - Added the In Progress column using the shared column component, status count, add-task callback, empty state, and task-card actions.
 - Deviations: None recorded.
