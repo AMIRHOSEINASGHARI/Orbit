@@ -2,6 +2,8 @@
 
 ## Completed
 
+- **T-97 - Display task status** (2026-10-11): Added the persisted task status to drawer metadata with the shared status badge treatment, a visual indicator, and readable labels for assistive technology. Verified with TypeScript.
+
 - **T-96 - Display basic task information** (2026-10-11): Added the selected task description, due date, and group to the drawer using the authorized task response and current user’s group options, with readable fallbacks for missing values. Verified with TypeScript.
 
 - **T-95 - Create the Task Details drawer** (2026-10-11): Added the responsive shared Drawer to the task table’s View action. It fetches the selected task through T-94’s authorized action with a query keyed by user and task, and provides loading, retryable error, not-found, and accessible close states. Verified with TypeScript.
