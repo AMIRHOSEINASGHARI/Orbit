@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-125 Add filtering by priority
+- Verified the accessible priority selector updates the query filters and the server validates and applies the selected priority.
+- Deviations: The priority control and server filtering were already implemented.
+
 ## 2026-10-11 — T-124 Add filtering by status
 - Verified the accessible status selector is connected to the status query filter, which is validated server-side and applied to the task query.
 - Deviations: The status control and server filtering were already implemented.
