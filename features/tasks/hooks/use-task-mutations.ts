@@ -6,6 +6,7 @@ import { changeTaskStatusAction } from "@/features/tasks/actions/change-task-sta
 import { changeTaskPriorityAction } from "@/features/tasks/actions/change-task-priority.action";
 import { trashTask } from "@/features/tasks/actions/trash-task.action";
 import { bulkTrashTasks } from "@/features/tasks/actions/bulk-trash-tasks.action";
+import { bulkChangeTaskStatus } from "@/features/tasks/actions/bulk-change-task-status.action";
 import { taskKeys } from "@/features/tasks/queries/task-keys";
 import type { ActionResult } from "@/types";
 import type { TaskListItem, TaskListPage, TaskListFilters, TaskStatus, TaskPriority } from "@/features/tasks/types/task.types";
@@ -96,6 +97,18 @@ export function useTaskMutations(userId: string, filters: TaskListFilters) {
     },
     onError: () => toast.error("Unable to move selected tasks to trash. Please try again."),
   });
+  const bulkStatusMutation = useMutation({
+    mutationFn: (input: { taskIds: string[]; status: TaskStatus }) => bulkChangeTaskStatus(input),
+    onSuccess: async (result) => {
+      if (!result.success) {
+        toast.error(result.error);
+        return;
+      }
+      toast.success(result.data.message);
+      await queryClient.invalidateQueries({ queryKey: taskKeys.lists(userId) });
+    },
+    onError: () => toast.error("Unable to update selected task statuses. Please try again."),
+  });
 
-  return { statusMutation, priorityMutation, trashMutation, bulkTrashMutation };
+  return { statusMutation, priorityMutation, trashMutation, bulkTrashMutation, bulkStatusMutation };
 }

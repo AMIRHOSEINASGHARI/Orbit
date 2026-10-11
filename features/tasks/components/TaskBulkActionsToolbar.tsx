@@ -9,6 +9,8 @@ import {
   Trash2Icon,
   XIcon,
 } from "@/components/icons";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import type { TaskStatus } from "@/features/tasks/types/task.types";
 
 export function TaskBulkActionsToolbar({
   selectedCount,
@@ -26,7 +28,7 @@ export function TaskBulkActionsToolbar({
   onMoveToTrash?: () => void;
   onMoveToGroup?: () => void;
   onRemoveFromGroup?: () => void;
-  onChangeStatus?: () => void;
+  onChangeStatus?: (status: TaskStatus) => void;
   onChangePriority?: () => void;
   pending?: boolean;
   trashPending?: boolean;
@@ -75,17 +77,20 @@ export function TaskBulkActionsToolbar({
         <FolderMinusIcon />
         Remove from Group
       </Button>
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        className="h-7 bg-card text-[11px]"
-        disabled={pending || !onChangeStatus}
-        onClick={onChangeStatus}
-      >
-        <CircleDotIcon />
-        Change Status
-      </Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          render={<Button type="button" variant="outline" size="sm" className="h-7 bg-card text-[11px]" disabled={pending || !onChangeStatus} />}
+        >
+          <CircleDotIcon />Change Status
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start">
+          {(["todo", "in-progress", "done"] as const).map((status) => (
+            <DropdownMenuItem key={status} onClick={() => onChangeStatus?.(status)}>
+              {status === "todo" ? "To do" : status === "done" ? "Done" : "In progress"}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
       <Button
         type="button"
         variant="outline"
