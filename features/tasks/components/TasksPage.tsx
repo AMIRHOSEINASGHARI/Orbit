@@ -32,6 +32,7 @@ import { TasksViewSwitcher } from "@/features/tasks/components/TasksViewSwitcher
 import { TasksToolbar } from "@/features/tasks/components/TasksToolbar";
 import { getTasks } from "@/features/tasks/actions/get-tasks.action";
 import { taskKeys } from "@/features/tasks/queries/task-keys";
+import { TaskDetailsDrawer } from "@/features/tasks/components/task-details-drawer";
 
 const PAGE_SIZE = 10;
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
@@ -49,11 +50,13 @@ function TaskTable({
   groups,
   page,
   onPageChange,
+  onView,
 }: {
   tasks: TaskListItem[];
   groups: TaskGroupOption[];
   page: number;
   onPageChange: (page: number) => void;
+  onView: (taskId: string) => void;
 }) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set());
   const pageCount = Math.max(1, Math.ceil(tasks.length / PAGE_SIZE));
@@ -132,7 +135,7 @@ function TaskTable({
               <TableCell className="text-muted-foreground">—</TableCell>
               <TableCell>
                 <div className="flex justify-end gap-1">
-                  <Button type="button" variant="ghost" size="icon-xs" disabled aria-label={`View ${task.title}`} title="Task details are being implemented">
+                  <Button type="button" variant="ghost" size="icon-xs" aria-label={`View ${task.title}`} title="View task details" onClick={() => onView(task.id)}>
                     <EyeIcon />
                   </Button>
                   <Button type="button" variant="ghost" size="icon-xs" disabled aria-label={`Edit ${task.title}`} title="Task editing is being implemented">
@@ -179,6 +182,7 @@ export function TasksPage({
 }) {
   const [filters, setFilters] = useState<TaskListFilters>({});
   const [page, setPage] = useState(0);
+  const [openTaskId, setOpenTaskId] = useState<string | null>(null);
   const tasksQuery = useQuery({
     queryKey: taskKeys.list(userId, filters),
     queryFn: () => getTasks(filters),
@@ -197,7 +201,7 @@ export function TasksPage({
       />
     ) : taskResult.data.length ? (
       <Card role="region" aria-label="Task list" className="gap-0 p-0">
-        <TaskTable key={JSON.stringify(filters)} tasks={taskResult.data} groups={groups} page={page} onPageChange={setPage} />
+        <TaskTable key={JSON.stringify(filters)} tasks={taskResult.data} groups={groups} page={page} onPageChange={setPage} onView={setOpenTaskId} />
       </Card>
     ) : (
       <EmptyState
@@ -216,6 +220,7 @@ export function TasksPage({
       />
       <TasksToolbar filters={filters} groups={groups} onChange={(nextFilters) => { setFilters(nextFilters); setPage(0); }} />
       {content}
+      <TaskDetailsDrawer userId={userId} taskId={openTaskId} open={openTaskId !== null} onOpenChange={(open) => { if (!open) setOpenTaskId(null); }} />
     </main>
   );
 }

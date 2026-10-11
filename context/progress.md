@@ -2,6 +2,8 @@
 
 ## Completed
 
+- **T-95 - Create the Task Details drawer** (2026-10-11): Added the responsive shared Drawer to the task table’s View action. It fetches the selected task through T-94’s authorized action with a query keyed by user and task, and provides loading, retryable error, not-found, and accessible close states. Verified with TypeScript.
+
 - **T-94 - Create the `getTaskById` Server Action** (2026-10-11): Added an authenticated task read action that validates the task ID, loads only a non-deleted task owned by the current user, returns a typed task result, and uses safe errors for invalid, missing, and failed reads. Verified with TypeScript.
 
 - **T-93 - Display tasks in the Figma table view** (2026-10-11): Expanded the shared, owner-authorized task list with the designed task, created, priority, group, due date, status, assignees, and action columns; added accessible page selection, selected-row styling, and client-side pagination. Optional group and due-date values have safe fallbacks, and the shared table keeps horizontal scrolling on narrow screens. View, edit, and delete controls remain disabled until their dependent detail, update, and delete flows are implemented.
