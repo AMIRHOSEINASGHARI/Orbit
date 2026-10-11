@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-131 Add sorting by creation date
+- Verified “Recently created” is exposed by the sort control and uses server-side `createdAt` descending order.
+- Deviations: Creation-date sorting was already implemented.
+
 ## 2026-10-11 — T-130 Create the Task sorting control
 - Extracted the Figma-aligned inline sort selector as a focused component, matching its 152×38 size, icon, and “Last updated” label.
 - Deviations: The supplied Figma toolbar uses an inline control, so no sorting dialog was added.
