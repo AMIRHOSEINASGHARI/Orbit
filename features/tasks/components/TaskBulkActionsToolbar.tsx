@@ -19,6 +19,7 @@ export function TaskBulkActionsToolbar({
   onChangeStatus,
   onChangePriority,
   pending = false,
+  trashPending = false,
 }: {
   selectedCount: number;
   onClearSelection: () => void;
@@ -28,6 +29,7 @@ export function TaskBulkActionsToolbar({
   onChangeStatus?: () => void;
   onChangePriority?: () => void;
   pending?: boolean;
+  trashPending?: boolean;
 }) {
   return (
     <div
@@ -45,11 +47,11 @@ export function TaskBulkActionsToolbar({
         variant="outline"
         size="sm"
         className="h-7 bg-card text-[11px]"
-        disabled={pending || !onMoveToTrash}
+        disabled={pending || trashPending || !onMoveToTrash}
         onClick={onMoveToTrash}
       >
         <Trash2Icon className="text-destructive" />
-        Move to Trash
+        {trashPending ? "Moving…" : "Move to Trash"}
       </Button>
       <Button
         type="button"
