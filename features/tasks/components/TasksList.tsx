@@ -34,7 +34,7 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
   const [createTaskStatus, setCreateTaskStatus] = useState<TaskStatus | null>(null);
   const [taskToTrash, setTaskToTrash] = useState<TaskListItem | null>(null);
   const queryFilters = { ...filters, page: page + 1, pageSize: filters.pageSize ?? TASK_PAGE_SIZE };
-  const { statusMutation, priorityMutation, trashMutation, bulkTrashMutation, bulkStatusMutation } = useTaskMutations(userId, queryFilters);
+  const { statusMutation, priorityMutation, trashMutation, bulkTrashMutation, bulkStatusMutation, bulkPriorityMutation } = useTaskMutations(userId, queryFilters);
   const tasksQuery = useQuery({
     queryKey: taskKeys.list(userId, queryFilters),
     queryFn: () => getTasks(queryFilters),
@@ -88,8 +88,14 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
                       if (actionResult.success) setSelectedTaskIds(new Set());
                     },
                   })}
+                  onChangePriority={(priority) => bulkPriorityMutation.mutate({ taskIds: [...selectedTaskIds], priority }, {
+                    onSuccess: (actionResult) => {
+                      if (actionResult.success) setSelectedTaskIds(new Set());
+                    },
+                  })}
                   trashPending={bulkTrashMutation.isPending}
-                  pending={bulkStatusMutation.isPending}
+                  pending={bulkTrashMutation.isPending || bulkStatusMutation.isPending || bulkPriorityMutation.isPending}
+                  priorityPending={bulkPriorityMutation.isPending}
                 />
               )}
               <TaskListView

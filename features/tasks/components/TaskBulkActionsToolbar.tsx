@@ -11,6 +11,7 @@ import {
 } from "@/components/icons";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import type { TaskStatus } from "@/features/tasks/types/task.types";
+import type { TaskPriority } from "@/features/tasks/types/task.types";
 
 export function TaskBulkActionsToolbar({
   selectedCount,
@@ -20,6 +21,7 @@ export function TaskBulkActionsToolbar({
   onRemoveFromGroup,
   onChangeStatus,
   onChangePriority,
+  priorityPending = false,
   pending = false,
   trashPending = false,
 }: {
@@ -29,9 +31,10 @@ export function TaskBulkActionsToolbar({
   onMoveToGroup?: () => void;
   onRemoveFromGroup?: () => void;
   onChangeStatus?: (status: TaskStatus) => void;
-  onChangePriority?: () => void;
+  onChangePriority?: (priority: TaskPriority) => void;
   pending?: boolean;
   trashPending?: boolean;
+  priorityPending?: boolean;
 }) {
   return (
     <div
@@ -91,17 +94,20 @@ export function TaskBulkActionsToolbar({
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        className="h-7 bg-card text-[11px]"
-        disabled={pending || !onChangePriority}
-        onClick={onChangePriority}
-      >
-        <FlagIcon />
-        Change Priority
-      </Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          render={<Button type="button" variant="outline" size="sm" className="h-7 bg-card text-[11px]" disabled={pending || priorityPending || !onChangePriority} />}
+        >
+          <FlagIcon />Change Priority
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start">
+          {(["high", "medium", "low"] as const).map((priority) => (
+            <DropdownMenuItem key={priority} onClick={() => onChangePriority?.(priority)}>
+              {priority[0].toUpperCase() + priority.slice(1)}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
       <Button
         type="button"
         variant="ghost"
