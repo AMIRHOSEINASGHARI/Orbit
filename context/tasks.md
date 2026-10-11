@@ -1430,17 +1430,17 @@ Create the `createGroup` Server Action.
 
 ## T-175
 
-Create the Group form.
+Create the Group form dialog.
 
-**Description:** Build the Group form for Task Groups with labeled, accessible controls, sensible defaults, field-level validation, and pending, error, and success feedback. Connect submission to its intended Server Action when specified.
+**Description:** Build the Group form inside the shared Dialog component with labeled, accessible controls, sensible defaults, field-level validation, and pending, error, and success feedback. Reuse the form for creation and editing; neither flow needs a separate page.
 
 ---
 
 ## T-176
 
-Connect the Group form to the Create Server Action.
+Connect the Create Group dialog to the Create Server Action.
 
-**Description:** Connect the Group form to the Create Server Action end to end within Task Groups. Pass the right inputs and state, handle pending and error results, provide accessible feedback, and refresh affected data after success.
+**Description:** Open the Group form dialog in create mode from the Groups page and submit it through the `createGroup` Server Action. Handle pending and error results, provide accessible feedback, close the dialog on success, and refresh affected data.
 
 ---
 
@@ -1456,7 +1456,7 @@ Create the `getGroups` Server Action.
 
 Create the Groups page.
 
-**Description:** Build the Groups page for Task Groups with the shared application layout, the required data and actions, and clear loading, empty, and error states. Ensure the route is accessible and responsive.
+**Description:** Build the Groups page for Task Groups with the shared application layout, a Create Group action that opens the form dialog, and clear loading, empty, and error states. Ensure the route is accessible and responsive; do not add a separate create page.
 
 ---
 
@@ -1464,7 +1464,7 @@ Create the Groups page.
 
 Create the Group Card component.
 
-**Description:** Build the Group Card interface for Task Groups using shared components and design tokens. Support the required interactions, accessible keyboard behavior, responsive layout, and applicable loading or error states.
+**Description:** Build the Group Card interface for Task Groups using shared components and design tokens. Open the Edit Group dialog from its edit action. Support accessible keyboard behavior, responsive layout, and applicable loading or error states.
 
 ---
 
@@ -1488,7 +1488,7 @@ Create the `getGroupById` Server Action.
 
 Create the Group Details page.
 
-**Description:** Build the Group Details page for Task Groups with the shared application layout, the required data and actions, and clear loading, empty, and error states. Ensure the route is accessible and responsive.
+**Description:** Build the Group Details page for Task Groups with the shared application layout, an edit action that opens the Group form dialog, and clear loading, empty, and error states. Ensure the route is accessible and responsive.
 
 ---
 
@@ -1510,9 +1510,9 @@ Create the `updateGroup` Server Action.
 
 ## T-185
 
-Create the Edit Group page.
+Create the Edit Group dialog.
 
-**Description:** Build the Edit Group page for Task Groups with the shared application layout, the required data and actions, and clear loading, empty, and error states. Ensure the route is accessible and responsive.
+**Description:** Open the shared Group form dialog in edit mode with the selected Group's current values. Submit through the `updateGroup` Server Action, show pending and error feedback, close on success, and refresh affected data. Do not add a separate edit page.
 
 ---
 

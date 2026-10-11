@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-12 — T-175 Create the Group form dialog
+- Added a reusable accessible create/edit Group dialog with validated fields, counters, color selection, pending/error feedback, and Figma group color tokens.
+- Deviations: The Figma create/edit frames are standalone pages; per user direction the shared form is displayed in a dialog. Recorded in `context/generated/figma-design.md`.
+
 ## 2026-10-12 — T-170 Create the Task Group Mongoose model
 - Added the `taskgroups` model with user/workspace references, group fields, soft deletion, timestamps, and the documented indexes.
 - Deviations: TypeScript typing and validation schemas are added in T-171 and T-172.

@@ -665,6 +665,7 @@ Any intentional difference from Figma must be recorded before delivery:
 | -------------- | ------------ | -------------------------------------------------------- | ------------- | -------------------- |
 | Exact Figma ID | What differs | Accessibility, technical constraint, or explicit request | User/designer | None or tracked task |
 | Tasks table `2:35705` | Shows only Task, Created, Priority, Due date, and Status; omits filters, group labels, assignees, row actions, and pagination | Current task list API/model does not provide the data or operations those controls need | Implementation scope | Add when the related task data and actions exist |
+| Groups create/edit `165:21641`, `165:21879` | The Figma frames place Group forms on standalone pages; implementation opens the shared form in a dialog | User specified that Group creation and editing must not use separate pages | User instruction | T-175–T-185 |
 
 Unrecorded deviations are defects. Technical convenience is not sufficient
 reason for a visual deviation.

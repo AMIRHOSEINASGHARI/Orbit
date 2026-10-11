@@ -32,6 +32,12 @@
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  --color-group-neutral: var(--group-color-neutral);
+  --color-group-purple: var(--group-color-purple);
+  --color-group-blue: var(--group-color-blue);
+  --color-group-violet: var(--group-color-violet);
+  --color-group-teal: var(--group-color-teal);
+  --color-group-pink: var(--group-color-pink);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -120,6 +126,12 @@
   --sidebar-accent-foreground: #171822;
   --sidebar-border: #e4e6ed;
   --sidebar-ring: #635bff;
+  --group-color-neutral: #65717f;
+  --group-color-purple: #7c6ee6;
+  --group-color-blue: #477bc5;
+  --group-color-violet: #8c62b6;
+  --group-color-teal: #2f91a3;
+  --group-color-pink: #d05b8f;
 }
 
 .dark {
@@ -167,6 +179,12 @@
   --sidebar-accent-foreground: #f4f4f7;
   --sidebar-border: #2c2e38;
   --sidebar-ring: #635bff;
+  --group-color-neutral: #65717f;
+  --group-color-purple: #7c6ee6;
+  --group-color-blue: #477bc5;
+  --group-color-violet: #8c62b6;
+  --group-color-teal: #2f91a3;
+  --group-color-pink: #d05b8f;
 }
 
 @layer base {
