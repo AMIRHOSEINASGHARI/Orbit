@@ -172,3 +172,12 @@ export async function restoreTaskForUser(userId: string, taskId: string): Promis
   ).select({ _id: 1 }).lean().exec();
   return Boolean(task);
 }
+
+export async function permanentlyDeleteTaskForUser(userId: string, taskId: string): Promise<boolean> {
+  const result = await TaskModel.deleteOne({
+    _id: requireObjectId(taskId, "task ID"),
+    userId: requireObjectId(userId, "user ID"),
+    deletedAt: { $ne: null },
+  }).exec();
+  return result.deletedCount > 0;
+}
