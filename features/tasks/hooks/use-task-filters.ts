@@ -3,15 +3,19 @@
 import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { usePathname, useSearchParams } from "next/navigation";
-import { TASK_PRIORITIES, TASK_SORT_OPTIONS, TASK_STATUSES, type TaskListFilters } from "@/features/tasks/types/task.types";
+import { TASK_PAGE_SIZE, TASK_PRIORITIES, TASK_SORT_OPTIONS, TASK_STATUSES, type TaskListFilters } from "@/features/tasks/types/task.types";
 
 export function useTaskFilters(initialFilters: TaskListFilters) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const [filters, setFilters] = useState<TaskListFilters>(() => initialFilters);
+  const [filters, setFilters] = useState<TaskListFilters>(() => {
+    const { page: _page, pageSize: _pageSize, ...taskFilters } = initialFilters;
+    return taskFilters;
+  });
   const [searchQuery, setSearchQuery] = useState(initialFilters.search ?? "");
   const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState((initialFilters.page ?? 1) - 1);
+  const [pageSize, setPageSize] = useState(initialFilters.pageSize ?? TASK_PAGE_SIZE);
 
   useEffect(() => {
     if (searchQuery !== debouncedSearchQuery) return;
@@ -32,11 +36,15 @@ export function useTaskFilters(initialFilters: TaskListFilters) {
       if (value) params.set(key, value);
       else params.delete(key);
     }
+    if (page > 0) params.set("page", String(page + 1));
+    else params.delete("page");
+    if (pageSize !== TASK_PAGE_SIZE) params.set("pageSize", String(pageSize));
+    else params.delete("pageSize");
     const query = params.toString();
     if (query !== window.location.search.slice(1)) {
       window.history.pushState(null, "", `${pathname}${query ? `?${query}` : ""}`);
     }
-  }, [debouncedSearchQuery, filters.status, filters.priority, filters.groupId, filters.dueDate, filters.sort, pathname, searchQuery]);
+  }, [debouncedSearchQuery, filters.status, filters.priority, filters.groupId, filters.dueDate, filters.sort, page, pageSize, pathname, searchQuery]);
 
   useEffect(() => {
     const search = searchParams.get("search") ?? "";
@@ -45,12 +53,16 @@ export function useTaskFilters(initialFilters: TaskListFilters) {
     const groupId = searchParams.get("groupId");
     const dueDate = searchParams.get("dueDate");
     const sort = searchParams.get("sort");
+    const urlPage = Number(searchParams.get("page"));
+    const urlPageSize = Number(searchParams.get("pageSize"));
     const parsedDueDate = dueDate ? new Date(`${dueDate}T00:00:00.000Z`) : null;
     const validDueDate = dueDate && /^\d{4}-\d{2}-\d{2}$/.test(dueDate) && parsedDueDate &&
       !Number.isNaN(parsedDueDate.getTime()) && parsedDueDate.toISOString().slice(0, 10) === dueDate
       ? dueDate
       : undefined;
     setSearchQuery(search);
+    setPage(Number.isSafeInteger(urlPage) && urlPage > 0 ? urlPage - 1 : 0);
+    setPageSize(Number.isSafeInteger(urlPageSize) && urlPageSize > 0 && urlPageSize <= TASK_PAGE_SIZE ? urlPageSize : TASK_PAGE_SIZE);
     setFilters((current) => {
       const nextFilters: TaskListFilters = {
         ...current,
@@ -78,5 +90,5 @@ export function useTaskFilters(initialFilters: TaskListFilters) {
     setPage(0);
   }
 
-  return { filters, searchQuery, page, setPage, onSearchChange, onFiltersChange };
+  return { filters: { ...filters, pageSize }, searchQuery, page, pageSize, setPage, onSearchChange, onFiltersChange };
 }

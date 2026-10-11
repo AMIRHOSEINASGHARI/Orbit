@@ -6,6 +6,7 @@ export const TASK_PRIORITIES = ["low", "medium", "high"] as const;
 export type TaskStatus = (typeof TASK_STATUSES)[number];
 export type TaskPriority = (typeof TASK_PRIORITIES)[number];
 export const TASK_SORT_OPTIONS = ["updated-desc", "updated-asc", "created-desc", "due-date-asc", "priority-desc"] as const;
+export const TASK_PAGE_SIZE = 100;
 export type TaskSortOption = (typeof TASK_SORT_OPTIONS)[number];
 
 export type Task = {

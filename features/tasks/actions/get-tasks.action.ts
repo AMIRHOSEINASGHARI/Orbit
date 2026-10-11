@@ -5,7 +5,7 @@ import type { ActionResult } from "@/types";
 import { getCurrentUser } from "@/lib/auth/current-user";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { listTasks } from "@/features/tasks/services/task.service";
-import { TASK_PRIORITIES, TASK_SORT_OPTIONS, TASK_STATUSES } from "@/features/tasks/types/task.types";
+import { TASK_PAGE_SIZE, TASK_PRIORITIES, TASK_SORT_OPTIONS, TASK_STATUSES } from "@/features/tasks/types/task.types";
 import type { TaskListItem, TaskListPage } from "@/features/tasks/types/task.types";
 import { handleActionError } from "@/utils/actionError";
 
@@ -17,7 +17,7 @@ const taskFiltersSchema = z.object({
   dueDate: z.iso.date().optional(),
   sort: z.enum(TASK_SORT_OPTIONS).optional(),
   page: z.number().int().min(1).default(1),
-  pageSize: z.number().int().min(1).max(100).default(100),
+  pageSize: z.number().int().min(1).max(TASK_PAGE_SIZE).default(TASK_PAGE_SIZE),
   includeDeleted: z.boolean().optional(),
   includeArchived: z.boolean().optional(),
 }).strict();

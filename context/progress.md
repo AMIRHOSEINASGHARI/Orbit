@@ -6,6 +6,11 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-137 Synchronize Task pagination with URL search parameters
+- Restored validated page and page-size values on route loads and synced them with browser navigation.
+- Omitted default pagination values from the URL while preserving non-default page sizes.
+- Deviations: None recorded.
+
 ## 2026-10-11 — T-136 Create the Task pagination UI
 - Replaced the text-only page indicator with Figma-style numbered buttons, active-page styling, and previous/next controls.
 - Added accessible page labels and live result-range updates.

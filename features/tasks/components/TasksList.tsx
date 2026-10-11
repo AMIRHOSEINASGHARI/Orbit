@@ -9,7 +9,7 @@ import { Card } from "@/components/ui/card";
 import { getTasks } from "@/features/tasks/actions/get-tasks.action";
 import { taskKeys } from "@/features/tasks/queries/task-keys";
 import { useTaskMutations } from "@/features/tasks/hooks/use-task-mutations";
-import type { TaskListItem, TaskListPage, TaskListFilters, TaskGroupOption } from "@/features/tasks/types/task.types";
+import { TASK_PAGE_SIZE, type TaskListItem, type TaskListPage, type TaskListFilters, type TaskGroupOption } from "@/features/tasks/types/task.types";
 import type { ActionResult } from "@/types";
 import { TaskTable } from "./TaskTable";
 import { TaskDetailsDrawer } from "./task-details-drawer";
@@ -28,18 +28,24 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
   const [openTaskId, setOpenTaskId] = useState<string | null>(null);
   const [editingTask, setEditingTask] = useState<TaskListItem | null>(null);
   const [taskToTrash, setTaskToTrash] = useState<TaskListItem | null>(null);
-  const queryFilters = { ...filters, page: page + 1, pageSize: 100 };
+  const queryFilters = { ...filters, page: page + 1, pageSize: filters.pageSize ?? TASK_PAGE_SIZE };
   const { statusMutation, priorityMutation, trashMutation } = useTaskMutations(userId, queryFilters);
   const tasksQuery = useQuery({
     queryKey: taskKeys.list(userId, queryFilters),
     queryFn: () => getTasks(queryFilters),
-    initialData: Object.keys({ ...filters, ...initialFilters }).every((key) =>
-      filters[key as keyof TaskListFilters] === initialFilters[key as keyof TaskListFilters],
-    ) ? result : undefined,
+    initialData: Object.keys({ ...filters, ...initialFilters })
+      .filter((key) => key !== "page" && key !== "pageSize")
+      .every((key) => filters[key as keyof TaskListFilters] === initialFilters[key as keyof TaskListFilters]) &&
+      queryFilters.page === (initialFilters.page ?? 1) &&
+      queryFilters.pageSize === (initialFilters.pageSize ?? TASK_PAGE_SIZE)
+      ? result
+      : undefined,
     placeholderData: (previousData) => previousData ?? result,
   });
   const taskResult = tasksQuery.data;
-  const hasFilters = Object.values(filters).some(Boolean);
+  const hasFilters = Object.entries(filters).some(([key, value]) =>
+    key !== "page" && key !== "pageSize" && Boolean(value),
+  );
 
   const content =
     tasksQuery.isError || !taskResult || !taskResult.success ? (
@@ -64,6 +70,7 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
           key={JSON.stringify(filters)}
           tasks={taskResult.data.tasks}
           totalTasks={taskResult.data.total}
+          pageSize={taskResult.data.pageSize}
           groups={groups}
           page={page}
           onPageChange={onPageChange}

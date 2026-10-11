@@ -10,7 +10,6 @@ import { TaskPrioritySelect } from "./TaskPrioritySelect";
 import { TaskRowActions } from "./TaskRowActions";
 import { TaskTablePagination } from "./TaskTablePagination";
 
-const PAGE_SIZE = 100;
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "short",
   day: "numeric",
@@ -20,6 +19,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
 export function TaskTable({
   tasks,
   totalTasks,
+  pageSize,
   groups,
   page,
   onPageChange,
@@ -37,6 +37,7 @@ export function TaskTable({
 }: {
   tasks: TaskListItem[];
   totalTasks: number;
+  pageSize: number;
   groups: TaskGroupOption[];
   page: number;
   onPageChange: (page: number) => void;
@@ -199,7 +200,7 @@ export function TaskTable({
         totalTasks={totalTasks}
         selectedCount={selectedIds.size}
         page={page}
-        pageSize={PAGE_SIZE}
+        pageSize={pageSize}
         onPageChange={onPageChange}
       />
     </Table>
