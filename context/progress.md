@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-127 Add filtering by due date
+- Verified the calendar selector supplies an ISO date and the server query matches tasks whose due date falls within that UTC day.
+- Deviations: The date control and server filtering were already implemented.
+
 ## 2026-10-11 — T-126 Add filtering by group
 - Verified the group selector supports Personal and available groups; server filtering scopes the selected group to its matching task records.
 - Deviations: The group control and server filtering were already implemented.
