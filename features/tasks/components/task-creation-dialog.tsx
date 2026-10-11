@@ -190,7 +190,7 @@ export function TaskCreationDialog({ open, onOpenChange }: {
                   {dueDate ? format(parseISO(dueDate), "MMM d, yyyy") : <span className="text-muted-foreground">Choose a date</span>}
                   {daysUntilDue !== null && <Badge variant="default" className="ml-auto border-0 bg-primary-tint text-primary">{daysUntilDue === 0 ? "TODAY" : daysUntilDue > 0 ? `IN ${daysUntilDue} DAY${daysUntilDue === 1 ? "" : "S"}` : `${Math.abs(daysUntilDue)} DAY${daysUntilDue === -1 ? "" : "S"} OVERDUE`}</Badge>}
                 </PopoverTrigger>
-                <PopoverContent align="start" className="w-auto p-0">
+                <PopoverContent align="start" className="w-auto border-0 bg-transparent p-0 shadow-none ring-0">
                   <Calendar mode="single" selected={dueDate ? parseISO(dueDate) : undefined} onSelect={(date) => form.setValue("dueDate", date ? format(date, "yyyy-MM-dd") : "", { shouldDirty: true, shouldValidate: true })} />
                 </PopoverContent>
               </Popover>

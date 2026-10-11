@@ -29,17 +29,10 @@ export async function listTasks(
     ];
   }
   if (filters.dueDate) {
-    const start = new Date();
-    start.setUTCHours(0, 0, 0, 0);
-    const tomorrow = new Date(start);
-    tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
-    const nextWeek = new Date(start);
-    nextWeek.setUTCDate(nextWeek.getUTCDate() + 7);
-    query.dueDate = filters.dueDate === "no-date" ? null : filters.dueDate === "overdue"
-      ? { $ne: null, $lt: start }
-      : filters.dueDate === "today"
-        ? { $gte: start, $lt: tomorrow }
-        : { $gte: tomorrow, $lt: nextWeek };
+    const start = new Date(`${filters.dueDate}T00:00:00.000Z`);
+    const end = new Date(start);
+    end.setUTCDate(end.getUTCDate() + 1);
+    query.dueDate = { $gte: start, $lt: end };
   }
 
   const sort: Record<string, mongoose.SortOrder> = filters.sort === "updated-asc"
