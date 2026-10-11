@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-140 Create the Drag & Drop board structure
+- Added an accessible, three-column board layout that preserves usable column widths and scrolls horizontally on narrow screens.
+- Deviations: None recorded.
+
 ## 2026-10-11 — T-139 Create the Table View component
 - Isolated the Figma row-based table, selection, row actions, and pagination as `TaskTableView`, nested under `TaskListView`.
 - Deviations: Reused the existing table interactions instead of recreating them.
