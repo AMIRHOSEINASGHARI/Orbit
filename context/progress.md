@@ -10,6 +10,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - Added the `taskgroups` model with user/workspace references, group fields, soft deletion, timestamps, and the documented indexes.
 - Deviations: TypeScript typing and validation schemas are added in T-171 and T-172.
 
+## 2026-10-12 — T-171 Create Task Group TypeScript types
+- Added the public TaskGroup and MongoDB TaskGroupRecord contracts and typed the model against its persisted record.
+- Deviations: None.
+
 ## 2026-10-12 — T-150 Add task selection checkbox to List View
 - Reused the accessible task checkbox already rendered through `TaskListView` and confirmed it labels each task and marks selected rows.
 - Deviations: Selection state is currently local to the table component; shared selection state is addressed in T-152.

@@ -1,7 +1,8 @@
 import "server-only";
-import { model, models, Schema } from "mongoose";
+import { model, models, Schema, type Model } from "mongoose";
+import type { TaskGroupRecord } from "@/features/groups/types/group.types";
 
-const taskGroupModelSchema = new Schema(
+const taskGroupModelSchema = new Schema<TaskGroupRecord>(
   {
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true, index: true },
     workspaceId: { type: Schema.Types.ObjectId, ref: "Workspace", default: null, index: true },
@@ -17,4 +18,5 @@ taskGroupModelSchema.index({ userId: 1, deletedAt: 1 });
 taskGroupModelSchema.index({ userId: 1, createdAt: -1, deletedAt: 1 });
 
 export const TaskGroupModel =
-  (models.TaskGroup ?? model("TaskGroup", taskGroupModelSchema));
+  (models.TaskGroup as Model<TaskGroupRecord> | undefined) ??
+  model<TaskGroupRecord>("TaskGroup", taskGroupModelSchema);
