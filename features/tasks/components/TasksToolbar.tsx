@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { format, parseISO } from "date-fns";
 import {
-  ArrowUpDownIcon,
   CalendarIcon,
   EyeIcon,
   SlidersHorizontalIcon,
@@ -28,10 +27,10 @@ import {
   type TaskGroupOption,
   type TaskListFilters,
   type TaskPriority,
-  type TaskSortOption,
   type TaskStatus,
 } from "@/features/tasks/types/task.types";
 import { TaskSearchInput } from "@/features/tasks/components/TaskSearchInput";
+import { TaskSortControl } from "@/features/tasks/components/TaskSortControl";
 
 const statusLabels: Record<TaskStatus, string> = {
   todo: "To do",
@@ -170,25 +169,7 @@ export function TasksToolbar({
         </PopoverContent>
       </Popover>
 
-      <Select
-        value={filters.sort}
-        onValueChange={(value) =>
-          update("sort", value ? (value as TaskSortOption) : undefined)
-        }
-      >
-        <SelectTrigger
-          aria-label="Sort tasks"
-          className="h-[38px] w-[136px] text-xs"
-        >
-          <ArrowUpDownIcon className="size-[15px] text-muted-foreground" />
-          <SelectValue placeholder="Last update" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="updated-desc">Last updated</SelectItem>
-          <SelectItem value="updated-asc">Least recently updated</SelectItem>
-          <SelectItem value="created-desc">Recently created</SelectItem>
-        </SelectContent>
-      </Select>
+      <TaskSortControl value={filters.sort} onChange={(sort) => update("sort", sort)} />
 
       <Button
         type="button"

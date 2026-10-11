@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-130 Create the Task sorting control
+- Extracted the Figma-aligned inline sort selector as a focused component, matching its 152×38 size, icon, and “Last updated” label.
+- Deviations: The supplied Figma toolbar uses an inline control, so no sorting dialog was added.
+
 ## 2026-10-11 — T-129 Follow-up: Split Tasks page responsibilities
 - Extracted list rendering, table selection, status and priority controls, row actions, pagination, and trash confirmation into focused components.
 - Moved the existing filter/URL effects and mutations into hooks, preserving query options, cache updates, selection resets, and route logic.
