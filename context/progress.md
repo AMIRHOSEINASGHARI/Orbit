@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-141 Create the Todo Drag & Drop column
+- Added an independently scrollable Todo column and reusable task cards with priority/status, group, due date, and task actions.
+- Deviations: Task IDs use the available database ID; assignee, comment, and subtask data is not present in the task model and is omitted.
+
 ## 2026-10-11 — T-140 Create the Drag & Drop board structure
 - Added an accessible, three-column board layout that preserves usable column widths and scrolls horizontally on narrow screens.
 - Deviations: None recorded.
