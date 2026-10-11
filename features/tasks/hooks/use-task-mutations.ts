@@ -7,7 +7,7 @@ import { changeTaskPriorityAction } from "@/features/tasks/actions/change-task-p
 import { trashTask } from "@/features/tasks/actions/trash-task.action";
 import { taskKeys } from "@/features/tasks/queries/task-keys";
 import type { ActionResult } from "@/types";
-import type { TaskListItem, TaskListFilters, TaskStatus, TaskPriority } from "@/features/tasks/types/task.types";
+import type { TaskListItem, TaskListPage, TaskListFilters, TaskStatus, TaskPriority } from "@/features/tasks/types/task.types";
 
 export function useTaskMutations(userId: string, filters: TaskListFilters) {
   const queryClient = useQueryClient();
@@ -20,16 +20,16 @@ export function useTaskMutations(userId: string, filters: TaskListFilters) {
         return;
       }
       toast.success(result.data.message);
-      queryClient.setQueryData<ActionResult<TaskListItem[]>>(
+      queryClient.setQueryData<ActionResult<TaskListPage>>(
         taskKeys.list(userId, filters),
         (current) => current?.success
           ? {
               ...current,
-              data: current.data.flatMap((task) => {
+              data: { ...current.data, tasks: current.data.tasks.flatMap((task) => {
                 if (task.id !== taskId) return [task];
                 if (filters.status && filters.status !== status) return [];
                 return [{ ...task, status }];
-              }),
+              }) },
             }
           : current,
       );
@@ -52,16 +52,16 @@ export function useTaskMutations(userId: string, filters: TaskListFilters) {
         return;
       }
       toast.success(result.data.message);
-      queryClient.setQueryData<ActionResult<TaskListItem[]>>(
+      queryClient.setQueryData<ActionResult<TaskListPage>>(
         taskKeys.list(userId, filters),
         (current) => current?.success
           ? {
               ...current,
-              data: current.data.flatMap((task) => {
+              data: { ...current.data, tasks: current.data.tasks.flatMap((task) => {
                 if (task.id !== taskId) return [task];
                 if (filters.priority && filters.priority !== priority) return [];
                 return [{ ...task, priority }];
-              }),
+              }) },
             }
           : current,
       );

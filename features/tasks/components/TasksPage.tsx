@@ -3,13 +3,13 @@
 import { PageHeader } from "@/components/shared/PageHeader";
 import { useTaskFilters } from "@/features/tasks/hooks/use-task-filters";
 import type { ActionResult } from "@/types";
-import type { TaskListItem, TaskListFilters, TaskGroupOption } from "@/features/tasks/types/task.types";
+import type { TaskListPage, TaskListFilters, TaskGroupOption } from "@/features/tasks/types/task.types";
 import { TasksViewSwitcher } from "./TasksViewSwitcher";
 import { TasksToolbar } from "./TasksToolbar";
 import { TasksList } from "./TasksList";
 
 export function TasksPage({ result, userId, groups, initialFilters }: {
-  result: ActionResult<TaskListItem[]>;
+  result: ActionResult<TaskListPage>;
   userId: string;
   groups: TaskGroupOption[];
   initialFilters: TaskListFilters;

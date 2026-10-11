@@ -24,6 +24,7 @@ export type Task = {
 };
 
 export type TaskListItem = Omit<Task, "userId">;
+export type TaskListPage = { tasks: TaskListItem[]; total: number; page: number; pageSize: number };
 
 export type TaskRecord = Omit<Task, "id" | "userId" | "groupId"> & {
   _id: Types.ObjectId;
@@ -38,6 +39,8 @@ export type TaskListFilters = {
   groupId?: string | "personal";
   dueDate?: string;
   sort?: TaskSortOption;
+  page?: number;
+  pageSize?: number;
   includeDeleted?: boolean;
   includeArchived?: boolean;
 };

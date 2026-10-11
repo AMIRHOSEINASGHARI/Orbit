@@ -6,7 +6,7 @@ import { getCurrentUser } from "@/lib/auth/current-user";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { listTasks } from "@/features/tasks/services/task.service";
 import { TASK_PRIORITIES, TASK_SORT_OPTIONS, TASK_STATUSES } from "@/features/tasks/types/task.types";
-import type { TaskListItem } from "@/features/tasks/types/task.types";
+import type { TaskListItem, TaskListPage } from "@/features/tasks/types/task.types";
 import { handleActionError } from "@/utils/actionError";
 
 const taskFiltersSchema = z.object({
@@ -16,11 +16,13 @@ const taskFiltersSchema = z.object({
   groupId: z.union([z.string().regex(/^[\da-f]{24}$/i), z.literal("personal")]).optional(),
   dueDate: z.iso.date().optional(),
   sort: z.enum(TASK_SORT_OPTIONS).optional(),
+  page: z.number().int().min(1).default(1),
+  pageSize: z.number().int().min(1).max(100).default(100),
   includeDeleted: z.boolean().optional(),
   includeArchived: z.boolean().optional(),
 }).strict();
 
-export async function getTasks(filters: unknown = {}): Promise<ActionResult<TaskListItem[]>> {
+export async function getTasks(filters: unknown = {}): Promise<ActionResult<TaskListPage>> {
   const user = await getCurrentUser();
   if (!user) return { success: false, error: "Sign in to view tasks." };
 
@@ -29,14 +31,17 @@ export async function getTasks(filters: unknown = {}): Promise<ActionResult<Task
 
   try {
     await connectToDatabase();
-    const tasks = await listTasks(user.id, parsed.data);
+    const result = await listTasks(user.id, parsed.data);
     return {
       success: true,
-      data: tasks.map(({ _id, userId: _ownerId, groupId, ...task }) => ({
-        ...task,
-        id: _id.toString(),
-        groupId: groupId?.toString() ?? null,
-      })),
+      data: {
+        ...result,
+        tasks: result.tasks.map(({ _id, userId: _ownerId, groupId, ...task }) => ({
+          ...task,
+          id: _id.toString(),
+          groupId: groupId?.toString() ?? null,
+        })),
+      },
     };
   } catch (error) {
     return handleActionError(error);

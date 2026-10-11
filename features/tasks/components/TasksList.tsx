@@ -9,7 +9,7 @@ import { Card } from "@/components/ui/card";
 import { getTasks } from "@/features/tasks/actions/get-tasks.action";
 import { taskKeys } from "@/features/tasks/queries/task-keys";
 import { useTaskMutations } from "@/features/tasks/hooks/use-task-mutations";
-import type { TaskListItem, TaskListFilters, TaskGroupOption } from "@/features/tasks/types/task.types";
+import type { TaskListItem, TaskListPage, TaskListFilters, TaskGroupOption } from "@/features/tasks/types/task.types";
 import type { ActionResult } from "@/types";
 import { TaskTable } from "./TaskTable";
 import { TaskDetailsDrawer } from "./task-details-drawer";
@@ -17,7 +17,7 @@ import { TaskCreationDialog } from "./task-creation-dialog";
 import { TaskTrashDialog } from "./TaskTrashDialog";
 
 export function TasksList({ result, userId, groups, initialFilters, filters, page, onPageChange }: {
-  result: ActionResult<TaskListItem[]>;
+  result: ActionResult<TaskListPage>;
   userId: string;
   groups: TaskGroupOption[];
   initialFilters: TaskListFilters;
@@ -28,10 +28,11 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
   const [openTaskId, setOpenTaskId] = useState<string | null>(null);
   const [editingTask, setEditingTask] = useState<TaskListItem | null>(null);
   const [taskToTrash, setTaskToTrash] = useState<TaskListItem | null>(null);
-  const { statusMutation, priorityMutation, trashMutation } = useTaskMutations(userId, filters);
+  const queryFilters = { ...filters, page: page + 1, pageSize: 100 };
+  const { statusMutation, priorityMutation, trashMutation } = useTaskMutations(userId, queryFilters);
   const tasksQuery = useQuery({
-    queryKey: taskKeys.list(userId, filters),
-    queryFn: () => getTasks(filters),
+    queryKey: taskKeys.list(userId, queryFilters),
+    queryFn: () => getTasks(queryFilters),
     initialData: Object.keys({ ...filters, ...initialFilters }).every((key) =>
       filters[key as keyof TaskListFilters] === initialFilters[key as keyof TaskListFilters],
     ) ? result : undefined,
@@ -57,11 +58,12 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
           </Button>
         }
       />
-    ) : taskResult.data.length ? (
+    ) : taskResult.data.tasks.length ? (
       <Card role="region" aria-label="Task list" className="gap-0 p-0">
         <TaskTable
           key={JSON.stringify(filters)}
-          tasks={taskResult.data}
+          tasks={taskResult.data.tasks}
+          totalTasks={taskResult.data.total}
           groups={groups}
           page={page}
           onPageChange={onPageChange}

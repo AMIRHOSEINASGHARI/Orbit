@@ -12,7 +12,9 @@ function requireObjectId(value: string, field: string): mongoose.Types.ObjectId 
 export async function listTasks(
   userId: string,
   filters: TaskListFilters = {},
-): Promise<TaskRecord[]> {
+): Promise<{ tasks: TaskRecord[]; total: number; page: number; pageSize: number }> {
+  const page = filters.page ?? 1;
+  const pageSize = filters.pageSize ?? 100;
   const query: mongoose.QueryFilter<TaskRecord> = {
     userId: requireObjectId(userId, "user ID"),
   };
@@ -35,8 +37,12 @@ export async function listTasks(
     query.dueDate = { $gte: start, $lt: end };
   }
 
+  const totalQuery = TaskModel.countDocuments(query).exec();
+  const pagination = [{ $skip: (page - 1) * pageSize }, { $limit: pageSize }];
+  let tasksQuery: Promise<TaskRecord[]>;
+
   if (filters.sort === "due-date-asc") {
-    return TaskModel.aggregate<TaskRecord>([
+    tasksQuery = TaskModel.aggregate<TaskRecord>([
       { $match: query },
       {
         $addFields: {
@@ -47,11 +53,10 @@ export async function listTasks(
       },
       { $sort: { _hasNoDueDate: 1, dueDate: 1, updatedAt: -1 } },
       { $unset: "_hasNoDueDate" },
+      ...pagination,
     ]).exec();
-  }
-
-  if (filters.sort === "priority-desc") {
-    return TaskModel.aggregate<TaskRecord>([
+  } else if (filters.sort === "priority-desc") {
+    tasksQuery = TaskModel.aggregate<TaskRecord>([
       { $match: query },
       {
         $addFields: {
@@ -69,14 +74,18 @@ export async function listTasks(
       },
       { $sort: { _priorityOrder: 1, updatedAt: -1 } },
       { $unset: "_priorityOrder" },
+      ...pagination,
     ]).exec();
+  } else {
+    const sort: Record<string, mongoose.SortOrder> = filters.sort === "updated-asc"
+      ? { updatedAt: 1 }
+      : filters.sort === "created-desc" ? { createdAt: -1 }
+        : { updatedAt: -1 };
+    tasksQuery = TaskModel.find(query).sort(sort).skip((page - 1) * pageSize).limit(pageSize).lean<TaskRecord[]>().exec();
   }
 
-  const sort: Record<string, mongoose.SortOrder> = filters.sort === "updated-asc"
-    ? { updatedAt: 1 }
-    : filters.sort === "created-desc" ? { createdAt: -1 }
-      : { updatedAt: -1 };
-  return TaskModel.find(query).sort(sort).lean<TaskRecord[]>().exec();
+  const [tasks, total] = await Promise.all([tasksQuery, totalQuery]);
+  return { tasks, total, page, pageSize };
 }
 
 export async function getTaskById(

@@ -6,6 +6,11 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-135 Add server-side Task pagination
+- Added validated page and page-size parameters with a default of 100 tasks, plus total-count metadata.
+- Updated task queries and cache mutations to use server-paginated result data.
+- Deviations: None recorded.
+
 ## 2026-10-11 — T-134 Synchronize sorting with URL search parameters
 - Restored valid sort options on direct route loads and kept sort changes synchronized with browser URL state.
 - Deviations: None recorded.

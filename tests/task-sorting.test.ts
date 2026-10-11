@@ -1,13 +1,14 @@
 import { beforeEach, expect, it, vi } from "vitest";
 
-const { aggregate } = vi.hoisted(() => ({ aggregate: vi.fn() }));
+const { aggregate, countDocuments } = vi.hoisted(() => ({ aggregate: vi.fn(), countDocuments: vi.fn() }));
 
-vi.mock("@/features/tasks/models/task.model", () => ({ TaskModel: { aggregate } }));
+vi.mock("@/features/tasks/models/task.model", () => ({ TaskModel: { aggregate, countDocuments } }));
 
 import { listTasks } from "@/features/tasks/services/task.service";
 
 beforeEach(() => {
   aggregate.mockReturnValue({ exec: vi.fn().mockResolvedValue([]) });
+  countDocuments.mockReturnValue({ exec: vi.fn().mockResolvedValue(0) });
 });
 
 it("sorts dated tasks soonest first and leaves undated tasks last", async () => {
