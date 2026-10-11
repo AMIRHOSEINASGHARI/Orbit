@@ -1,6 +1,7 @@
 "use client";
 
 import { format } from "date-fns";
+import type { DragEvent, KeyboardEvent } from "react";
 import { CalendarIcon, EllipsisIcon, EyeIcon, GripVerticalIcon, PencilIcon, Trash2Icon } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,18 +19,51 @@ const statusStyle: Record<TaskStatus, { variant: "todo" | "info" | "success"; la
   done: { variant: "success", label: "Done" },
 };
 
-export function TaskBoardCard({ task, group, onView, onEdit, onTrash }: {
+export function TaskBoardCard({ task, group, dragging, keyboardDragging, onView, onEdit, onTrash, onPointerDragStart, onPointerDragEnd, onKeyboardAction }: {
   task: TaskListItem;
   group?: TaskGroupOption;
+  dragging: boolean;
+  keyboardDragging: boolean;
   onView: (taskId: string) => void;
   onEdit: (task: TaskListItem) => void;
   onTrash: (task: TaskListItem) => void;
+  onPointerDragStart: (taskId: string) => void;
+  onPointerDragEnd: () => void;
+  onKeyboardAction: (taskId: string, action: "pickup" | "drop" | "cancel" | "left" | "right") => void;
 }) {
   const priority = priorityStyle[task.priority];
   const status = statusStyle[task.status];
 
   return (
-    <article className="flex min-h-[145px] flex-col gap-[11px] rounded-[10px] border border-border bg-card p-[14px] shadow-sm">
+    <article
+      draggable
+      tabIndex={0}
+      aria-label={`${task.title}, ${status.label}, ${priority.label} priority`}
+      aria-roledescription="draggable task"
+      onDragStart={(event: DragEvent<HTMLElement>) => {
+        event.dataTransfer.effectAllowed = "move";
+        event.dataTransfer.setData("text/plain", task.id);
+        onPointerDragStart(task.id);
+      }}
+      onDragEnd={onPointerDragEnd}
+      onKeyDown={(event: KeyboardEvent<HTMLElement>) => {
+        if (event.target !== event.currentTarget) return;
+        if (event.key === " " || event.key === "Enter") {
+          event.preventDefault();
+          onKeyboardAction(task.id, keyboardDragging ? "drop" : "pickup");
+        } else if (keyboardDragging && event.key === "ArrowLeft") {
+          event.preventDefault();
+          onKeyboardAction(task.id, "left");
+        } else if (keyboardDragging && event.key === "ArrowRight") {
+          event.preventDefault();
+          onKeyboardAction(task.id, "right");
+        } else if (keyboardDragging && event.key === "Escape") {
+          event.preventDefault();
+          onKeyboardAction(task.id, "cancel");
+        }
+      }}
+      className={`flex min-h-[145px] flex-col gap-[11px] rounded-[10px] border border-border bg-card p-[14px] shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-ring ${dragging ? "opacity-50" : ""} ${keyboardDragging ? "ring-2 ring-primary" : ""}`}
+    >
       <header className="flex w-full items-center gap-2">
         <GripVerticalIcon aria-hidden="true" className="size-[15px] shrink-0 text-subtle-foreground" />
         <span className="min-w-0 flex-1 truncate text-[10px] font-semibold text-subtle-foreground">{task.id.slice(-6).toUpperCase()}</span>
