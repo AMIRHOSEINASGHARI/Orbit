@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-133 Add sorting by priority
+- Added a High → Medium → Low priority sort option, with recent updates breaking ties.
+- Deviations: None recorded.
+
 ## 2026-10-11 — T-132 Add sorting by due date
 - Added “Due date (soonest)” and server-side ascending sorting, placing tasks without due dates last and using recent update time to break ties.
 - Deviations: None recorded.

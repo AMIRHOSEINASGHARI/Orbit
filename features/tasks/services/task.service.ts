@@ -50,6 +50,28 @@ export async function listTasks(
     ]).exec();
   }
 
+  if (filters.sort === "priority-desc") {
+    return TaskModel.aggregate<TaskRecord>([
+      { $match: query },
+      {
+        $addFields: {
+          _priorityOrder: {
+            $switch: {
+              branches: [
+                { case: { $eq: ["$priority", "high"] }, then: 0 },
+                { case: { $eq: ["$priority", "medium"] }, then: 1 },
+                { case: { $eq: ["$priority", "low"] }, then: 2 },
+              ],
+              default: 3,
+            },
+          },
+        },
+      },
+      { $sort: { _priorityOrder: 1, updatedAt: -1 } },
+      { $unset: "_priorityOrder" },
+    ]).exec();
+  }
+
   const sort: Record<string, mongoose.SortOrder> = filters.sort === "updated-asc"
     ? { updatedAt: 1 }
     : filters.sort === "created-desc" ? { createdAt: -1 }
