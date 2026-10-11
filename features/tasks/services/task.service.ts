@@ -211,6 +211,23 @@ export async function changeTaskPriorityForUser(
   return Boolean(task);
 }
 
+export async function changeTasksPriorityForUser(
+  userId: string,
+  taskIds: string[],
+  priority: TaskPriority,
+): Promise<number> {
+  const result = await TaskModel.updateMany(
+    {
+      _id: { $in: taskIds.map((taskId) => requireObjectId(taskId, "task ID")) },
+      userId: requireObjectId(userId, "user ID"),
+      deletedAt: null,
+    },
+    { priority },
+    { runValidators: true, timestamps: false },
+  ).exec();
+  return result.modifiedCount;
+}
+
 export async function trashTaskForUser(userId: string, taskId: string): Promise<boolean> {
   const task = await TaskModel.findOneAndUpdate(
     {
