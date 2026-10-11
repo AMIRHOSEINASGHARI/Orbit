@@ -5,8 +5,14 @@ export const TASK_PRIORITIES = ["low", "medium", "high"] as const;
 
 export type TaskStatus = (typeof TASK_STATUSES)[number];
 export type TaskPriority = (typeof TASK_PRIORITIES)[number];
-export const TASK_SORT_OPTIONS = ["updated-desc", "updated-asc", "created-desc", "due-date-asc", "priority-desc"] as const;
-export const TASK_PAGE_SIZE = 100;
+export const TASK_SORT_OPTIONS = [
+  "updated-desc",
+  "updated-asc",
+  "created-desc",
+  "due-date-asc",
+  "priority-desc",
+] as const;
+export const TASK_PAGE_SIZE = 30;
 export type TaskSortOption = (typeof TASK_SORT_OPTIONS)[number];
 
 export type Task = {
@@ -25,7 +31,12 @@ export type Task = {
 };
 
 export type TaskListItem = Omit<Task, "userId">;
-export type TaskListPage = { tasks: TaskListItem[]; total: number; page: number; pageSize: number };
+export type TaskListPage = {
+  tasks: TaskListItem[];
+  total: number;
+  page: number;
+  pageSize: number;
+};
 
 export type TaskRecord = Omit<Task, "id" | "userId" | "groupId"> & {
   _id: Types.ObjectId;
@@ -46,4 +57,8 @@ export type TaskListFilters = {
   includeArchived?: boolean;
 };
 
-export type TaskGroupOption = { id: string; name: string; color: string | null };
+export type TaskGroupOption = {
+  id: string;
+  name: string;
+  color: string | null;
+};
