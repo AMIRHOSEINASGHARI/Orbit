@@ -6,6 +6,10 @@ Append-only. One entry per finished task, newest at the top. Format:
 - What shipped (1-3 bullets)
 - Deviations from the spec, if any, and where the docs were updated
 
+## 2026-10-11 — T-122 Follow-up: Fetch results for changed search queries
+- Restricted server-provided initial task data to the filter set it represents, allowing new search/filter query keys to fetch their own results.
+- Deviations: None recorded.
+
 ## 2026-10-11 — T-122 Synchronize Task search with URL search parameters
 - Restored search from the URL on initial load and browser navigation, and wrote debounced searches to browser history while preserving other parameters.
 - Deviations: None recorded.

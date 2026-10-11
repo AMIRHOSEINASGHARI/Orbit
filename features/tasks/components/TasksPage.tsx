@@ -489,7 +489,11 @@ export function TasksPage({
   const tasksQuery = useQuery({
     queryKey: taskKeys.list(userId, filters),
     queryFn: () => getTasks(filters),
-    initialData: result,
+    initialData:
+      filters.search === (initialSearch || undefined) &&
+      Object.entries(filters).every(([key, value]) => key === "search" || value === undefined)
+        ? result
+        : undefined,
     placeholderData: (previousData) => previousData ?? result,
   });
   const taskResult = tasksQuery.data;
@@ -515,13 +519,13 @@ export function TasksPage({
   }, [searchParams]);
 
   const content =
-    tasksQuery.isError || !taskResult.success ? (
+    tasksQuery.isError || !taskResult || !taskResult.success ? (
       <ErrorState
         title="Tasks are unavailable"
         description={
           tasksQuery.error instanceof Error
             ? tasksQuery.error.message
-            : taskResult.success
+            : !taskResult || taskResult.success
               ? "Please try again."
               : taskResult.error
         }
