@@ -1,3 +1,7 @@
+## 2026-10-12 - T-221 Create the trashNote Server Action
+- Added owner-scoped soft deletion and wired the Note card and details actions to a confirmation dialog with refresh/navigation feedback.
+- Deviations: None.
+
 ## 2026-10-12 - T-220 Create the Edit Note dialog
 - Added a shared create/edit form dialog and wired editing from Note cards and the Note details page, with form prefill, update action, feedback, and refresh.
 - Deviations: The Figma dialog uses the same shared form in create and edit mode.

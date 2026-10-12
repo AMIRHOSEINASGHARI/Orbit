@@ -2,13 +2,16 @@
 
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 import { PlusIcon } from "@/components/icons";
+import { ConfirmationDialog } from "@/components/shared/ConfirmationDialog";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { LoadingState } from "@/components/shared/LoadingState";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { Button } from "@/components/ui/button";
 import { getNotes } from "@/features/notes/actions/get-notes.action";
+import { trashNote } from "@/features/notes/actions/trash-note.action";
 import { NoteCard } from "@/features/notes/components/NoteCard";
 import { NoteCreateDialog } from "@/features/notes/components/NoteCreateDialog";
 import { NoteEditDialog } from "@/features/notes/components/NoteEditDialog";
@@ -18,6 +21,7 @@ import type { ActionResult } from "@/types";
 export function NotesPage({ initialResult, userId }: { initialResult: ActionResult<Note[]>; userId: string }) {
   const [createOpen, setCreateOpen] = useState(false);
   const [editingNote, setEditingNote] = useState<Note | null>(null);
+  const [trashTarget, setTrashTarget] = useState<Note | null>(null);
   const queryClient = useQueryClient();
   const query = useQuery({
     queryKey: ["notes", userId],
@@ -40,11 +44,26 @@ export function NotesPage({ initialResult, userId }: { initialResult: ActionResu
         <EmptyState title="No notes yet" description="Create a note to capture an idea, update, or reminder." action={<Button onClick={() => setCreateOpen(true)}><PlusIcon aria-hidden="true" />Create note</Button>} />
       ) : (
         <section aria-label="Notes" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {notes.map((note) => <NoteCard key={note.id} note={note} onEdit={setEditingNote} />)}
+          {notes.map((note) => <NoteCard key={note.id} note={note} onEdit={setEditingNote} onTrash={setTrashTarget} />)}
         </section>
       )}
       <NoteCreateDialog open={createOpen} onOpenChange={setCreateOpen} onCreated={() => void queryClient.invalidateQueries({ queryKey: ["notes", userId] })} />
       <NoteEditDialog open={Boolean(editingNote)} onOpenChange={(open) => { if (!open) setEditingNote(null); }} note={editingNote} onSaved={() => void queryClient.invalidateQueries({ queryKey: ["notes", userId] })} />
+      <ConfirmationDialog
+        open={Boolean(trashTarget)}
+        onOpenChange={(open) => { if (!open) setTrashTarget(null); }}
+        title={`Move “${trashTarget?.title ?? "note"}” to Trash?`}
+        description="You can restore this note from Trash later."
+        confirmLabel="Move to Trash"
+        onConfirm={async () => {
+          if (!trashTarget) return;
+          const result = await trashNote(trashTarget.id);
+          if (!result.success) throw new Error(result.error);
+          toast.success(result.data.message);
+          await queryClient.invalidateQueries({ queryKey: ["notes", userId] });
+          setTrashTarget(null);
+        }}
+      />
     </main>
   );
 }
