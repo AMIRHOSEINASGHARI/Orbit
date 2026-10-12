@@ -54,14 +54,16 @@ function PasswordField({
           aria-describedby={error ? "password-error" : undefined}
           className="h-12 rounded-lg px-3.5 pr-12 text-ui-body"
         />
-        <button
+        <Button
           type="button"
+          variant="outline"
+          size="icon-sm"
           aria-label={`${visible ? "Hide" : "Show"} password`}
           onClick={() => setVisible((value) => !value)}
-          className="absolute inset-y-0 right-2 flex w-8 items-center justify-center text-muted-foreground hover:text-foreground"
+          className="absolute top-1/2 right-2 -translate-y-1/2 text-muted-foreground"
         >
           <PasswordVisibilityIcon className="size-[18px]" />
-        </button>
+        </Button>
       </div>
       <FieldError
         id="password-error"

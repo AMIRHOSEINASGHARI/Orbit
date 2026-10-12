@@ -32,13 +32,13 @@ export function TaskChecklistEditor({ items, onChange }: {
           <div key={index} className="flex items-center gap-2 rounded-md bg-background px-2 py-1.5">
             <Checkbox aria-label={`Complete ${item.text}`} checked={item.isCompleted} onCheckedChange={(checked) => onChange(items.map((value, itemIndex) => itemIndex === index ? { ...value, isCompleted: checked === true } : value))} />
             <input value={item.text} onChange={(event) => onChange(items.map((value, itemIndex) => itemIndex === index ? { ...value, text: event.target.value } : value))} onKeyDown={(event) => { if (event.key === "Enter") event.preventDefault(); }} maxLength={500} aria-label={`Checklist item ${index + 1}`} className={`min-w-0 flex-1 bg-transparent text-ui-small outline-none focus-visible:ring-2 focus-visible:ring-ring ${item.isCompleted ? "text-muted-foreground line-through" : "text-foreground"}`} />
-            <Button type="button" variant="ghost" size="icon-sm" aria-label={`Remove ${item.text}`} onClick={() => onChange(items.filter((_, itemIndex) => itemIndex !== index))} className="size-6 shrink-0"><XIcon aria-hidden="true" className="size-3" /></Button>
+            <Button type="button" variant="outline" size="icon-sm" aria-label={`Remove ${item.text}`} onClick={() => onChange(items.filter((_, itemIndex) => itemIndex !== index))} className="shrink-0"><XIcon aria-hidden="true" className="size-3" /></Button>
           </div>
         ))}
       </div>
       <div className="mt-auto flex items-center gap-2 pt-2">
         <input value={draft} onChange={(event) => setDraft(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") { event.preventDefault(); addItem(); } }} maxLength={500} disabled={items.length >= 100} aria-label="New checklist item" placeholder="Add a checklist item..." className="h-8 min-w-0 flex-1 bg-transparent text-ui-small outline-none placeholder:text-muted-foreground" />
-        <Button type="button" variant="ghost" size="icon-sm" aria-label="Add checklist item" disabled={!draft.trim() || items.length >= 100} onClick={addItem} className="size-7"><PlusIcon aria-hidden="true" className="size-4" /></Button>
+        <Button type="button" variant="outline" size="icon-sm" aria-label="Add checklist item" disabled={!draft.trim() || items.length >= 100} onClick={addItem}><PlusIcon aria-hidden="true" className="size-4" /></Button>
       </div>
     </div>
   );

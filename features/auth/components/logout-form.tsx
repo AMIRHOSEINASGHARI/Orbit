@@ -10,13 +10,12 @@ function LogoutButton() {
   const { pending } = useFormStatus();
 
   return (
-    <Button type="submit" disabled={pending} variant="ghost" aria-label="Log out" className="h-8 gap-[5px] rounded-lg border-0 px-[7px] text-ui-small">
-      <LogOutIcon className="size-3.5" />
-      <span>{pending ? "Signing out…" : "Log out"}</span>
+    <Button type="submit" disabled={pending} variant="outline" size="icon" aria-label={pending ? "Signing out" : "Log out"} title={pending ? "Signing out" : "Log out"}>
+      <LogOutIcon aria-hidden="true" className="size-4" />
     </Button>
   );
 }
 
 export function LogoutForm() {
-  return <Form action={logoutAction} className="hidden lg:block"><LogoutButton /></Form>;
+  return <Form action={logoutAction}><LogoutButton /></Form>;
 }

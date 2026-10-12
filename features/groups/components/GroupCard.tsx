@@ -45,7 +45,7 @@ export function GroupCard({
             <DropdownMenuTrigger
               render={
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   size="icon"
                   aria-label={`Actions for ${group.name}`}
                 />

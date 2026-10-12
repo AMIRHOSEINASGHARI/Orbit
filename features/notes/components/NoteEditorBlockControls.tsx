@@ -17,35 +17,34 @@ export function NoteEditorBlockControls({ editor }: NoteEditorBlockControlsProps
       <Button
         aria-label="Blockquote"
         aria-pressed={active.quote}
-        className="size-7 px-0 text-sm"
+        className="text-sm aria-pressed:bg-secondary aria-pressed:text-secondary-foreground"
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
         size="icon-xs"
         title="Blockquote"
         type="button"
-        variant={active.quote ? "secondary" : "ghost"}
+        variant="outline"
       >
         “ ”
       </Button>
       <Button
         aria-label="Code block"
         aria-pressed={active.code}
-        className="size-7 px-0 font-mono text-xs"
+        className="font-mono text-xs aria-pressed:bg-secondary aria-pressed:text-secondary-foreground"
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
         size="icon-xs"
         title="Code block"
         type="button"
-        variant={active.code ? "secondary" : "ghost"}
+        variant="outline"
       >
         &lt;&gt;
       </Button>
       <Button
         aria-label="Insert horizontal rule"
-        className="size-7 px-0"
         onClick={() => editor.chain().focus().setHorizontalRule().run()}
         size="icon-xs"
         title="Insert horizontal rule"
         type="button"
-        variant="ghost"
+        variant="outline"
       >
         <MinusIcon />
       </Button>

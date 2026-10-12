@@ -45,7 +45,7 @@ export function TaskBoardColumn({ status, tasks, groups, onAddTask, onView, onEd
             <PlusIcon aria-hidden="true" className="size-3.5" /> Add task
           </Button>
           <DropdownMenu>
-            <DropdownMenuTrigger render={<Button type="button" variant="ghost" size="icon-sm" aria-label={`More ${style.label} column actions`} className="size-7 text-muted-foreground" />}>
+            <DropdownMenuTrigger render={<Button type="button" variant="outline" size="icon-sm" aria-label={`More ${style.label} column actions`} className="text-muted-foreground" />}>
               <EllipsisIcon aria-hidden="true" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">

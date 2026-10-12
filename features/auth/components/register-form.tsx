@@ -35,9 +35,9 @@ function PasswordField({ id, label, placeholder, hint, registration, error }: {
       <FieldLabel htmlFor={id} className="text-[13px] font-semibold text-foreground">{label}</FieldLabel>
       <div className="relative">
         <Input {...registration} id={id} type={visible ? "text" : "password"} placeholder={placeholder} aria-invalid={Boolean(error)} aria-describedby={[hintId, errorId].filter(Boolean).join(" ") || undefined} className="h-12 rounded-lg px-3.5 pr-12 text-ui-body" />
-        <button type="button" aria-label={`${visible ? "Hide" : "Show"} ${label.toLowerCase()}`} onClick={() => setVisible((value) => !value)} className="absolute inset-y-0 right-2 flex w-8 items-center justify-center text-muted-foreground hover:text-foreground">
+        <Button type="button" variant="outline" size="icon-sm" aria-label={`${visible ? "Hide" : "Show"} ${label.toLowerCase()}`} onClick={() => setVisible((value) => !value)} className="absolute top-1/2 right-2 -translate-y-1/2 text-muted-foreground">
           <PasswordVisibilityIcon className="size-4.5" />
-        </button>
+        </Button>
       </div>
       {hint && <FieldDescription id={hintId} className="text-ui-small text-muted-foreground">{hint}</FieldDescription>}
       <FieldError id={errorId} errors={error ? [{ message: error }] : []} className="text-ui-small font-medium text-danger-foreground" />

@@ -23,12 +23,12 @@ export function NoteEditorLinkControl({ editor }: NoteEditorLinkControlProps) {
     <Button
       aria-label={active ? "Edit link" : "Add link"}
       aria-pressed={active}
-      className="size-7 px-0"
+      className="aria-pressed:bg-secondary aria-pressed:text-secondary-foreground"
       onClick={editLink}
       size="icon-xs"
       title={active ? "Edit link" : "Add link"}
       type="button"
-      variant={active ? "secondary" : "ghost"}
+      variant="outline"
     >
       <Link2Icon />
     </Button>

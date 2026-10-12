@@ -28,8 +28,8 @@ export function NoteDetailsPage({ result }: { result: ActionResult<Note> }) {
       <header className="flex items-start justify-between gap-4">
         <div className="space-y-1"><h1 className="text-3xl font-bold leading-tight">{note.title}</h1><p className="text-xs text-muted-foreground">Updated {format(new Date(note.updatedAt), "MMM d, yyyy · h:mm a")}</p></div>
         <div className="flex gap-1">
-          <Button variant="ghost" size="icon-sm" aria-label="Edit note" title="Edit note" onClick={() => setEditOpen(true)}><PencilIcon /></Button>
-          <Button variant="ghost" size="icon-sm" aria-label="Move note to Trash" title="Move to Trash" onClick={() => setTrashOpen(true)}><TrashIcon /></Button>
+          <Button variant="outline" size="icon-sm" aria-label="Edit note" title="Edit note" onClick={() => setEditOpen(true)}><PencilIcon aria-hidden="true" /></Button>
+          <Button variant="outline" size="icon-sm" aria-label="Move note to Trash" title="Move to Trash" onClick={() => setTrashOpen(true)}><TrashIcon aria-hidden="true" /></Button>
         </div>
       </header>
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_250px]">

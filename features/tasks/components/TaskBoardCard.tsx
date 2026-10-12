@@ -69,7 +69,7 @@ export function TaskBoardCard({ task, group, dragging, keyboardDragging, onView,
         <GripVerticalIcon aria-hidden="true" className="size-[15px] shrink-0 text-subtle-foreground" />
         <span className="min-w-0 flex-1 truncate text-[10px] font-semibold text-subtle-foreground">{task.id.slice(-6).toUpperCase()}</span>
         <DropdownMenu>
-          <DropdownMenuTrigger render={<Button type="button" variant="ghost" size="icon-sm" aria-label={`Actions for ${task.title}`} className="size-[30px] shrink-0 text-muted-foreground" />}>
+          <DropdownMenuTrigger render={<Button type="button" variant="outline" size="icon-sm" aria-label={`Actions for ${task.title}`} className="shrink-0 text-muted-foreground" />}>
             <EllipsisIcon aria-hidden="true" />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-40">

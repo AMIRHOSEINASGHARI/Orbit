@@ -30,11 +30,11 @@ export function TaskTablePagination({ totalTasks, selectedCount, page, pageSize,
             <nav aria-label="Task pages" className="flex items-center gap-[5px]">
               <Button
                 type="button"
-                variant="ghost"
+                variant="outline"
                 size="icon-sm"
                 aria-label="Previous page"
                 disabled={page === 0}
-                className="size-[34px] rounded-lg"
+                className="rounded-lg"
                 onClick={() => onPageChange(Math.max(0, page - 1))}
               >
                 <ChevronLeftIcon />
@@ -51,8 +51,8 @@ export function TaskTablePagination({ totalTasks, selectedCount, page, pageSize,
                   aria-label={`Page ${pageIndex + 1}`}
                   aria-current={pageIndex === page ? "page" : undefined}
                   className={pageIndex === page
-                    ? "size-[30px] rounded-md bg-[#eeecff] text-[#635bff] hover:bg-[#eeecff] hover:text-[#635bff]"
-                    : "size-[30px] rounded-md text-muted-foreground"}
+                    ? "rounded-md bg-[#eeecff] text-[#635bff] hover:bg-[#eeecff] hover:text-[#635bff]"
+                    : "rounded-md text-muted-foreground"}
                   onClick={() => onPageChange(pageIndex)}
                 >
                   {pageIndex + 1}
@@ -63,11 +63,11 @@ export function TaskTablePagination({ totalTasks, selectedCount, page, pageSize,
               )}
               <Button
                 type="button"
-                variant="ghost"
+                variant="outline"
                 size="icon-sm"
                 aria-label="Next page"
                 disabled={page + 1 >= pageCount}
-                className="size-[34px] rounded-lg"
+                className="rounded-lg"
                 onClick={() => onPageChange(page + 1)}
               >
                 <ChevronRightIcon />

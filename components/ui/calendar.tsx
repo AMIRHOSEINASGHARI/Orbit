@@ -176,11 +176,11 @@ function CalendarNav({ onPreviousClick, onNextClick, previousMonth, nextMonth, l
   return (
     <nav aria-label="Calendar navigation" className="flex h-10 w-full items-center justify-between px-3">
       <div className="flex items-center gap-2">
-        <Button type="button" variant="outline" size="icon" aria-label="Previous month" disabled={!previousMonth} onClick={onPreviousClick} className="size-7 rounded-lg bg-table-header p-0">
+        <Button type="button" variant="outline" size="icon" aria-label="Previous month" disabled={!previousMonth} onClick={onPreviousClick} className="rounded-lg bg-table-header">
           <ChevronLeftIcon className="size-3.5" />
         </Button>
         <span className="text-[13px] font-semibold text-foreground">{month?.toLocaleDateString(locale?.code, { month: "long", year: "numeric" })}</span>
-        <Button type="button" variant="outline" size="icon" aria-label="Next month" disabled={!nextMonth} onClick={onNextClick} className="size-7 rounded-lg bg-table-header p-0">
+        <Button type="button" variant="outline" size="icon" aria-label="Next month" disabled={!nextMonth} onClick={onNextClick} className="rounded-lg bg-table-header">
           <ChevronRightIcon className="size-3.5" />
         </Button>
       </div>

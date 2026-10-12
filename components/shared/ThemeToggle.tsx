@@ -21,9 +21,9 @@ export function ThemeToggle({ text = true }: ThemeToggleTypes) {
     <Button
       type="button"
       variant="outline"
+      size={text ? "default" : "icon"}
       aria-label={`Switch to ${isDark ? "light" : "dark"} theme`}
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="h-8.5 gap-1.5 rounded-full border-border bg-table-header px-2 text-ui-label text-muted-foreground hover:bg-muted"
     >
       {isDark ? (
         <MoonIcon className="size-3.5" />

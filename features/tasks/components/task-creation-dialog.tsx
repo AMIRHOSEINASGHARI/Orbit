@@ -133,7 +133,7 @@ export function TaskCreationDialog({ open, onOpenChange, task = null, defaultSta
             <DialogTitle className="text-2xl font-bold leading-tight">{task ? "Edit task" : "Create new task"}</DialogTitle>
             <DialogDescription className="text-ui-body">{task ? "Update the details for this task." : "Add the details your team needs to understand, own, and complete this work."}</DialogDescription>
           </div>
-          <Button type="button" variant="outline" size="icon" aria-label="Close dialog" onClick={() => onOpenChange(false)} className="size-9 shrink-0 bg-table-header">
+          <Button type="button" variant="outline" size="icon" aria-label="Close dialog" onClick={() => onOpenChange(false)} className="shrink-0 bg-table-header">
             <XIcon className="size-[17px]" />
           </Button>
         </header>

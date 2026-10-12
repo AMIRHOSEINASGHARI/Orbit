@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { BellIcon, SearchIcon } from "@/components/icons";
+import { BellIcon, ChevronDownIcon, SearchIcon } from "@/components/icons";
 import { AppLogo } from "@/components/shared/AppLogo";
 import { MobileNavigation } from "@/components/shared/MobileNavigation";
 import { LogoutForm } from "@/features/auth/components/logout-form";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   InputGroup,
   InputGroupAddon,
@@ -12,8 +13,7 @@ import {
 } from "@/components/ui/input-group";
 
 type HeaderProps = {
-  account?: ReactNode;
-  profile: { displayName: string; username: string; avatarUrl: string | null };
+  profile: { displayName: string; avatarUrl: string | null };
 };
 
 function ProfileLink({ profile }: { profile: HeaderProps["profile"] }) {
@@ -25,28 +25,29 @@ function ProfileLink({ profile }: { profile: HeaderProps["profile"] }) {
     .toUpperCase();
 
   return (
-    <Link
-      href="/settings/profile"
-      aria-label={`${profile.displayName}. Open profile`}
-      className="inline-flex shrink-0 items-center gap-[9px] px-[7px]"
+    <Button
+      variant="ghost"
+      size="lg"
+      className="shrink-0 rounded-full"
+      render={
+        <Link
+          href="/settings/profile"
+          aria-label={`${profile.displayName}. Open profile`}
+        />
+      }
     >
-      <Avatar className="size-8">
-        {profile.avatarUrl && <AvatarImage src={profile.avatarUrl} alt={profile.displayName} />}
+      <Avatar className="size-7">
+        {profile.avatarUrl && (
+          <AvatarImage src={profile.avatarUrl} alt={profile.displayName} />
+        )}
         <AvatarFallback>{initials}</AvatarFallback>
       </Avatar>
-      <span className="hidden flex-col gap-px lg:flex">
-        <span className="text-ui-small font-semibold leading-none text-foreground">
-          {profile.displayName}
-        </span>
-        <span className="text-ui-caption leading-none text-subtle-foreground">
-          @{profile.username}
-        </span>
-      </span>
-    </Link>
+      <ChevronDownIcon aria-hidden="true" className="size-3.5" />
+    </Button>
   );
 }
 
-export function Header({ account, profile }: HeaderProps) {
+export function Header({ profile }: HeaderProps) {
   return (
     <header className="sticky top-0 z-30 flex h-header shrink-0 items-center justify-between gap-2 border-b border-border bg-card px-3 md:px-7">
       <div className="flex min-w-0 flex-1 items-center gap-2">
@@ -69,21 +70,27 @@ export function Header({ account, profile }: HeaderProps) {
       </div>
       <div className="flex shrink-0 items-center gap-2">
         <nav aria-label="Global actions" className="flex items-center">
-          <Link
-            href="/notifications"
-            aria-label="Notifications, 3 unread"
-            className="relative inline-flex size-8.5 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground focus-visible:outline-2 focus-visible:outline-ring"
+          <Button
+            variant="outline"
+            size="icon"
+            render={
+              <Link
+                href="/notifications"
+                aria-label="Notifications, 3 unread"
+                className="relative"
+              />
+            }
           >
             <BellIcon className="size-4" />
             <span
               aria-hidden="true"
               className="absolute top-[3px] right-[5px] size-[7px] rounded-full bg-danger-foreground ring-2 ring-card"
             />
-          </Link>
+          </Button>
         </nav>
-        <ThemeToggle />
-        {account ?? <ProfileLink profile={profile} />}
+        <ThemeToggle text={false} />
         <LogoutForm />
+        <ProfileLink profile={profile} />
       </div>
     </header>
   );

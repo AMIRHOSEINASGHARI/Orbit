@@ -15,25 +15,25 @@ export function NoteEditorHistoryControls({ editor }: NoteEditorHistoryControlsP
     <>
       <Button
         aria-label="Undo"
-        className="size-7 px-0 text-base"
+        className="text-base"
         disabled={!available.undo}
         onClick={() => editor.chain().focus().undo().run()}
         size="icon-xs"
         title="Undo"
         type="button"
-        variant="ghost"
+        variant="outline"
       >
         ↶
       </Button>
       <Button
         aria-label="Redo"
-        className="size-7 px-0 text-base"
+        className="text-base"
         disabled={!available.redo}
         onClick={() => editor.chain().focus().redo().run()}
         size="icon-xs"
         title="Redo"
         type="button"
-        variant="ghost"
+        variant="outline"
       >
         ↷
       </Button>

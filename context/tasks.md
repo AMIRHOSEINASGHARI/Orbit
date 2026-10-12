@@ -2002,9 +2002,9 @@ Create the Notification Item component.
 
 ## T-246
 
-Create the Notification Details page or dialog.
+Create the Notification Details dialog.
 
-**Description:** Build the Notification Details page or interface for Notifications using shared components and design tokens. Support the required interactions, accessible keyboard behavior, responsive layout, and applicable loading or error states.
+**Description:** Build the Notification Details dialog interface for Notifications using shared components and design tokens. Support the required interactions, accessible keyboard behavior, responsive layout, and applicable loading or error states.
 
 ---
 

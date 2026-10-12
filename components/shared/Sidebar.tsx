@@ -102,10 +102,11 @@ export function Sidebar() {
           </Link>
           <Button
             type="button"
-            variant="ghost"
+            variant="outline"
+            size="icon"
             aria-label="Collapse sidebar"
             onClick={toggleSidebar}
-            className="size-8 shrink-0 p-0 group-data-[collapsible=icon]:hidden"
+            className="shrink-0 group-data-[collapsible=icon]:hidden"
           >
             <PanelLeftOpenIcon className="size-4.5 rotate-180" />
           </Button>
@@ -134,9 +135,10 @@ export function Sidebar() {
         <Button
           type="button"
           variant="outline"
+          size="icon"
           aria-label="Expand sidebar"
           onClick={toggleSidebar}
-          className="mx-auto mb-3 hidden size-8.5 shrink-0 border-border bg-table-header p-0 group-data-[collapsible=icon]:inline-flex"
+          className="mx-auto mb-3 hidden shrink-0 border-border bg-table-header group-data-[collapsible=icon]:inline-flex"
         >
           <PanelLeftOpenIcon className="size-4.5" />
         </Button>

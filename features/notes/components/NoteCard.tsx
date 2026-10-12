@@ -14,8 +14,16 @@ export function NoteCard({ note, onEdit, onTrash }: {
   return (
     <article className="flex min-h-56 flex-col gap-2 rounded-[10px] border border-border bg-card p-4 shadow-sm">
       <div className="flex h-7 shrink-0 items-start justify-end gap-1">
-        {onEdit && <Button type="button" variant="ghost" size="icon-xs" aria-label={`Edit ${note.title}`} title="Edit note" onClick={() => onEdit(note)}><PencilIcon /></Button>}
-        {onTrash && <Button type="button" variant="ghost" size="icon-xs" aria-label={`Move ${note.title} to trash`} title="Move to trash" onClick={() => onTrash(note)}><TrashIcon /></Button>}
+        {onEdit && (
+          <Button type="button" variant="outline" size="icon-xs" aria-label={`Edit ${note.title}`} title="Edit note" onClick={() => onEdit(note)}>
+            <PencilIcon aria-hidden="true" />
+          </Button>
+        )}
+        {onTrash && (
+          <Button type="button" variant="outline" size="icon-xs" aria-label={`Move ${note.title} to trash`} title="Move to trash" onClick={() => onTrash(note)}>
+            <TrashIcon aria-hidden="true" />
+          </Button>
+        )}
       </div>
       <Link href={`/notes/${note.id}`} className="line-clamp-1 text-base font-semibold text-foreground hover:text-primary focus-visible:outline-ring">
         {note.title}

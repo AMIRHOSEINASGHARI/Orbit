@@ -16,24 +16,24 @@ export function NoteEditorListControls({ editor }: NoteEditorListControlsProps) 
       <Button
         aria-label="Bulleted list"
         aria-pressed={active.bullet}
-        className="size-7 px-0 text-sm"
+        className="text-sm aria-pressed:bg-secondary aria-pressed:text-secondary-foreground"
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         size="icon-xs"
         title="Bulleted list"
         type="button"
-        variant={active.bullet ? "secondary" : "ghost"}
+        variant="outline"
       >
         •≡
       </Button>
       <Button
         aria-label="Numbered list"
         aria-pressed={active.ordered}
-        className="size-7 px-0 text-xs"
+        className="text-xs aria-pressed:bg-secondary aria-pressed:text-secondary-foreground"
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
         size="icon-xs"
         title="Numbered list"
         type="button"
-        variant={active.ordered ? "secondary" : "ghost"}
+        variant="outline"
       >
         1.
       </Button>

@@ -1,10 +1,22 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { EyeIcon, PencilIcon, Trash2Icon, Loader2Icon } from "@/components/icons";
+import {
+  EyeIcon,
+  PencilIcon,
+  Trash2Icon,
+  Loader2Icon,
+} from "@/components/icons";
 import type { TaskListItem } from "@/features/tasks/types/task.types";
 
-export function TaskRowActions({ task, onView, onEdit, onTrash, trashMutationPending, pendingTrashTaskId }: {
+export function TaskRowActions({
+  task,
+  onView,
+  onEdit,
+  onTrash,
+  trashMutationPending,
+  pendingTrashTaskId,
+}: {
   task: TaskListItem;
   onView: (taskId: string) => void;
   onEdit: (task: TaskListItem) => void;
@@ -13,10 +25,10 @@ export function TaskRowActions({ task, onView, onEdit, onTrash, trashMutationPen
   pendingTrashTaskId?: string;
 }) {
   return (
-    <div className="flex justify-end">
+    <div className="flex justify-end gap-2">
       <Button
         type="button"
-        variant="ghost"
+        variant="outline"
         size="icon"
         aria-label={`View ${task.title}`}
         title="View task details"
@@ -27,7 +39,7 @@ export function TaskRowActions({ task, onView, onEdit, onTrash, trashMutationPen
       </Button>
       <Button
         type="button"
-        variant="ghost"
+        variant="outline"
         size="icon"
         aria-label={`Edit ${task.title}`}
         title="Edit task"
@@ -38,7 +50,7 @@ export function TaskRowActions({ task, onView, onEdit, onTrash, trashMutationPen
       </Button>
       <Button
         type="button"
-        variant="ghost"
+        variant="outline"
         size="icon"
         aria-label={`Move ${task.title} to trash`}
         title="Move to trash"
@@ -46,9 +58,11 @@ export function TaskRowActions({ task, onView, onEdit, onTrash, trashMutationPen
         onClick={() => onTrash(task)}
         className="rounded-lg text-destructive disabled:opacity-100"
       >
-        {pendingTrashTaskId === task.id && trashMutationPending
-          ? <Loader2Icon className="animate-spin" />
-          : <Trash2Icon />}
+        {pendingTrashTaskId === task.id && trashMutationPending ? (
+          <Loader2Icon className="animate-spin" />
+        ) : (
+          <Trash2Icon />
+        )}
       </Button>
     </div>
   );

@@ -77,7 +77,7 @@ export function GroupDetailsPage({ result, tasksResult, userId, groups }: {
           <div className="flex shrink-0 items-center gap-2">
             <Button variant="outline" size="sm" onClick={() => setEditing(true)}>Edit group</Button>
             <DropdownMenu>
-              <DropdownMenuTrigger render={<Button variant="ghost" size="icon" aria-label={`More ${group.name} group actions`} />}><EllipsisIcon aria-hidden="true" /></DropdownMenuTrigger>
+              <DropdownMenuTrigger render={<Button variant="outline" size="icon" aria-label={`More ${group.name} group actions`} />}><EllipsisIcon aria-hidden="true" /></DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem variant="destructive" onClick={() => setTrashing(true)}><Trash2Icon aria-hidden="true" />Move to Trash</DropdownMenuItem>
               </DropdownMenuContent>
