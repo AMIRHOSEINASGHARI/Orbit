@@ -7,6 +7,8 @@ export default async function NotesRoute({ searchParams }: { searchParams: Promi
   const params = await searchParams;
   const initialSearch = typeof params.search === "string" ? params.search.slice(0, 200) : "";
   const initialSort = NOTE_SORT_OPTIONS.find((option) => option === params.sort) ?? "updated-desc";
-  const [initialResult, user] = await Promise.all([getNotes({ search: initialSearch, sort: initialSort }), getCurrentUser()]);
-  return <NotesPage initialResult={initialResult} userId={user?.id ?? "unauthenticated"} initialSearch={initialSearch} initialSort={initialSort} />;
+  const parsedPage = typeof params.page === "string" ? Number(params.page) : 1;
+  const initialPage = Number.isSafeInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1;
+  const [initialResult, user] = await Promise.all([getNotes({ search: initialSearch, sort: initialSort, page: initialPage }), getCurrentUser()]);
+  return <NotesPage initialResult={initialResult} userId={user?.id ?? "unauthenticated"} initialSearch={initialSearch} initialSort={initialSort} initialPage={initialPage} />;
 }

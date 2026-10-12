@@ -41,3 +41,5 @@ export type NoteRecord = Omit<Note, "id" | "userId" | "workspaceId" | "tagIds" |
 
 export const NOTE_SORT_OPTIONS = ["updated-desc", "updated-asc", "created-desc", "title-asc", "title-desc"] as const;
 export type NoteSortOption = (typeof NOTE_SORT_OPTIONS)[number];
+export const NOTE_PAGE_SIZE = 20;
+export type NoteListPage = { notes: Note[]; total: number; page: number; pageSize: number };

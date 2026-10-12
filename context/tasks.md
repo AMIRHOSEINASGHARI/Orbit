@@ -1850,7 +1850,7 @@ Add Note sorting.
 
 Add Note pagination with a default page size of 20 documents.
 
-**Description:** Add Note pagination with a default page size of 100 documents to Notes. Apply the selected criteria to the displayed results, keep the controls accessible, and preserve state through navigation where the task calls for it.
+**Description:** Add Note pagination with a default page size of 20 documents to Notes. Apply search and sort criteria to the displayed results, keep the controls accessible, and preserve page state through navigation.
 
 ---
 

@@ -3,7 +3,7 @@ import "server-only";
 import mongoose from "mongoose";
 import { NoteModel } from "@/features/notes/models/note.model";
 import type { NoteInput, UpdateNoteInput } from "@/features/notes/schemas/note.schema";
-import type { Note, NoteContent, NoteRecord, NoteSortOption } from "@/features/notes/types/note.types";
+import { NOTE_PAGE_SIZE, type Note, type NoteContent, type NoteListPage, type NoteRecord, type NoteSortOption } from "@/features/notes/types/note.types";
 
 function toPlainText(node: NoteContent): string {
   if (node.type === "text") return node.text ?? "";
@@ -47,9 +47,16 @@ export async function createNoteForUser(userId: string, input: NoteInput): Promi
   return note._id.toString();
 }
 
-export async function listNotesForUser(userId: string, search = "", sort: NoteSortOption = "updated-desc"): Promise<Note[]> {
+export async function listNotesForUser(userId: string, search = "", sort: NoteSortOption = "updated-desc", page = 1, pageSize = NOTE_PAGE_SIZE): Promise<NoteListPage> {
   const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const notes = await NoteModel.find({
+  const sortOptions = {
+    "updated-desc": { updatedAt: -1 },
+    "updated-asc": { updatedAt: 1 },
+    "created-desc": { createdAt: -1 },
+    "title-asc": { title: 1 },
+    "title-desc": { title: -1 },
+  } as const satisfies Record<NoteSortOption, Record<string, mongoose.SortOrder>>;
+  const query = {
     userId: new mongoose.Types.ObjectId(userId),
     workspaceId: null,
     deletedAt: null,
@@ -58,15 +65,13 @@ export async function listNotesForUser(userId: string, search = "", sort: NoteSo
       { title: { $regex: escapedSearch, $options: "i" } },
       { plainText: { $regex: escapedSearch, $options: "i" } },
     ] } : {}),
-  }).sort({
-    "updated-desc": { updatedAt: -1 },
-    "updated-asc": { updatedAt: 1 },
-    "created-desc": { createdAt: -1 },
-    "title-asc": { title: 1 },
-    "title-desc": { title: -1 },
-  }[sort]).lean<NoteRecord[]>().exec();
+  };
+  const [notes, total] = await Promise.all([
+    NoteModel.find(query).sort(sortOptions[sort]).skip((page - 1) * pageSize).limit(pageSize).lean<NoteRecord[]>().exec(),
+    NoteModel.countDocuments(query).exec(),
+  ]);
 
-  return notes.map(toNote);
+  return { notes: notes.map(toNote), total, page, pageSize };
 }
 
 export async function getNoteByIdForUser(userId: string, noteId: string): Promise<Note | null> {

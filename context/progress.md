@@ -1,3 +1,7 @@
+## 2026-10-12 - T-227 Add Note pagination
+- Added server-side pagination with a 20-note default, total counts, URL-persisted page state, and accessible Previous/Next controls.
+- Deviations: Corrected the task description's conflicting 100-document value to match its stated 20-document default.
+
 ## 2026-10-12 - T-226 Add Note sorting
 - Added updated, created, and title sort choices with server-side ordering and URL-persisted state.
 - Deviations: None.
