@@ -1,3 +1,7 @@
+## 2026-10-12 - T-207 Add code blocks
+- Added an accessible active-state control for toggling code blocks.
+- Deviations: None.
+
 ## 2026-10-12 - T-206 Add blockquotes
 - Added an accessible active-state toolbar control for toggling blockquotes.
 - Deviations: None.
