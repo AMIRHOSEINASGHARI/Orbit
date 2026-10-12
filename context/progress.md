@@ -1,3 +1,7 @@
+## 2026-10-12 - T-199 Add heading formatting
+- Added a shared Select control for paragraph and heading levels 1–3, wired to the active editor block.
+- Deviations: None.
+
 ## 2026-10-12 - T-198 Create the Tiptap toolbar
 - Added a separate, horizontally scrollable accessible toolbar component with a reactive word count, and mounted it with the editor.
 - Deviations: Formatting controls are added in their corresponding tasks, in order.
