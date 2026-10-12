@@ -1,3 +1,7 @@
+## 2026-10-12 - T-210 Add Undo / Redo functionality
+- Added separate Undo and Redo toolbar controls that disable when the respective history action is unavailable.
+- Deviations: None.
+
 ## 2026-10-12 - T-209 Add horizontal-rule formatting
 - Added a toolbar action that inserts a horizontal rule at the editor selection.
 - Deviations: None.

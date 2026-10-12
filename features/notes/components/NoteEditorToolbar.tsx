@@ -6,6 +6,7 @@ import { NoteEditorMarkControls } from "@/features/notes/components/NoteEditorMa
 import { NoteEditorListControls } from "@/features/notes/components/NoteEditorListControls";
 import { NoteEditorBlockControls } from "@/features/notes/components/NoteEditorBlockControls";
 import { NoteEditorLinkControl } from "@/features/notes/components/NoteEditorLinkControl";
+import { NoteEditorHistoryControls } from "@/features/notes/components/NoteEditorHistoryControls";
 
 type NoteEditorToolbarProps = {
   editor: Editor;
@@ -26,6 +27,7 @@ export function NoteEditorToolbar({ editor }: NoteEditorToolbarProps) {
         <NoteEditorListControls editor={editor} />
         <NoteEditorBlockControls editor={editor} />
         <NoteEditorLinkControl editor={editor} />
+        <NoteEditorHistoryControls editor={editor} />
       </div>
       <span aria-live="polite" className="shrink-0 text-xs text-muted-foreground">
         {wordCount} {wordCount === 1 ? "word" : "words"}
