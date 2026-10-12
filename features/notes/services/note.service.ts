@@ -47,12 +47,17 @@ export async function createNoteForUser(userId: string, input: NoteInput): Promi
   return note._id.toString();
 }
 
-export async function listNotesForUser(userId: string): Promise<Note[]> {
+export async function listNotesForUser(userId: string, search = ""): Promise<Note[]> {
+  const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const notes = await NoteModel.find({
     userId: new mongoose.Types.ObjectId(userId),
     workspaceId: null,
     deletedAt: null,
     archivedAt: null,
+    ...(escapedSearch ? { $or: [
+      { title: { $regex: escapedSearch, $options: "i" } },
+      { plainText: { $regex: escapedSearch, $options: "i" } },
+    ] } : {}),
   }).sort({ updatedAt: -1 }).lean<NoteRecord[]>().exec();
 
   return notes.map(toNote);

@@ -1,3 +1,7 @@
+## 2026-10-12 - T-225 Add Note search
+- Added validated case-insensitive search across note titles and plain text, with URL-persisted search state and no-match feedback.
+- Deviations: None.
+
 ## 2026-10-12 - T-224 Create the permanentlyDeleteNote Server Action
 - Added an owner-scoped permanent delete that only removes notes already in Trash and revalidates affected routes.
 - Deviations: The task requires deletion from Trash; active notes cannot be permanently deleted through this action.
