@@ -11,11 +11,13 @@ import { Button } from "@/components/ui/button";
 import { getNotes } from "@/features/notes/actions/get-notes.action";
 import { NoteCard } from "@/features/notes/components/NoteCard";
 import { NoteCreateDialog } from "@/features/notes/components/NoteCreateDialog";
+import { NoteEditDialog } from "@/features/notes/components/NoteEditDialog";
 import type { Note } from "@/features/notes/types/note.types";
 import type { ActionResult } from "@/types";
 
 export function NotesPage({ initialResult, userId }: { initialResult: ActionResult<Note[]>; userId: string }) {
   const [createOpen, setCreateOpen] = useState(false);
+  const [editingNote, setEditingNote] = useState<Note | null>(null);
   const queryClient = useQueryClient();
   const query = useQuery({
     queryKey: ["notes", userId],
@@ -38,10 +40,11 @@ export function NotesPage({ initialResult, userId }: { initialResult: ActionResu
         <EmptyState title="No notes yet" description="Create a note to capture an idea, update, or reminder." action={<Button onClick={() => setCreateOpen(true)}><PlusIcon aria-hidden="true" />Create note</Button>} />
       ) : (
         <section aria-label="Notes" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {notes.map((note) => <NoteCard key={note.id} note={note} />)}
+          {notes.map((note) => <NoteCard key={note.id} note={note} onEdit={setEditingNote} />)}
         </section>
       )}
       <NoteCreateDialog open={createOpen} onOpenChange={setCreateOpen} onCreated={() => void queryClient.invalidateQueries({ queryKey: ["notes", userId] })} />
+      <NoteEditDialog open={Boolean(editingNote)} onOpenChange={(open) => { if (!open) setEditingNote(null); }} note={editingNote} onSaved={() => void queryClient.invalidateQueries({ queryKey: ["notes", userId] })} />
     </main>
   );
 }

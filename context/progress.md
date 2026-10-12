@@ -1,3 +1,7 @@
+## 2026-10-12 - T-220 Create the Edit Note dialog
+- Added a shared create/edit form dialog and wired editing from Note cards and the Note details page, with form prefill, update action, feedback, and refresh.
+- Deviations: The Figma dialog uses the same shared form in create and edit mode.
+
 ## 2026-10-12 - T-219 Create the updateNote Server Action
 - Added a validated, owner-scoped update action that derives plain text from content JSON and revalidates Notes, details, and Dashboard.
 - Deviations: None.
