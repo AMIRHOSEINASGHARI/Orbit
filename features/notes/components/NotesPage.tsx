@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { PlusIcon, SearchIcon } from "@/components/icons";
+import { SearchIcon } from "@/components/icons";
 import { ConfirmationDialog } from "@/components/shared/ConfirmationDialog";
+import { CreateButton } from "@/components/shared/CreateButton";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { LoadingState } from "@/components/shared/LoadingState";
@@ -65,7 +66,7 @@ export function NotesPage({ initialResult, userId, initialSearch = "", initialSo
         title="Notes"
         description="Capture and organize your ideas."
         breadcrumbs="WORKSPACE / NOTES"
-        actions={<Button onClick={() => setCreateOpen(true)}><PlusIcon aria-hidden="true" />Create note</Button>}
+        actions={<CreateButton item="Note" onClick={() => setCreateOpen(true)} />}
       />
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <label className="relative block w-full max-w-md">
@@ -88,7 +89,7 @@ export function NotesPage({ initialResult, userId, initialSearch = "", initialSo
       ) : notes.length === 0 && search ? (
         <EmptyState title="No matching notes" description={`No notes match “${search}”. Try a different search.`} />
       ) : notes.length === 0 ? (
-        <EmptyState title="No notes yet" description="Create a note to capture an idea, update, or reminder." action={<Button onClick={() => setCreateOpen(true)}><PlusIcon aria-hidden="true" />Create note</Button>} />
+        <EmptyState title="No notes yet" description="Create a note to capture an idea, update, or reminder." action={<CreateButton item="Note" onClick={() => setCreateOpen(true)} />} />
       ) : (
         <section aria-label="Notes" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {notes.map((note) => <NoteCard key={note.id} note={note} onEdit={setEditingNote} onTrash={setTrashTarget} />)}

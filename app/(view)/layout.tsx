@@ -3,10 +3,10 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Sidebar } from "@/components/shared/Sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { Header } from "@/components/shared/Header";
 import { getCurrentUser } from "@/lib/auth/current-user";
 import { inspectAuthToken } from "@/lib/auth/jwt";
 import { SESSION_COOKIE } from "@/lib/auth/session";
-import { TaskCreationEntryPoint } from "@/features/tasks/components/task-creation-entry-point";
 
 export default async function ViewLayout({ children }: Readonly<{ children: ReactNode }>) {
   const token = (await cookies()).get(SESSION_COOKIE)?.value;
@@ -25,7 +25,7 @@ export default async function ViewLayout({ children }: Readonly<{ children: Reac
     <SidebarProvider style={{ "--sidebar-width": "14.25rem", "--sidebar-width-icon": "4.5rem" } as CSSProperties}>
       <Sidebar />
       <div className="flex min-w-0 flex-1 flex-col">
-        <TaskCreationEntryPoint profile={profile} />
+        <Header profile={profile} />
         {children}
       </div>
     </SidebarProvider>

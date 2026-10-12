@@ -1,12 +1,10 @@
 import Link from "next/link";
-import type { MouseEventHandler, ReactNode } from "react";
-import { BellIcon, PlusIcon, SearchIcon } from "@/components/icons";
+import { BellIcon, SearchIcon } from "@/components/icons";
 import { AppLogo } from "@/components/shared/AppLogo";
 import { MobileNavigation } from "@/components/shared/MobileNavigation";
 import { LogoutForm } from "@/features/auth/components/logout-form";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import {
   InputGroup,
   InputGroupAddon,
@@ -14,10 +12,8 @@ import {
 } from "@/components/ui/input-group";
 
 type HeaderProps = {
-  actions?: ReactNode;
   account?: ReactNode;
   profile: { displayName: string; username: string; avatarUrl: string | null };
-  onAddTask?: MouseEventHandler<HTMLButtonElement>;
 };
 
 function ProfileLink({ profile }: { profile: HeaderProps["profile"] }) {
@@ -50,7 +46,7 @@ function ProfileLink({ profile }: { profile: HeaderProps["profile"] }) {
   );
 }
 
-export function Header({ actions, account, profile, onAddTask }: HeaderProps) {
+export function Header({ account, profile }: HeaderProps) {
   return (
     <header className="sticky top-0 z-30 flex h-header shrink-0 items-center justify-between gap-2 border-b border-border bg-card px-3 md:px-7">
       <div className="flex min-w-0 flex-1 items-center gap-2">
@@ -88,16 +84,6 @@ export function Header({ actions, account, profile, onAddTask }: HeaderProps) {
         <ThemeToggle />
         {account ?? <ProfileLink profile={profile} />}
         <LogoutForm />
-        {actions}
-        <Button
-          type="button"
-          aria-label="Add task"
-          onClick={onAddTask}
-          className="hidden size-9 rounded-lg border-0 p-0 sm:inline-flex sm:size-[38px] sm:px-3.5 lg:w-auto lg:gap-[7px] lg:text-sm"
-        >
-          <PlusIcon className="size-4" />
-          <span className="hidden lg:inline">Add task</span>
-        </Button>
       </div>
     </header>
   );

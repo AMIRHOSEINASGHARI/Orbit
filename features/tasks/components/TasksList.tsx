@@ -18,7 +18,7 @@ import { TaskTrashDialog } from "./TaskTrashDialog";
 import { TaskBulkActionsToolbar } from "./TaskBulkActionsToolbar";
 import type { TaskViewMode } from "./TasksViewSwitcher";
 
-export function TasksList({ result, userId, groups, initialFilters, filters, page, onPageChange, view, hideGroupColumn = false, defaultGroupId }: {
+export function TasksList({ result, userId, groups, initialFilters, filters, page, onPageChange, view, createOpen = false, onCreateOpenChange, hideGroupColumn = false, defaultGroupId }: {
   result: ActionResult<TaskListPage>;
   userId: string;
   groups: TaskGroupOption[];
@@ -27,6 +27,8 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
   page: number;
   onPageChange: (page: number) => void;
   view: TaskViewMode;
+  createOpen?: boolean;
+  onCreateOpenChange?: (open: boolean) => void;
   hideGroupColumn?: boolean;
   defaultGroupId?: string;
 }) {
@@ -161,11 +163,12 @@ export function TasksList({ result, userId, groups, initialFilters, filters, pag
     <>
       {content}
       <TaskCreationDialog
-        open={editingTask !== null || createTaskStatus !== null}
+        open={createOpen || editingTask !== null || createTaskStatus !== null}
         onOpenChange={(open) => {
           if (!open) {
             setEditingTask(null);
             setCreateTaskStatus(null);
+            onCreateOpenChange?.(false);
           }
         }}
         task={editingTask}

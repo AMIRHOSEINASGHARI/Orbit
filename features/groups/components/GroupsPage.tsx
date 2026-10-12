@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { PlusIcon, SearchIcon } from "@/components/icons";
+import { SearchIcon } from "@/components/icons";
+import { CreateButton } from "@/components/shared/CreateButton";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { LoadingState } from "@/components/shared/LoadingState";
@@ -92,17 +93,7 @@ export function GroupsPage({
         title="Groups"
         description="Organize related tasks in one place."
         breadcrumbs="WORKSPACE / GROUPS"
-        actions={
-          <div className="flex gap-2">
-            <Button
-              className="w-32.5 h-9.5"
-              onClick={() => setCreateOpen(true)}
-            >
-              <PlusIcon aria-hidden="true" />
-              <span className="text-[13px]">Create group</span>
-            </Button>
-          </div>
-        }
+        actions={<CreateButton item="Group" onClick={() => setCreateOpen(true)} />}
       />
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
         <label className="relative block w-full max-w-md">
@@ -178,13 +169,7 @@ export function GroupsPage({
           title="No groups yet"
           description="Create a group to organize related tasks together."
           action={
-            <Button
-              className="w-32.5 h-9.5"
-              onClick={() => setCreateOpen(true)}
-            >
-              <PlusIcon aria-hidden="true" />
-              Create group
-            </Button>
+            <CreateButton item="Group" onClick={() => setCreateOpen(true)} />
           }
         />
       ) : (
