@@ -15,6 +15,23 @@ function toPlainText(node: NoteContent): string {
     : text;
 }
 
+function toNote(note: NoteRecord): Note {
+  return {
+    id: note._id.toString(),
+    userId: note.userId.toString(),
+    workspaceId: note.workspaceId?.toString() ?? null,
+    tagIds: note.tagIds.map(String),
+    attachmentIds: note.attachmentIds.map(String),
+    title: note.title,
+    content: note.content,
+    plainText: note.plainText,
+    archivedAt: note.archivedAt,
+    deletedAt: note.deletedAt,
+    createdAt: note.createdAt,
+    updatedAt: note.updatedAt,
+  };
+}
+
 export async function createNoteForUser(userId: string, input: NoteInput): Promise<string> {
   const ownerId = new mongoose.Types.ObjectId(userId);
   const note = await NoteModel.create({
@@ -38,18 +55,17 @@ export async function listNotesForUser(userId: string): Promise<Note[]> {
     archivedAt: null,
   }).sort({ updatedAt: -1 }).lean<NoteRecord[]>().exec();
 
-  return notes.map((note) => ({
-    id: note._id.toString(),
-    userId: note.userId.toString(),
-    workspaceId: note.workspaceId?.toString() ?? null,
-    tagIds: note.tagIds.map(String),
-    attachmentIds: note.attachmentIds.map(String),
-    title: note.title,
-    content: note.content,
-    plainText: note.plainText,
-    archivedAt: note.archivedAt,
-    deletedAt: note.deletedAt,
-    createdAt: note.createdAt,
-    updatedAt: note.updatedAt,
-  }));
+  return notes.map(toNote);
+}
+
+export async function getNoteByIdForUser(userId: string, noteId: string): Promise<Note | null> {
+  const note = await NoteModel.findOne({
+    _id: new mongoose.Types.ObjectId(noteId),
+    userId: new mongoose.Types.ObjectId(userId),
+    workspaceId: null,
+    deletedAt: null,
+    archivedAt: null,
+  }).lean<NoteRecord>().exec();
+
+  return note ? toNote(note) : null;
 }

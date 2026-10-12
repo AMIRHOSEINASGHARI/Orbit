@@ -1,3 +1,7 @@
+## 2026-10-12 - T-217 Create the getNoteById Server Action
+- Added an authenticated, validated note lookup scoped to its owner and active lifecycle.
+- Deviations: None.
+
 ## 2026-10-12 - T-216 Create the Note Card component
 - Added a responsive Note card matching the Figma card structure with title, plain-text preview, edited date, details navigation, and reserved actions.
 - Deviations: Tag labels are wired in T-392; the archive action is not part of this task sequence.
