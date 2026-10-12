@@ -1,3 +1,7 @@
+## 2026-10-12 - T-222 Exclude trashed Notes from normal Note queries
+- Verified the Notes list, detail lookup, and update mutation all require `deletedAt: null`; trashed notes are unavailable through normal views.
+- Deviations: The active-note filters were introduced with T-214 and T-217, so no additional query change was needed here.
+
 ## 2026-10-12 - T-221 Create the trashNote Server Action
 - Added owner-scoped soft deletion and wired the Note card and details actions to a confirmation dialog with refresh/navigation feedback.
 - Deviations: None.
