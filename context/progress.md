@@ -1,3 +1,7 @@
+## 2026-10-12 - T-218 Create the Note Details page
+- Added the owner-scoped details route with rich-text rendering, metadata, tag/attachment summaries, and a responsive layout.
+- Deviations: Note content is rendered from JSON with React-escaped text and safe link protocols; full attachment/tag details depend on later features.
+
 ## 2026-10-12 - T-217 Create the getNoteById Server Action
 - Added an authenticated, validated note lookup scoped to its owner and active lifecycle.
 - Deviations: None.
