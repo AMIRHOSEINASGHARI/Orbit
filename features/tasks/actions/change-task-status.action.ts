@@ -14,7 +14,9 @@ const changeTaskStatusSchema = z.object({
   status: z.enum(TASK_STATUSES),
 });
 
-export async function changeTaskStatusAction(input: unknown): Promise<ActionResult<{ message: string }>> {
+export async function changeTaskStatusAction(
+  input: unknown,
+): Promise<ActionResult<{ message: string }>> {
   const user = await getCurrentUser();
   if (!user) return { success: false, error: "Sign in to update task status." };
 
@@ -23,12 +25,22 @@ export async function changeTaskStatusAction(input: unknown): Promise<ActionResu
 
   try {
     await connectToDatabase();
-    const updated = await changeTaskStatusForUser(user.id, parsed.data.taskId, parsed.data.status);
+    const updated = await changeTaskStatusForUser(
+      user.id,
+      parsed.data.taskId,
+      parsed.data.status,
+    );
     if (!updated) return { success: false, error: "Task not found." };
 
     revalidatePath("/dashboard");
     revalidatePath("/tasks");
-    return { success: true, data: { message: `Task moved to ${parsed.data.status === "todo" ? "To do" : parsed.data.status === "done" ? "Done" : "In progress"}.` } };
+    revalidatePath("/groups");
+    return {
+      success: true,
+      data: {
+        message: `Task moved to ${parsed.data.status === "todo" ? "To do" : parsed.data.status === "done" ? "Done" : "In progress"}.`,
+      },
+    };
   } catch (error) {
     return handleActionError(error);
   }

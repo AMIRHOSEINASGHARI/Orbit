@@ -19,7 +19,6 @@ export async function permanentlyDeleteGroup(input: unknown): Promise<ActionResu
     await connectToDatabase();
     if (!await permanentlyDeleteGroupForUser(user.id, parsed.data.groupId)) return { success: false, error: "Group not found in Trash." };
     revalidatePath("/groups");
-    revalidatePath("/groups/trash");
     revalidatePath("/tasks");
     revalidatePath("/trash");
     return { success: true, data: { message: "Group and its tasks permanently deleted." } };

@@ -11,8 +11,8 @@
 - Deviations: Permanent deletion is restricted to groups already in Trash.
 
 ## 2026-10-12 - T-189 Create the restoreGroup Server Action
-- Added transactional group recovery that restores only tasks tagged as automatically trashed by that same group, plus a group Trash view and restore action.
-- Deviations: Recovery is provided at /groups/trash pending a unified task and group Trash view.
+- Added transactional group recovery that restores only tasks tagged as automatically trashed by that same group, plus a temporary group Trash view and restore action.
+- Deviations: The temporary `/groups/trash` view has been removed; recovery and permanent deletion will be integrated into the unified `/trash` page.
 
 ## 2026-10-12 - T-188 Exclude trashed Groups from normal Group queries
 - Confirmed normal group list/detail queries and task group selectors filter on deletedAt: null; cascade trash keeps tasks out of active task views.

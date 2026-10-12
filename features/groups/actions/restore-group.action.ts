@@ -19,7 +19,6 @@ export async function restoreGroup(input: unknown): Promise<ActionResult<{ messa
     await connectToDatabase();
     if (!await restoreGroupForUser(user.id, parsed.data.groupId)) return { success: false, error: "Group not found in Trash." };
     revalidatePath("/groups");
-    revalidatePath("/groups/trash");
     revalidatePath("/tasks");
     revalidatePath("/trash");
     return { success: true, data: { message: "Group restored." } };

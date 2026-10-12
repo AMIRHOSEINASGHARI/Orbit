@@ -1536,7 +1536,7 @@ Add Move Group to Trash functionality.
 
 Exclude trashed Groups from normal Group queries.
 
-**Description:** Exclude trashed Groups from normal Group queries from the relevant queries and views, while keeping the resource available through its intended recovery or archive flow.
+**Description:** Exclude trashed Groups from normal Group queries and views while keeping them available for recovery and permanent deletion in the unified `/trash` page. Do not add a separate Group Trash route.
 
 ---
 
@@ -2068,9 +2068,9 @@ Add Notification sorting.
 
 ## T-254
 
-Create the Trash page structure.
+Create the unified Trash page at `/trash` for all supported resource types, including Tasks, Groups, Notes, and future trashable resources.
 
-**Description:** Build the Trash page for Trash with the shared application layout, the required data and actions, and clear loading, empty, and error states. Ensure the route is accessible and responsive.
+**Description:** Build one Trash page at `/trash` with the shared application layout, resource-type navigation, and clear loading, empty, and error states. Keep all resource types in this unified page; do not create separate Trash routes for individual features. Ensure the route is accessible and responsive.
 
 ---
 
@@ -2078,7 +2078,7 @@ Create the Trash page structure.
 
 Create the `getTrashedTasks` Server Action.
 
-**Description:** Implement the `getTrashedTasks` Server Action for Trash. Authenticate the caller, authorize access to the requested data, validate query parameters, and return a typed result with safe errors.
+**Description:** Implement the `getTrashedTasks` Server Action as a data source for the unified `/trash` page. Authenticate the caller, authorize access to the requested data, validate query parameters, and return a typed result with safe errors.
 
 ---
 
@@ -2086,7 +2086,7 @@ Create the `getTrashedTasks` Server Action.
 
 Display trashed Tasks.
 
-**Description:** Display trashed Tasks in Trash using the persisted data and shared visual patterns. Include the relevant empty and loading states and ensure the content remains readable on mobile and with assistive technology.
+**Description:** Display trashed Tasks within the unified `/trash` page using persisted data and shared visual patterns. Include the relevant empty and loading states and ensure the content remains readable on mobile and with assistive technology.
 
 ---
 
@@ -2094,7 +2094,7 @@ Display trashed Tasks.
 
 Create the `getTrashedGroups` Server Action.
 
-**Description:** Implement the `getTrashedGroups` Server Action for Trash. Authenticate the caller, authorize access to the requested data, validate query parameters, and return a typed result with safe errors.
+**Description:** Implement the `getTrashedGroups` Server Action as a data source for the unified `/trash` page. Authenticate the caller, authorize access to the requested data, validate query parameters, and return a typed result with safe errors.
 
 ---
 
@@ -2102,7 +2102,7 @@ Create the `getTrashedGroups` Server Action.
 
 Display trashed Groups.
 
-**Description:** Display trashed Groups in Trash using the persisted data and shared visual patterns. Include the relevant empty and loading states and ensure the content remains readable on mobile and with assistive technology.
+**Description:** Display trashed Groups within the unified `/trash` page alongside Tasks, Notes, and other supported resource types. Include group restoration and permanent deletion there, preserving the behavior that restores or deletes tasks cascaded with a group. Do not create a separate Group Trash page or route. Include empty and loading states and ensure accessible, responsive presentation.
 
 ---
 
@@ -2110,7 +2110,7 @@ Display trashed Groups.
 
 Create the `getTrashedNotes` Server Action.
 
-**Description:** Implement the `getTrashedNotes` Server Action for Trash. Authenticate the caller, authorize access to the requested data, validate query parameters, and return a typed result with safe errors.
+**Description:** Implement the `getTrashedNotes` Server Action as a data source for the unified `/trash` page. Authenticate the caller, authorize access to the requested data, validate query parameters, and return a typed result with safe errors.
 
 ---
 
@@ -2118,7 +2118,7 @@ Create the `getTrashedNotes` Server Action.
 
 Display trashed Notes.
 
-**Description:** Display trashed Notes in Trash using the persisted data and shared visual patterns. Include the relevant empty and loading states and ensure the content remains readable on mobile and with assistive technology.
+**Description:** Display trashed Notes within the unified `/trash` page using persisted data and shared visual patterns. Include the relevant empty and loading states and ensure the content remains readable on mobile and with assistive technology.
 
 ---
 
@@ -2126,7 +2126,7 @@ Display trashed Notes.
 
 Create Trash resource-type filters and pagination with a default page size of 100 documents.
 
-**Description:** Create Trash resource-type filters and pagination with a default page size of 100 documents for Trash. Define the required behavior and data contract, integrate it with related features, and handle validation, access control, and expected failure states where applicable.
+**Description:** Create resource-type filters and pagination shared by the unified `/trash` page, covering Tasks, Groups, Notes, and future trashable resources, with a default page size of 100 documents. Define the behavior and data contract, and handle validation, access control, and expected failure states.
 
 ---
 
@@ -2134,7 +2134,7 @@ Create Trash resource-type filters and pagination with a default page size of 10
 
 Add Trash item sorting.
 
-**Description:** Add Trash item sorting to Trash. Apply the selected criteria to the displayed results, keep the controls accessible, and preserve state through navigation where the task calls for it.
+**Description:** Add sorting to the unified `/trash` page. Apply the selected criteria across displayed resource types, keep controls accessible, and preserve state through navigation where required.
 
 ---
 
@@ -2142,7 +2142,7 @@ Add Trash item sorting.
 
 Add Restore action to Trash items.
 
-**Description:** Add Restore action to Trash items. Follow the existing component and data patterns, handle relevant loading and error states, and make the behavior accessible and responsive.
+**Description:** Add restore actions for supported resource types within the unified `/trash` page. Use each feature's authorized Server Action, preserve group cascade restoration behavior, handle pending and error states, and make the behavior accessible and responsive.
 
 ---
 
@@ -2150,7 +2150,7 @@ Add Restore action to Trash items.
 
 Add Permanent Delete action to Trash items.
 
-**Description:** Add Permanent Delete action to Trash items. Follow the existing component and data patterns, handle relevant loading and error states, and make the behavior accessible and responsive.
+**Description:** Add permanent delete actions for supported resource types within the unified `/trash` page. Use each feature's authorized Server Action, preserve group cascade deletion behavior, handle pending and error states, and make the behavior accessible and responsive.
 
 ---
 
@@ -2158,7 +2158,7 @@ Add Permanent Delete action to Trash items.
 
 Create the Empty Trash Server Action.
 
-**Description:** Implement the `Empty Trash` Server Action for Trash. Authenticate and authorize the caller, validate input, enforce resource ownership, perform the mutation through the data layer, return the shared result shape, and revalidate affected data.
+**Description:** Implement the `Empty Trash` Server Action across supported Trash resource types. Authenticate and authorize the caller, validate input, enforce resource ownership, perform permanent deletion through feature-owned data layers, return the shared result shape, and revalidate affected data.
 
 ---
 
@@ -2166,7 +2166,7 @@ Create the Empty Trash Server Action.
 
 Add Empty Trash confirmation dialog.
 
-**Description:** Add Empty Trash confirmation dialog to Trash. Show it at the appropriate point in the user flow, keep the layout clear, and provide accessible text or controls for the relevant state.
+**Description:** Add an Empty Trash confirmation dialog to the unified `/trash` page. Clearly explain that all supported trashed resources will be permanently deleted and provide accessible confirmation and cancellation controls.
 
 ---
 
