@@ -198,3 +198,13 @@
     @apply font-sans;
   }
 }
+
+@layer components {
+  .note-editor-content .tiptap {
+    color: var(--foreground);
+    font-family: inherit;
+    font-size: var(--text-ui-body);
+    line-height: var(--text-ui-body--line-height);
+    outline: none;
+  }
+}

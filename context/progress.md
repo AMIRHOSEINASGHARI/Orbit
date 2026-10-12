@@ -1,3 +1,7 @@
+## 2026-10-12 - T-196 Install and configure Tiptap
+- Installed Tiptap React, ProseMirror, and StarterKit packages; registered StarterKit extensions for planned rich-text formatting and added token-based shared editor typography.
+- Deviations: The approved Figma file has Notes card designs but no editor frame, so editor-specific block spacing remains for design review.
+
 ## 2026-10-12 - T-195 Create Note Zod schemas
 - Added persisted Note validation and create input schemas, including recursive validation of rich-text nodes, marks, and JSON attributes.
 - Deviations: None.
