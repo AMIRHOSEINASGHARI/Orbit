@@ -1,3 +1,7 @@
+## 2026-10-12 - T-211 Create the createNote Server Action
+- Added authenticated, schema-validated note creation through an owner-scoped service; derives plain text from editor JSON and revalidates Notes and Dashboard.
+- Deviations: Note tag selection remains in T-392.
+
 ## 2026-10-12 - T-210 Add Undo / Redo functionality
 - Added separate Undo and Redo toolbar controls that disable when the respective history action is unavailable.
 - Deviations: None.
