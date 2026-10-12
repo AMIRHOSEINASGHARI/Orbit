@@ -16,7 +16,11 @@ import { createNoteSchema, type NoteInput } from "@/features/notes/schemas/note.
 
 const emptyContent = { type: "doc", content: [{ type: "paragraph" }] };
 
-export function NoteCreateDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
+export function NoteCreateDialog({ open, onOpenChange, onCreated }: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onCreated?: () => void;
+}) {
   const [actionError, setActionError] = useState("");
   const form = useForm<NoteInput>({
     resolver: zodResolver(createNoteSchema),
@@ -34,6 +38,7 @@ export function NoteCreateDialog({ open, onOpenChange }: { open: boolean; onOpen
 
     toast.success(result.data.message);
     form.reset({ title: "", content: emptyContent });
+    onCreated?.();
     onOpenChange(false);
   }
 

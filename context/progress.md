@@ -1,3 +1,7 @@
+## 2026-10-12 - T-215 Create the Notes page
+- Added the `/notes` route and a responsive Notes page with loading, error, empty, list, and Create Note dialog states.
+- Deviations: Notes use a simple list presentation until T-216 adds Note cards.
+
 ## 2026-10-12 - T-214 Create the getNotes Server Action
 - Added an authenticated Notes query and owner-scoped service, excluding trashed and archived notes and converting MongoDB IDs to serializable strings.
 - Deviations: Search, sorting, and pagination are added in T-225 through T-227.
