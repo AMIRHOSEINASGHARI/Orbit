@@ -14,6 +14,9 @@ export function NoteEditorMarkControls({ editor }: NoteEditorMarkControlsProps) 
       <NoteEditorMarkButton editor={editor} label="Italic" mark="italic" onToggle={() => editor.chain().focus().toggleItalic().run()}>
         <em>I</em>
       </NoteEditorMarkButton>
+      <NoteEditorMarkButton editor={editor} label="Underline" mark="underline" onToggle={() => editor.chain().focus().toggleUnderline().run()}>
+        <span className="underline">U</span>
+      </NoteEditorMarkButton>
     </>
   );
 }
