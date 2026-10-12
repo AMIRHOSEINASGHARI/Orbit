@@ -1,3 +1,7 @@
+## 2026-10-12 - T-205 Add ordered lists
+- Added an accessible active-state control for toggling numbered lists.
+- Deviations: None.
+
 ## 2026-10-12 - T-204 Add bullet lists
 - Added an accessible active-state control for toggling bulleted lists.
 - Deviations: None.
