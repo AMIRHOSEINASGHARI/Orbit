@@ -1,3 +1,7 @@
+## 2026-10-12 - T-203 Add strike-through formatting
+- Added a toolbar control for toggling strike-through on selected text.
+- Deviations: None.
+
 ## 2026-10-12 - T-202 Add underline formatting
 - Added a toolbar control for toggling underline on selected text.
 - Deviations: None.
