@@ -1,3 +1,7 @@
+## 2026-10-12 - T-223 Create the restoreNote Server Action
+- Added an authenticated restore action that only recovers the signed-in user's trashed note and revalidates Notes, Trash, details, and Dashboard.
+- Deviations: The unified Trash UI is outside this task range.
+
 ## 2026-10-12 - T-222 Exclude trashed Notes from normal Note queries
 - Verified the Notes list, detail lookup, and update mutation all require `deletedAt: null`; trashed notes are unavailable through normal views.
 - Deviations: The active-note filters were introduced with T-214 and T-217, so no additional query change was needed here.
