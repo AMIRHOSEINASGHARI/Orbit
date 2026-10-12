@@ -972,3 +972,6 @@ Append-only. One entry per finished task, newest at the top. Format:
 ## 2026-10-12 - T-179 Create the Group Card component
 - Added a responsive group card with task status counts, completion progress, update date, open link, and accessible edit/trash menu actions.
 - Deviations: Actions are callback props for the Groups page to connect in subsequent tasks.
+## 2026-10-12 - T-228 Notification persistence model
+- Added the `context/schemas.md` Notification fields and event enums to a Mongoose model and matching Zod contract, including workspace scope, resource references, read state, timestamps, and indexes.
+- Deviations: None.
