@@ -52,7 +52,7 @@
 
 ## 2026-10-12 - T-197 Create the base Note Editor component
 - Added an accessible, responsive Tiptap editor with optional initial content, JSON/plain-text change reporting, and token-based focus styling.
-- Deviations: The editor is not connected to a Note form yet; note creation is scheduled for later tasks.
+- Deviations: The editor is not connected to the Create Note dialog yet; integration is scheduled for T-212 and T-213.
 
 ## 2026-10-12 - T-196 Install and configure Tiptap
 - Installed Tiptap React, ProseMirror, and StarterKit packages; registered StarterKit extensions for planned rich-text formatting and added token-based shared editor typography.

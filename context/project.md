@@ -142,6 +142,8 @@ The application must provide a complete note-taking system.
 
 Users can create both short and long-form notes.
 
+Create and edit notes in dialogs opened from the Notes page, Note cards, or Note details view. Do not use standalone create or edit pages or routes.
+
 Supported operations:
 
 - Create note

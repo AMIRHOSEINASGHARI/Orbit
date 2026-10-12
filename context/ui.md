@@ -34,6 +34,10 @@ Inputs: md
 
 Dialogs: xl
 
+## Note Creation and Editing
+
+Open note creation and editing in accessible dialogs. The Create Note dialog opens from the Notes page; the Edit Note dialog opens from a Note card or Note details view. Do not add standalone create/edit pages or routes.
+
 ---
 
 ## Shadows

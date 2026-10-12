@@ -92,10 +92,10 @@ Sort Groups
 
 ### **Notes**
 
-Create Note
+Create Note dialog (opened from the Notes page)
 Read Notes
 Note Details
-Update Note
+Edit Note dialog (opened from the Note card or details view)
 Move Note to Trash
 Restore Note
 Permanently Delete Note

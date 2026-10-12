@@ -1728,9 +1728,9 @@ Create the `createNote` Server Action.
 
 ## T-212
 
-Create the Create Note page.
+Create the Create Note dialog.
 
-**Description:** Build the Create Note page for Notes with the shared application layout, the required data and actions, and clear loading, empty, and error states. Ensure the route is accessible and responsive.
+**Description:** Build the Create Note dialog opened from the Notes page. Keep note creation in this dialog instead of a standalone page, and provide accessible, responsive form, pending, validation, and error states.
 
 ---
 
@@ -1738,7 +1738,7 @@ Create the Create Note page.
 
 Connect Tiptap Editor to note creation.
 
-**Description:** Connect Tiptap Editor to note creation end to end within Notes. Pass the right inputs and state, handle pending and error results, provide accessible feedback, and refresh affected data after success.
+**Description:** Connect Tiptap Editor to the Create Note dialog end to end. Pass the required content and form state, handle pending and error results, provide accessible feedback, and refresh the Notes list after success.
 
 ---
 
@@ -1792,9 +1792,9 @@ Create the `updateNote` Server Action.
 
 ## T-220
 
-Create the Edit Note page.
+Create the Edit Note dialog.
 
-**Description:** Build the Edit Note page for Notes with the shared application layout, the required data and actions, and clear loading, empty, and error states. Ensure the route is accessible and responsive.
+**Description:** Build the Edit Note dialog opened from the Note card or Note details view. Prefill the selected note, save through the authorized update action, and provide accessible, responsive pending, validation, and error states. Do not create a standalone edit page or form route.
 
 ---
 
@@ -1848,7 +1848,7 @@ Add Note sorting.
 
 ## T-227
 
-Add Note pagination with a default page size of 100 documents.
+Add Note pagination with a default page size of 20 documents.
 
 **Description:** Add Note pagination with a default page size of 100 documents to Notes. Apply the selected criteria to the displayed results, keep the controls accessible, and preserve state through navigation where the task calls for it.
 
@@ -3196,9 +3196,9 @@ Add multiple Tag selection to Task forms.
 
 ## T-392
 
-Add multiple Tag selection to Note forms.
+Add multiple Tag selection to the Create and Edit Note dialogs.
 
-**Description:** Add multiple Tag selection to Note forms. Follow the existing component and data patterns, handle relevant loading and error states, and make the behavior accessible and responsive.
+**Description:** Add multiple Tag selection to the Create and Edit Note dialogs. Follow existing component and data patterns, handle relevant loading and error states, and make the behavior accessible and responsive.
 
 ---
 
