@@ -104,3 +104,13 @@ export async function restoreNoteForUser(userId: string, noteId: string): Promis
   }, { deletedAt: null }, { new: true, runValidators: true }).select({ _id: 1 }).lean().exec();
   return Boolean(note);
 }
+
+export async function permanentlyDeleteNoteForUser(userId: string, noteId: string): Promise<boolean> {
+  const result = await NoteModel.deleteOne({
+    _id: new mongoose.Types.ObjectId(noteId),
+    userId: new mongoose.Types.ObjectId(userId),
+    workspaceId: null,
+    deletedAt: { $ne: null },
+  }).exec();
+  return result.deletedCount > 0;
+}

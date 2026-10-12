@@ -1,3 +1,7 @@
+## 2026-10-12 - T-224 Create the permanentlyDeleteNote Server Action
+- Added an owner-scoped permanent delete that only removes notes already in Trash and revalidates affected routes.
+- Deviations: The task requires deletion from Trash; active notes cannot be permanently deleted through this action.
+
 ## 2026-10-12 - T-223 Create the restoreNote Server Action
 - Added an authenticated restore action that only recovers the signed-in user's trashed note and revalidates Notes, Trash, details, and Dashboard.
 - Deviations: The unified Trash UI is outside this task range.
