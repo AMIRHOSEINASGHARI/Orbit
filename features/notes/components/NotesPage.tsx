@@ -9,6 +9,7 @@ import { LoadingState } from "@/components/shared/LoadingState";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { Button } from "@/components/ui/button";
 import { getNotes } from "@/features/notes/actions/get-notes.action";
+import { NoteCard } from "@/features/notes/components/NoteCard";
 import { NoteCreateDialog } from "@/features/notes/components/NoteCreateDialog";
 import type { Note } from "@/features/notes/types/note.types";
 import type { ActionResult } from "@/types";
@@ -37,7 +38,7 @@ export function NotesPage({ initialResult, userId }: { initialResult: ActionResu
         <EmptyState title="No notes yet" description="Create a note to capture an idea, update, or reminder." action={<Button onClick={() => setCreateOpen(true)}><PlusIcon aria-hidden="true" />Create note</Button>} />
       ) : (
         <section aria-label="Notes" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {notes.map((note) => <article key={note.id} className="min-w-0 rounded-xl border border-border bg-card p-5"><h2 className="truncate font-semibold">{note.title}</h2><p className="mt-2 line-clamp-4 whitespace-pre-wrap text-sm text-muted-foreground">{note.plainText}</p></article>)}
+          {notes.map((note) => <NoteCard key={note.id} note={note} />)}
         </section>
       )}
       <NoteCreateDialog open={createOpen} onOpenChange={setCreateOpen} onCreated={() => void queryClient.invalidateQueries({ queryKey: ["notes", userId] })} />

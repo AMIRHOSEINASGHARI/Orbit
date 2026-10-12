@@ -1,3 +1,7 @@
+## 2026-10-12 - T-216 Create the Note Card component
+- Added a responsive Note card matching the Figma card structure with title, plain-text preview, edited date, details navigation, and reserved actions.
+- Deviations: Tag labels are wired in T-392; the archive action is not part of this task sequence.
+
 ## 2026-10-12 - T-215 Create the Notes page
 - Added the `/notes` route and a responsive Notes page with loading, error, empty, list, and Create Note dialog states.
 - Deviations: Notes use a simple list presentation until T-216 adds Note cards.
