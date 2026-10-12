@@ -1,3 +1,7 @@
+## 2026-10-12 - T-201 Add italic formatting
+- Added an active-state toolbar control for toggling italic on selected text.
+- Deviations: None.
+
 ## 2026-10-12 - T-200 Add bold formatting
 - Added an accessible active-state toolbar control that toggles bold on the selected text.
 - Deviations: None.
