@@ -10,14 +10,13 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { createNote } from "@/features/notes/actions/create-note.action";
+import { NoteEditor } from "@/features/notes/components/NoteEditor";
 import { createNoteSchema, type NoteInput } from "@/features/notes/schemas/note.schema";
 
 const emptyContent = { type: "doc", content: [{ type: "paragraph" }] };
 
 export function NoteCreateDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
-  const [contentText, setContentText] = useState("");
   const [actionError, setActionError] = useState("");
   const form = useForm<NoteInput>({
     resolver: zodResolver(createNoteSchema),
@@ -26,11 +25,7 @@ export function NoteCreateDialog({ open, onOpenChange }: { open: boolean; onOpen
 
   async function submit(values: NoteInput) {
     setActionError("");
-    const text = contentText.trim();
-    const content = text
-      ? { type: "doc", content: [{ type: "paragraph", content: [{ type: "text", text }] }] }
-      : emptyContent;
-    const result = await createNote({ ...values, content });
+    const result = await createNote(values);
     if (!result.success) {
       setActionError(result.error);
       if (result.fieldErrors?.title?.[0]) form.setError("title", { message: result.fieldErrors.title[0] });
@@ -39,7 +34,6 @@ export function NoteCreateDialog({ open, onOpenChange }: { open: boolean; onOpen
 
     toast.success(result.data.message);
     form.reset({ title: "", content: emptyContent });
-    setContentText("");
     onOpenChange(false);
   }
 
@@ -68,9 +62,15 @@ export function NoteCreateDialog({ open, onOpenChange }: { open: boolean; onOpen
                 <FieldError errors={form.formState.errors.title ? [{ message: form.formState.errors.title.message ?? "Enter a title." }] : []} />
               </Field>
 
-              <Field className="gap-2">
+              <Field data-invalid={Boolean(form.formState.errors.content)} className="gap-2">
                 <FieldLabel htmlFor="note-content" className="text-ui-label font-semibold">Content <span className="text-ui-caption font-normal text-subtle-foreground">Required</span></FieldLabel>
-                <Textarea id="note-content" value={contentText} onChange={(event) => setContentText(event.target.value)} placeholder="Write your note…" className="min-h-[248px] resize-y rounded-lg p-3 text-ui-small" />
+                <NoteEditor
+                  key={open ? "open" : "closed"}
+                  id="note-content"
+                  content={form.getValues("content")}
+                  onChange={(content) => form.setValue("content", content, { shouldDirty: true, shouldValidate: true })}
+                />
+                <FieldError id="note-content-error" errors={form.formState.errors.content ? [{ message: form.formState.errors.content.message ?? "Add note content." }] : []} />
               </Field>
 
               <Field className="gap-2">

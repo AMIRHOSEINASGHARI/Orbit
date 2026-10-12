@@ -7,16 +7,18 @@ import { NoteEditorToolbar } from "@/features/notes/components/NoteEditorToolbar
 
 type NoteEditorProps = {
   content?: NoteContent;
+  id?: string;
   onChange?: (content: NoteContent, plainText: string) => void;
 };
 
-export function NoteEditor({ content, onChange }: NoteEditorProps) {
+export function NoteEditor({ content, id, onChange }: NoteEditorProps) {
   const editor = useEditor({
     extensions: NOTE_EDITOR_EXTENSIONS,
     content,
     immediatelyRender: false,
     editorProps: {
       attributes: {
+        id,
         "aria-label": "Note content",
         "aria-multiline": "true",
         class: "min-h-48 focus:outline-none",

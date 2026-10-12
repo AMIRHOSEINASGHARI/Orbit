@@ -1,3 +1,7 @@
+## 2026-10-12 - T-213 Connect Tiptap Editor to note creation
+- Replaced the temporary text area with the accessible Tiptap editor and submit its JSON document to `createNote`.
+- Deviations: Plain text is derived on the server from the validated editor document.
+
 ## 2026-10-12 - T-212 Create the Create Note dialog
 - Added the Figma-aligned responsive Create Note dialog with validated title, content entry, tag/attachment slots, and submission feedback.
 - Deviations: Plain-text content input is replaced with the rich editor in T-213; tags are added in T-392.
