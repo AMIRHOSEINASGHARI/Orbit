@@ -4,6 +4,7 @@ import { useEditorState, type Editor } from "@tiptap/react";
 import { NoteEditorTextStyle } from "@/features/notes/components/NoteEditorTextStyle";
 import { NoteEditorMarkControls } from "@/features/notes/components/NoteEditorMarkControls";
 import { NoteEditorListControls } from "@/features/notes/components/NoteEditorListControls";
+import { NoteEditorBlockControls } from "@/features/notes/components/NoteEditorBlockControls";
 
 type NoteEditorToolbarProps = {
   editor: Editor;
@@ -22,6 +23,7 @@ export function NoteEditorToolbar({ editor }: NoteEditorToolbarProps) {
         <NoteEditorTextStyle editor={editor} />
         <NoteEditorMarkControls editor={editor} />
         <NoteEditorListControls editor={editor} />
+        <NoteEditorBlockControls editor={editor} />
       </div>
       <span aria-live="polite" className="shrink-0 text-xs text-muted-foreground">
         {wordCount} {wordCount === 1 ? "word" : "words"}
