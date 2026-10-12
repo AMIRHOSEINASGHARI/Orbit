@@ -1,7 +1,8 @@
 import "server-only";
-import { model, models, Schema } from "mongoose";
+import { model, models, Schema, type Model } from "mongoose";
+import type { NoteRecord } from "@/features/notes/types/note.types";
 
-const noteModelSchema = new Schema(
+const noteModelSchema = new Schema<NoteRecord>(
   {
     userId: {
       type: Schema.Types.ObjectId,
@@ -35,4 +36,6 @@ const noteModelSchema = new Schema(
 noteModelSchema.index({ userId: 1, deletedAt: 1 });
 noteModelSchema.index({ userId: 1, createdAt: -1, deletedAt: 1 });
 
-export const NoteModel = models.Note ?? model("Note", noteModelSchema);
+export const NoteModel =
+  (models.Note as Model<NoteRecord> | undefined) ??
+  model<NoteRecord>("Note", noteModelSchema);

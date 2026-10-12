@@ -1,3 +1,7 @@
+## 2026-10-12 - T-194 Create Note TypeScript types
+- Added the Note domain and MongoDB record types plus recursive JSON document types for Tiptap content.
+- Deviations: None.
+
 ## 2026-10-12 - T-193 Create the Note Mongoose model
 - Added the Notes collection schema with owner/workspace, tags, attachments, Tiptap content, plain-text preview, archive/trash lifecycle fields, timestamps, and the documented owner/deletion indexes.
 - Deviations: None.
