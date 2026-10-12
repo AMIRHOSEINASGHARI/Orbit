@@ -3,7 +3,7 @@ import "server-only";
 import mongoose from "mongoose";
 import { NoteModel } from "@/features/notes/models/note.model";
 import type { NoteInput, UpdateNoteInput } from "@/features/notes/schemas/note.schema";
-import type { Note, NoteContent, NoteRecord } from "@/features/notes/types/note.types";
+import type { Note, NoteContent, NoteRecord, NoteSortOption } from "@/features/notes/types/note.types";
 
 function toPlainText(node: NoteContent): string {
   if (node.type === "text") return node.text ?? "";
@@ -47,7 +47,7 @@ export async function createNoteForUser(userId: string, input: NoteInput): Promi
   return note._id.toString();
 }
 
-export async function listNotesForUser(userId: string, search = ""): Promise<Note[]> {
+export async function listNotesForUser(userId: string, search = "", sort: NoteSortOption = "updated-desc"): Promise<Note[]> {
   const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const notes = await NoteModel.find({
     userId: new mongoose.Types.ObjectId(userId),
@@ -58,7 +58,13 @@ export async function listNotesForUser(userId: string, search = ""): Promise<Not
       { title: { $regex: escapedSearch, $options: "i" } },
       { plainText: { $regex: escapedSearch, $options: "i" } },
     ] } : {}),
-  }).sort({ updatedAt: -1 }).lean<NoteRecord[]>().exec();
+  }).sort({
+    "updated-desc": { updatedAt: -1 },
+    "updated-asc": { updatedAt: 1 },
+    "created-desc": { createdAt: -1 },
+    "title-asc": { title: 1 },
+    "title-desc": { title: -1 },
+  }[sort]).lean<NoteRecord[]>().exec();
 
   return notes.map(toNote);
 }

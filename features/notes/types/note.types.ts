@@ -38,3 +38,6 @@ export type NoteRecord = Omit<Note, "id" | "userId" | "workspaceId" | "tagIds" |
   tagIds: Types.ObjectId[];
   attachmentIds: Types.ObjectId[];
 };
+
+export const NOTE_SORT_OPTIONS = ["updated-desc", "updated-asc", "created-desc", "title-asc", "title-desc"] as const;
+export type NoteSortOption = (typeof NOTE_SORT_OPTIONS)[number];

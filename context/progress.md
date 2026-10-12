@@ -1,3 +1,7 @@
+## 2026-10-12 - T-226 Add Note sorting
+- Added updated, created, and title sort choices with server-side ordering and URL-persisted state.
+- Deviations: None.
+
 ## 2026-10-12 - T-225 Add Note search
 - Added validated case-insensitive search across note titles and plain text, with URL-persisted search state and no-match feedback.
 - Deviations: None.
