@@ -1,0 +1,34 @@
+"use client";
+
+import { EditorContent, useEditor } from "@tiptap/react";
+import { NOTE_EDITOR_EXTENSIONS } from "@/features/notes/editor/note-editor-extensions";
+import type { NoteContent } from "@/features/notes/types/note.types";
+
+type NoteEditorProps = {
+  content?: NoteContent;
+  onChange?: (content: NoteContent, plainText: string) => void;
+};
+
+export function NoteEditor({ content, onChange }: NoteEditorProps) {
+  const editor = useEditor({
+    extensions: NOTE_EDITOR_EXTENSIONS,
+    content,
+    immediatelyRender: false,
+    editorProps: {
+      attributes: {
+        "aria-label": "Note content",
+        "aria-multiline": "true",
+        class: "min-h-48 focus:outline-none",
+      },
+    },
+    onUpdate: ({ editor: updatedEditor }) => {
+      onChange?.(updatedEditor.getJSON() as NoteContent, updatedEditor.getText());
+    },
+  });
+
+  return (
+    <div className="note-editor-content min-h-60 rounded-lg border border-input bg-background p-3 focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/30">
+      <EditorContent editor={editor} />
+    </div>
+  );
+}
