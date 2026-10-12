@@ -1,3 +1,7 @@
+## 2026-10-12 - T-219 Create the updateNote Server Action
+- Added a validated, owner-scoped update action that derives plain text from content JSON and revalidates Notes, details, and Dashboard.
+- Deviations: None.
+
 ## 2026-10-12 - T-218 Create the Note Details page
 - Added the owner-scoped details route with rich-text rendering, metadata, tag/attachment summaries, and a responsive layout.
 - Deviations: Note content is rendered from JSON with React-escaped text and safe link protocols; full attachment/tag details depend on later features.

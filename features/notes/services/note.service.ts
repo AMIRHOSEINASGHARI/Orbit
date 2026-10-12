@@ -2,7 +2,7 @@ import "server-only";
 
 import mongoose from "mongoose";
 import { NoteModel } from "@/features/notes/models/note.model";
-import type { NoteInput } from "@/features/notes/schemas/note.schema";
+import type { NoteInput, UpdateNoteInput } from "@/features/notes/schemas/note.schema";
 import type { Note, NoteContent, NoteRecord } from "@/features/notes/types/note.types";
 
 function toPlainText(node: NoteContent): string {
@@ -68,4 +68,19 @@ export async function getNoteByIdForUser(userId: string, noteId: string): Promis
   }).lean<NoteRecord>().exec();
 
   return note ? toNote(note) : null;
+}
+
+export async function updateNoteForUser(userId: string, input: UpdateNoteInput): Promise<boolean> {
+  const { noteId, ...noteInput } = input;
+  const updated = await NoteModel.findOneAndUpdate({
+    _id: new mongoose.Types.ObjectId(noteId),
+    userId: new mongoose.Types.ObjectId(userId),
+    workspaceId: null,
+    deletedAt: null,
+    archivedAt: null,
+  }, {
+    ...noteInput,
+    plainText: toPlainText(noteInput.content).trim(),
+  }, { new: true, runValidators: true }).select({ _id: 1 }).lean().exec();
+  return Boolean(updated);
 }

@@ -43,3 +43,5 @@ export const noteSchema = z.object({
 
 export const createNoteSchema = noteSchema.pick({ title: true, content: true });
 export type NoteInput = z.infer<typeof createNoteSchema>;
+export const updateNoteSchema = createNoteSchema.extend({ noteId: objectIdSchema });
+export type UpdateNoteInput = z.infer<typeof updateNoteSchema>;
