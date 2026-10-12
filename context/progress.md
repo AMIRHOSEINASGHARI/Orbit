@@ -1,3 +1,7 @@
+## 2026-10-12 - T-212 Create the Create Note dialog
+- Added the Figma-aligned responsive Create Note dialog with validated title, content entry, tag/attachment slots, and submission feedback.
+- Deviations: Plain-text content input is replaced with the rich editor in T-213; tags are added in T-392.
+
 ## 2026-10-12 - T-211 Create the createNote Server Action
 - Added authenticated, schema-validated note creation through an owner-scoped service; derives plain text from editor JSON and revalidates Notes and Dashboard.
 - Deviations: Note tag selection remains in T-392.
