@@ -2,6 +2,7 @@
 
 import { useEditorState, type Editor } from "@tiptap/react";
 import { Button } from "@/components/ui/button";
+import { MinusIcon } from "@/components/icons";
 
 type NoteEditorBlockControlsProps = { editor: Editor };
 
@@ -36,6 +37,17 @@ export function NoteEditorBlockControls({ editor }: NoteEditorBlockControlsProps
         variant={active.code ? "secondary" : "ghost"}
       >
         &lt;&gt;
+      </Button>
+      <Button
+        aria-label="Insert horizontal rule"
+        className="size-7 px-0"
+        onClick={() => editor.chain().focus().setHorizontalRule().run()}
+        size="icon-xs"
+        title="Insert horizontal rule"
+        type="button"
+        variant="ghost"
+      >
+        <MinusIcon />
       </Button>
     </>
   );

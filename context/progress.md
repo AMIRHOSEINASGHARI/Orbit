@@ -1,3 +1,7 @@
+## 2026-10-12 - T-209 Add horizontal-rule formatting
+- Added a toolbar action that inserts a horizontal rule at the editor selection.
+- Deviations: None.
+
 ## 2026-10-12 - T-208 Add links
 - Added an accessible toolbar action to add, edit, or remove a link on the current selection using Tiptap's Link extension.
 - Deviations: URL entry uses the browser prompt because the approved toolbar design has no link dialog state.
