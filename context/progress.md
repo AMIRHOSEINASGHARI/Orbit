@@ -1,3 +1,7 @@
+## 2026-10-12 - T-200 Add bold formatting
+- Added an accessible active-state toolbar control that toggles bold on the selected text.
+- Deviations: None.
+
 ## 2026-10-12 - T-199 Add heading formatting
 - Added a shared Select control for paragraph and heading levels 1–3, wired to the active editor block.
 - Deviations: None.
