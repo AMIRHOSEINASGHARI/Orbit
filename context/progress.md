@@ -1,3 +1,7 @@
+## 2026-10-12 - T-198 Create the Tiptap toolbar
+- Added a separate, horizontally scrollable accessible toolbar component with a reactive word count, and mounted it with the editor.
+- Deviations: Formatting controls are added in their corresponding tasks, in order.
+
 ## 2026-10-12 - T-197 Create the base Note Editor component
 - Added an accessible, responsive Tiptap editor with optional initial content, JSON/plain-text change reporting, and token-based focus styling.
 - Deviations: The editor is not connected to a Note form yet; note creation is scheduled for later tasks.
