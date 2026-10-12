@@ -1,4 +1,8 @@
-﻿## 2026-10-12 - T-192 Add Group sorting
+## 2026-10-12 - T-193 Create the Note Mongoose model
+- Added the Notes collection schema with owner/workspace, tags, attachments, Tiptap content, plain-text preview, archive/trash lifecycle fields, timestamps, and the documented owner/deletion indexes.
+- Deviations: None.
+
+## 2026-10-12 - T-192 Add Group sorting
 - Added accessible sort selection for updated date, creation date, name, and task count, applied on the server after task summaries are calculated.
 - Deviations: Search and sort state are encoded in the URL query parameters.
 
