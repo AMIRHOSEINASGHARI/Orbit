@@ -3,7 +3,7 @@ import "server-only";
 import mongoose from "mongoose";
 import { NoteModel } from "@/features/notes/models/note.model";
 import type { NoteInput } from "@/features/notes/schemas/note.schema";
-import type { NoteContent } from "@/features/notes/types/note.types";
+import type { Note, NoteContent, NoteRecord } from "@/features/notes/types/note.types";
 
 function toPlainText(node: NoteContent): string {
   if (node.type === "text") return node.text ?? "";
@@ -28,4 +28,28 @@ export async function createNoteForUser(userId: string, input: NoteInput): Promi
     deletedAt: null,
   });
   return note._id.toString();
+}
+
+export async function listNotesForUser(userId: string): Promise<Note[]> {
+  const notes = await NoteModel.find({
+    userId: new mongoose.Types.ObjectId(userId),
+    workspaceId: null,
+    deletedAt: null,
+    archivedAt: null,
+  }).sort({ updatedAt: -1 }).lean<NoteRecord[]>().exec();
+
+  return notes.map((note) => ({
+    id: note._id.toString(),
+    userId: note.userId.toString(),
+    workspaceId: note.workspaceId?.toString() ?? null,
+    tagIds: note.tagIds.map(String),
+    attachmentIds: note.attachmentIds.map(String),
+    title: note.title,
+    content: note.content,
+    plainText: note.plainText,
+    archivedAt: note.archivedAt,
+    deletedAt: note.deletedAt,
+    createdAt: note.createdAt,
+    updatedAt: note.updatedAt,
+  }));
 }

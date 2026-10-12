@@ -1,3 +1,7 @@
+## 2026-10-12 - T-214 Create the getNotes Server Action
+- Added an authenticated Notes query and owner-scoped service, excluding trashed and archived notes and converting MongoDB IDs to serializable strings.
+- Deviations: Search, sorting, and pagination are added in T-225 through T-227.
+
 ## 2026-10-12 - T-213 Connect Tiptap Editor to note creation
 - Replaced the temporary text area with the accessible Tiptap editor and submit its JSON document to `createNote`.
 - Deviations: Plain text is derived on the server from the validated editor document.
