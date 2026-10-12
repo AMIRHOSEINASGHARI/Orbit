@@ -1,3 +1,7 @@
+## 2026-10-12 - T-195 Create Note Zod schemas
+- Added persisted Note validation and create input schemas, including recursive validation of rich-text nodes, marks, and JSON attributes.
+- Deviations: None.
+
 ## 2026-10-12 - T-194 Create Note TypeScript types
 - Added the Note domain and MongoDB record types plus recursive JSON document types for Tiptap content.
 - Deviations: None.
