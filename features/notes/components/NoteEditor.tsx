@@ -18,7 +18,7 @@ export function NoteEditor({ content, id, onChange }: NoteEditorProps) {
     immediatelyRender: false,
     editorProps: {
       attributes: {
-        id,
+        ...(id ? { id } : {}),
         "aria-label": "Note content",
         "aria-multiline": "true",
         class: "min-h-48 focus:outline-none",

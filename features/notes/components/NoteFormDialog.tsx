@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { toast } from "sonner";
 import { CloudUploadIcon, TagsIcon, XIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
@@ -11,11 +12,13 @@ import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { NoteEditor } from "@/features/notes/components/NoteEditor";
-import { createNoteSchema, type NoteInput } from "@/features/notes/schemas/note.schema";
-import type { Note } from "@/features/notes/types/note.types";
+import type { NoteInput } from "@/features/notes/schemas/note.schema";
+import type { Note, NoteContent } from "@/features/notes/types/note.types";
 import type { ActionResult } from "@/types";
 
 const emptyContent = { type: "doc", content: [{ type: "paragraph" }] };
+const noteTitleSchema = z.object({ title: z.string().trim().min(1, "Enter a title.").max(200, "Use 200 characters or fewer.") });
+type NoteTitleValues = z.infer<typeof noteTitleSchema>;
 
 export function NoteFormDialog({ open, onOpenChange, note, title, description, submitLabel, onSubmit, onSaved }: {
   open: boolean;
@@ -28,23 +31,27 @@ export function NoteFormDialog({ open, onOpenChange, note, title, description, s
   onSaved?: () => void;
 }) {
   const [actionError, setActionError] = useState("");
-  const form = useForm<NoteInput>({
-    resolver: zodResolver(createNoteSchema),
-    defaultValues: note ? { title: note.title, content: note.content } : { title: "", content: emptyContent },
+  const [content, setContent] = useState<NoteContent>(note?.content ?? emptyContent);
+  const form = useForm<NoteTitleValues>({
+    resolver: zodResolver(noteTitleSchema),
+    defaultValues: { title: note?.title ?? "" },
   });
 
   useEffect(() => {
-    if (open) form.reset(note ? { title: note.title, content: note.content } : { title: "", content: emptyContent });
+    if (open) {
+      form.reset({ title: note?.title ?? "" });
+      setContent(note?.content ?? emptyContent);
+    }
   }, [form.reset, note?.id, open]);
 
-  async function submit(values: NoteInput) {
+  async function submit(values: NoteTitleValues) {
     setActionError("");
     try {
-      const result = await onSubmit(values);
+      const result = await onSubmit({ ...values, content });
       if (!result.success) {
         setActionError(result.error);
         for (const [field, messages] of Object.entries(result.fieldErrors ?? {})) {
-          if ((field === "title" || field === "content") && messages?.[0]) form.setError(field, { message: messages[0] });
+          if (field === "title" && messages?.[0]) form.setError("title", { message: messages[0] });
         }
         return;
       }
@@ -82,15 +89,14 @@ export function NoteFormDialog({ open, onOpenChange, note, title, description, s
                 <FieldError errors={form.formState.errors.title ? [{ message: form.formState.errors.title.message ?? "Enter a title." }] : []} />
               </Field>
 
-              <Field data-invalid={Boolean(form.formState.errors.content)} className="gap-2">
+              <Field className="gap-2">
                 <FieldLabel htmlFor="note-content" className="text-ui-label font-semibold">Content <span className="text-ui-caption font-normal text-subtle-foreground">Required</span></FieldLabel>
                 <NoteEditor
                   key={`${open}-${note?.id ?? "new"}`}
                   id="note-content"
-                  content={note?.content ?? form.getValues("content")}
-                  onChange={(content) => form.setValue("content", content, { shouldDirty: true, shouldValidate: true })}
+                  content={content}
+                  onChange={setContent}
                 />
-                <FieldError id="note-content-error" errors={form.formState.errors.content ? [{ message: form.formState.errors.content.message ?? "Add note content." }] : []} />
               </Field>
 
               <Field className="gap-2">
